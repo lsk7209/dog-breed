@@ -1,0 +1,1423 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BreedWise | Dog breed health-risk and ownership cost exposure</title>
+  <meta name="description" content="BreedWise turns dog breed health research into practical cost-risk exposure estimates for future owners, with transparent sources, limits, and methodology.">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="BreedWise">
+  <meta property="og:description" content="Clinical breed risk, US ownership costs, and downside scenarios in one transparent dog breed research hub.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/hero-dog-risk.png">
+  <meta name="theme-color" content="#2f6b54">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232f6b54'/%3E%3Ccircle cx='42' cy='22' r='7' fill='white'/%3E%3Cpath d='M19 41c5-13 17-18 26-10 6 5 4 14-4 16H21c-3 0-4-3-2-6Z' fill='%23e1eef8'/%3E%3C/svg%3E">
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "BreedWise",
+      "description": "Dog breed research and planning previews for health-risk and ownership cost exposure."
+    }
+  </script>
+  <style>
+    :root {
+      --ink: #17211d;
+      --muted: #5e6862;
+      --line: #dce5dd;
+      --paper: #fbfcf7;
+      --surface: #ffffff;
+      --green: #2f6b54;
+      --green-2: #dff1e5;
+      --blue: #2f5f8f;
+      --blue-2: #e1eef8;
+      --amber: #bd7b2a;
+      --amber-2: #f7ead6;
+      --coral: #b85746;
+      --shadow: 0 24px 60px rgba(28, 41, 35, .14);
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.5;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+
+    .skip-link {
+      position: absolute;
+      left: 16px;
+      top: -48px;
+      z-index: 20;
+      padding: 10px 14px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 4px;
+    }
+
+    .skip-link:focus {
+      top: 16px;
+    }
+
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .topbar {
+      position: fixed;
+      inset: 0 0 auto;
+      z-index: 10;
+      background: rgba(251, 252, 247, .86);
+      border-bottom: 1px solid rgba(220, 229, 221, .76);
+      backdrop-filter: blur(18px);
+    }
+
+    .nav {
+      width: min(var(--max), calc(100% - 32px));
+      min-height: 68px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 7px;
+      background:
+        radial-gradient(circle at 62% 38%, #fff 0 11%, transparent 12%),
+        linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .45);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: #314039;
+      font-size: 14px;
+      font-weight: 650;
+    }
+
+    .nav-links a {
+      padding: 10px 12px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      background: rgba(47, 107, 84, .1);
+      outline: none;
+    }
+
+    .button {
+      display: inline-flex;
+      min-height: 44px;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 18px;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      background: var(--green);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1;
+      box-shadow: 0 10px 22px rgba(47, 107, 84, .22);
+    }
+
+    .button:hover,
+    .button:focus-visible {
+      background: #245843;
+      outline: none;
+    }
+
+    .button.secondary {
+      background: rgba(255, 255, 255, .78);
+      color: var(--ink);
+      border-color: rgba(255, 255, 255, .58);
+      box-shadow: none;
+    }
+
+    .button.secondary:hover,
+    .button.secondary:focus-visible {
+      background: #fff;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 86svh;
+      display: grid;
+      align-items: center;
+      overflow: hidden;
+      background: #d9e5dd;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgba(10, 18, 15, .74) 0%, rgba(10, 18, 15, .56) 34%, rgba(10, 18, 15, .16) 70%, rgba(10, 18, 15, .08) 100%),
+        url("assets/hero-dog-risk.png") center / cover no-repeat;
+      transform: scale(1.01);
+    }
+
+    .hero-inner {
+      position: relative;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 110px 0 72px;
+    }
+
+    .hero-copy {
+      width: min(680px, 100%);
+      color: #fff;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      min-height: 32px;
+      padding: 7px 11px;
+      border: 1px solid rgba(255, 255, 255, .34);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .13);
+      color: rgba(255, 255, 255, .92);
+      font-size: 13px;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin-top: 0;
+    }
+
+    h1 {
+      max-width: 760px;
+      margin: 22px 0 18px;
+      font-size: clamp(48px, 8vw, 96px);
+      line-height: .92;
+      letter-spacing: 0;
+    }
+
+    .hero-copy .lead {
+      max-width: 620px;
+      margin-bottom: 28px;
+      color: rgba(255, 255, 255, .9);
+      font-size: clamp(18px, 2vw, 23px);
+    }
+
+    .hero-actions,
+    .section-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .hero-facts {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 780px;
+      margin-top: 50px;
+      color: #fff;
+    }
+
+    .hero-facts div {
+      border-top: 1px solid rgba(255, 255, 255, .35);
+      padding-top: 14px;
+    }
+
+    .hero-facts strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 22px;
+    }
+
+    .hero-facts span {
+      color: rgba(255, 255, 255, .78);
+      font-size: 14px;
+    }
+
+    main {
+      background: var(--paper);
+    }
+
+    .band {
+      padding: 84px 0;
+    }
+
+    .band.tight {
+      padding: 48px 0;
+    }
+
+    .band.green {
+      background: #eef7f0;
+    }
+
+    .band.blue {
+      background: #edf5fa;
+    }
+
+    .band.dark {
+      background: #17211d;
+      color: #fff;
+    }
+
+    .band.dark .section-kicker {
+      color: #bde6c9;
+    }
+
+    .band.dark .section-head p {
+      color: rgba(255, 255, 255, .84);
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: minmax(0, .85fr) minmax(280px, .45fr);
+      gap: 42px;
+      align-items: end;
+      margin-bottom: 36px;
+    }
+
+    .section-kicker {
+      margin: 0 0 10px;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 850;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin-bottom: 0;
+      font-size: clamp(32px, 5vw, 58px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .section-head p,
+    .muted {
+      color: var(--muted);
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, .95fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .planner-grid {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(320px, 1.05fr);
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .risk-panel {
+      padding: 28px;
+    }
+
+    .risk-form {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 20px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: #314039;
+      font-size: 13px;
+      font-weight: 780;
+    }
+
+    select,
+    input {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid #cdd9d0;
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      padding: 0 12px;
+    }
+
+    select:focus,
+    input:focus {
+      border-color: var(--green);
+      outline: 3px solid rgba(47, 107, 84, .14);
+    }
+
+    .result-box {
+      display: grid;
+      gap: 18px;
+      padding: 28px;
+      background:
+        linear-gradient(135deg, rgba(47, 107, 84, .12), transparent 42%),
+        var(--surface);
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 18px;
+      align-items: center;
+    }
+
+    .dial {
+      width: 112px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background:
+        conic-gradient(var(--coral) 0 62%, var(--amber) 62% 78%, #d7e4db 78% 100%);
+      color: #fff;
+      font-size: 31px;
+      font-weight: 900;
+      box-shadow: inset 0 0 0 12px #fff;
+    }
+
+    .result-box h3 {
+      margin-bottom: 6px;
+      font-size: 26px;
+      line-height: 1.1;
+    }
+
+    .mini-list {
+      display: grid;
+      gap: 10px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .mini-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--line);
+    }
+
+    .mini-list span {
+      color: var(--muted);
+    }
+
+    .note {
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .cost-total {
+      margin: 4px 0 6px;
+      font-size: clamp(38px, 6vw, 64px);
+      line-height: 1;
+      font-weight: 900;
+    }
+
+    .cost-band {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin: 20px 0 0;
+    }
+
+    .cost-band div,
+    .match-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 16px;
+    }
+
+    .cost-band strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 20px;
+    }
+
+    .match-list {
+      display: grid;
+      gap: 12px;
+    }
+
+    .match-card {
+      display: grid;
+      gap: 8px;
+    }
+
+    .match-card strong {
+      font-size: 20px;
+    }
+
+    .match-card p {
+      margin-bottom: 0;
+      color: var(--muted);
+    }
+
+    .match-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      min-height: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--surface);
+      padding: 22px;
+    }
+
+    .card h3 {
+      margin-bottom: 8px;
+      font-size: 22px;
+      line-height: 1.12;
+    }
+
+    .card p {
+      color: var(--muted);
+    }
+
+    .card a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 38px;
+      margin-top: 8px;
+      color: var(--green);
+      font-weight: 850;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 5px 9px;
+      border-radius: 5px;
+      background: var(--green-2);
+      color: #234b3d;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tag.blue {
+      background: var(--blue-2);
+      color: #234b64;
+    }
+
+    .tag.amber {
+      background: var(--amber-2);
+      color: #6d4618;
+    }
+
+    .method {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      counter-reset: step;
+    }
+
+    .method-step {
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, .16);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, .06);
+      padding: 22px;
+    }
+
+    .method-step::before {
+      counter-increment: step;
+      content: counter(step, decimal-leading-zero);
+      display: block;
+      margin-bottom: 26px;
+      color: #a8dabc;
+      font-weight: 900;
+    }
+
+    .method-step h3 {
+      margin-bottom: 8px;
+      font-size: 20px;
+    }
+
+    .method-step p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, .72);
+    }
+
+    .breed-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .breed-link {
+      display: grid;
+      gap: 12px;
+      min-height: 168px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      padding: 18px;
+    }
+
+    a.breed-link:hover,
+    a.breed-link:focus-visible {
+      border-color: rgba(47, 107, 84, .45);
+      outline: none;
+      box-shadow: 0 16px 36px rgba(28, 41, 35, .1);
+      transform: translateY(-2px);
+    }
+
+    .breed-link strong {
+      font-size: 20px;
+      line-height: 1.12;
+    }
+
+    .breed-link span {
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .source-layout {
+      display: grid;
+      grid-template-columns: minmax(0, .95fr) minmax(320px, .75fr);
+      gap: 28px;
+      align-items: start;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 12px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .source-list li {
+      padding: 18px;
+      border-left: 4px solid var(--green);
+      background: #fff;
+    }
+
+    .disclaimer {
+      border: 1px solid #ecd5bd;
+      border-radius: 8px;
+      background: #fff8ed;
+      padding: 22px;
+    }
+
+    .disclaimer h3 {
+      margin-bottom: 10px;
+      color: #7a4b13;
+      font-size: 21px;
+    }
+
+    .cta {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) auto;
+      gap: 28px;
+      align-items: center;
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 8px;
+      background:
+        linear-gradient(135deg, rgba(168, 218, 188, .18), transparent),
+        #17211d;
+      padding: 30px;
+      color: #fff;
+    }
+
+    .cta p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, .72);
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+
+    .footer-row nav {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-weight: 700;
+    }
+
+    @media (max-width: 920px) {
+      .nav {
+        min-height: 62px;
+        flex-wrap: wrap;
+        gap: 8px 14px;
+        padding: 8px 0 10px;
+      }
+
+      .nav-links {
+        order: 3;
+        width: 100%;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+
+      .hero {
+        min-height: 82svh;
+      }
+
+      .hero-inner {
+        padding-top: 136px;
+      }
+
+      .hero::before {
+        background:
+          linear-gradient(90deg, rgba(10, 18, 15, .82), rgba(10, 18, 15, .36)),
+          url("assets/hero-dog-risk.png") center / cover no-repeat;
+      }
+
+      .hero-facts,
+      .section-head,
+      .tool-grid,
+      .planner-grid,
+      .source-layout,
+      .cta {
+        grid-template-columns: 1fr;
+      }
+
+      .cards,
+      .method,
+      .breed-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 620px) {
+      .hero-inner {
+        padding-top: 148px;
+      }
+
+      .hero-actions,
+      .section-actions {
+        flex-direction: column;
+      }
+
+      .button {
+        width: 100%;
+      }
+
+      .nav .button {
+        width: auto;
+        min-height: 40px;
+        padding: 10px 12px;
+      }
+
+      .hero-facts,
+      .risk-form,
+      .score-row,
+      .cost-band,
+      .cards,
+      .method,
+      .breed-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .band {
+        padding: 62px 0;
+      }
+
+      .risk-panel,
+      .result-box,
+      .cta {
+        padding: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="topbar">
+    <nav class="nav" aria-label="Primary navigation">
+      <a class="brand" href="#main">
+        <span class="mark" aria-hidden="true"></span>
+        <span>BreedWise</span>
+      </a>
+      <div class="nav-links" aria-label="Site sections">
+        <a href="#cost-risk">Cost-risk</a>
+        <a href="#ownership">Cost calculator</a>
+        <a href="#finder">Breed finder</a>
+        <a href="#method">Methodology</a>
+      </div>
+      <a class="button" href="#cost-risk">Preview estimate</a>
+    </nav>
+  </header>
+
+  <section class="hero" aria-label="BreedWise introduction">
+    <div class="hero-inner">
+      <div class="hero-copy">
+        <span class="eyebrow">Clinical risk to cost exposure</span>
+        <h1>BreedWise</h1>
+        <p class="lead">A dog breed research hub that translates health prevalence, ownership costs, and downside scenarios into practical planning signals for future owners.</p>
+        <div class="hero-actions">
+          <a class="button" href="#cost-risk">Explore cost-risk exposure</a>
+          <a class="button secondary" href="#method">Read the methodology</a>
+        </div>
+      </div>
+      <div class="hero-facts" aria-label="BreedWise positioning">
+        <div>
+          <strong>Health first</strong>
+          <span>Breed pages start from clinical condition evidence, not insurance price tables.</span>
+        </div>
+        <div>
+          <strong>US costs</strong>
+          <span>Cost ranges are modeled from US spending and claim references where available.</span>
+        </div>
+        <div>
+          <strong>Limits shown</strong>
+          <span>UK prevalence sources and US cost sources are labeled separately.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main id="main">
+    <section class="band tight green" aria-label="Primary tool paths">
+      <div class="container">
+        <h2 class="sr-only">BreedWise tools</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="tag-row">
+              <span class="tag">Core tool</span>
+            </div>
+            <h3>Cost-Risk Exposure</h3>
+            <p>Model common high-cost conditions, likely spend bands, and downside exposure for a selected breed and region.</p>
+            <a href="#cost-risk">Preview model</a>
+          </article>
+          <article class="card">
+            <div class="tag-row">
+              <span class="tag blue">Planning</span>
+            </div>
+            <h3>5-year ownership cost</h3>
+            <p>Estimate food, care, routine veterinary spend, grooming, insurance premiums, and known uncertainty bands.</p>
+            <a href="#ownership">Preview calculator</a>
+          </article>
+          <article class="card">
+            <div class="tag-row">
+              <span class="tag amber">Discovery</span>
+            </div>
+            <h3>Breed Finder</h3>
+            <p>Filter breeds by apartment fit, first-time owner fit, climate fit, allergy considerations, and cost exposure.</p>
+            <a href="#finder">Preview finder</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="cost-risk">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Tool preview</p>
+            <h2>Plan for the expensive edge cases before they surprise you.</h2>
+          </div>
+          <p>BreedWise is designed around the question future owners actually face: what health issues are unusually relevant for this breed, and what could the financial exposure look like if one appears?</p>
+        </div>
+
+        <div class="tool-grid">
+          <div class="panel risk-panel">
+            <h3>Cost-Risk Exposure inputs</h3>
+            <p class="muted">The launch tool will combine breed, region, life stage, and selected planning assumptions. This preview shows the model structure without claiming finalized breed scores.</p>
+            <form class="risk-form" aria-label="Cost-risk preview controls">
+              <label>
+                Breed
+                <select id="breed">
+                  <option>French Bulldog</option>
+                  <option>Cavalier King Charles Spaniel</option>
+                  <option>Labrador Retriever</option>
+                  <option>Dachshund</option>
+                </select>
+              </label>
+              <label>
+                Region
+                <select id="region">
+                  <option>United States</option>
+                  <option>California</option>
+                  <option>Texas</option>
+                  <option>New York</option>
+                </select>
+              </label>
+              <label>
+                Planning window
+                <select id="window">
+                  <option>First 5 years</option>
+                  <option>Full adult lifespan</option>
+                  <option>Senior years</option>
+                </select>
+              </label>
+              <label>
+                Risk view
+                <select id="risk">
+                  <option>Common high-cost conditions</option>
+                  <option>Routine and preventive costs</option>
+                  <option>Downside scenario</option>
+                </select>
+              </label>
+            </form>
+          </div>
+
+          <aside class="panel result-box" aria-live="polite">
+            <div class="score-row">
+              <div class="dial" id="dial" role="img" aria-label="62 out of 100 preliminary exposure preview for French Bulldog; not a finalized score">62</div>
+              <div>
+                <h3 id="result-title">French Bulldog exposure preview</h3>
+                <p class="muted" id="result-copy">Signals will emphasize respiratory, skin, and orthopedic watchlists where source coverage supports them.</p>
+              </div>
+            </div>
+            <ul class="mini-list">
+              <li><strong>Clinical evidence</strong><span id="evidence-label">VetCompass and peer-reviewed sources</span></li>
+              <li><strong>Cost reference</strong><span id="cost-label">US national spending and claim ranges</span></li>
+              <li><strong>Output</strong><span id="output-label">Range, downside, and source limits</span></li>
+              <li><strong>Review status</strong><span>Veterinary review pending before launch</span></li>
+            </ul>
+            <p class="note">Preview only. Final breed scores require source mapping, reviewer checks, and methodology publication.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="band green" id="ownership">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Cost calculator</p>
+            <h2>Show the budget range before a breed profile gets persuasive.</h2>
+          </div>
+          <p>The ownership preview separates routine spend from uncertainty buffers so the future tool can explain which assumptions moved the estimate.</p>
+        </div>
+
+        <div class="planner-grid">
+          <div class="panel risk-panel">
+            <h3>5-year ownership inputs</h3>
+            <p class="muted">This prototype uses broad planning bands only. Published breed pages will need source-backed regional cost references before showing final estimates.</p>
+            <form class="risk-form" aria-label="Ownership cost preview controls">
+              <label>
+                Dog size
+                <select id="dog-size">
+                  <option value="small">Small</option>
+                  <option value="medium" selected>Medium</option>
+                  <option value="large">Large</option>
+                </select>
+              </label>
+              <label>
+                Care style
+                <select id="care-style">
+                  <option value="lean">Lean essentials</option>
+                  <option value="standard" selected>Standard care</option>
+                  <option value="premium">Higher-service care</option>
+                </select>
+              </label>
+              <label>
+                Monthly food and basics
+                <input id="monthly-basics" type="number" min="40" max="600" step="10" value="160">
+              </label>
+              <label>
+                Health uncertainty buffer
+                <select id="health-buffer">
+                  <option value="low">Lower buffer</option>
+                  <option value="medium" selected>Middle buffer</option>
+                  <option value="high">Higher buffer</option>
+                </select>
+              </label>
+            </form>
+          </div>
+
+          <aside class="panel result-box" aria-live="polite">
+            <p class="section-kicker">Preview range</p>
+            <div class="cost-total" id="cost-total">$19.8k-$24.6k</div>
+            <p class="muted" id="cost-summary">Standard care for a medium dog, including routine care and a middle uncertainty buffer.</p>
+            <div class="cost-band" aria-label="Cost estimate components">
+              <div>
+                <strong id="routine-cost">$9.6k</strong>
+                <span class="muted">Food and basics</span>
+              </div>
+              <div>
+                <strong id="care-cost">$5.4k</strong>
+                <span class="muted">Routine care</span>
+              </div>
+              <div>
+                <strong id="buffer-cost">$4.8k</strong>
+                <span class="muted">Uncertainty buffer</span>
+              </div>
+            </div>
+            <p class="note">Not a quote, premium estimate, or treatment recommendation. It is a planning placeholder until source-backed cost tables are published.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="finder">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Breed finder</p>
+            <h2>Filter for fit before comparing popularity.</h2>
+          </div>
+          <p>The discovery layer should keep users away from one-size-fits-all breed rankings by showing fit constraints, cost exposure, and missing-review status together.</p>
+        </div>
+
+        <div class="planner-grid">
+          <div class="panel risk-panel">
+            <h3>Finder preview inputs</h3>
+            <form class="risk-form" aria-label="Breed finder preview controls">
+              <label>
+                Home setup
+                <select id="home-setup">
+                  <option value="apartment" selected>Apartment</option>
+                  <option value="yard">Home with yard</option>
+                </select>
+              </label>
+              <label>
+                Owner experience
+                <select id="owner-experience">
+                  <option value="first" selected>First-time owner</option>
+                  <option value="experienced">Experienced owner</option>
+                </select>
+              </label>
+              <label>
+                Cost-risk tolerance
+                <select id="risk-tolerance">
+                  <option value="lower" selected>Prefer lower exposure</option>
+                  <option value="moderate">Moderate exposure is acceptable</option>
+                  <option value="higher">Open to higher exposure</option>
+                </select>
+              </label>
+              <label>
+                Climate concern
+                <select id="climate-concern">
+                  <option value="hot" selected>Hot summers</option>
+                  <option value="cold">Cold winters</option>
+                  <option value="mixed">Mixed climate</option>
+                </select>
+              </label>
+            </form>
+          </div>
+
+          <aside class="match-list" id="match-list" aria-live="polite" aria-label="Breed finder preview matches">
+            <article class="match-card">
+              <div class="match-meta">
+                <span class="tag">moderate exposure</span>
+                <span class="tag blue">moderate apartment fit</span>
+              </div>
+              <strong>Labrador Retriever</strong>
+              <p>Broad source availability and a familiar ownership profile, with weight and orthopedic considerations.</p>
+            </article>
+            <article class="match-card">
+              <div class="match-meta">
+                <span class="tag">moderate exposure</span>
+                <span class="tag blue">good apartment fit</span>
+              </div>
+              <strong>Dachshund</strong>
+              <p>Compact home fit with back-related downside scenarios that need clear source labeling.</p>
+            </article>
+            <article class="match-card">
+              <div class="match-meta">
+                <span class="tag amber">higher exposure</span>
+                <span class="tag blue">good apartment fit</span>
+              </div>
+              <strong>Cavalier King Charles Spaniel</strong>
+              <p>Strong companion fit, but inherited and cardiac-risk review must be prominent before launch.</p>
+            </article>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="band dark" id="method">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Methodology</p>
+            <h2>Built to be slower, sourced, and harder to fake.</h2>
+          </div>
+          <p>BreedWise avoids a single cheapest-breed ranking. The useful signal comes from separating clinical prevalence, US cost references, model assumptions, and review status.</p>
+        </div>
+        <div class="method">
+          <article class="method-step">
+            <h3>Curate breed evidence</h3>
+            <p>Start with breeds that have usable VetCompass coverage, then map source fields and limitations.</p>
+          </article>
+          <article class="method-step">
+            <h3>Attach cost references</h3>
+            <p>Use US ownership surveys, industry reports, and claim references for cost bands where support exists.</p>
+          </article>
+          <article class="method-step">
+            <h3>Calculate exposure</h3>
+            <p>Publish the formula behind cost-risk exposure, 5-year cost, fit scores, and discarded weak signals.</p>
+          </article>
+          <article class="method-step">
+            <h3>Review and disclose</h3>
+            <p>Label reviewer status, affiliate relationships, and the UK-prevalence to US-cost limitation.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band blue" id="breeds">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">Breed paths</p>
+            <h2>From a homepage to durable pSEO pages.</h2>
+          </div>
+          <p>The first build should link to a small, defensible beachhead set before expanding into broader breed waves.</p>
+        </div>
+        <div class="breed-grid">
+          <article class="breed-link">
+            <span class="tag">Planned /breeds/french-bulldog/health</span>
+            <strong>French Bulldog</strong>
+            <span>Condition watchlists, cost exposure, and source notes.</span>
+          </article>
+          <article class="breed-link">
+            <span class="tag amber">Planned /breeds/cavalier-king-charles-spaniel/cost</span>
+            <strong>Cavalier King Charles Spaniel</strong>
+            <span>Ownership cost ranges, downside scenarios, and limits.</span>
+          </article>
+          <article class="breed-link">
+            <span class="tag blue">Planned /compare/labrador-retriever-vs-golden-retriever</span>
+            <strong>Labrador vs Golden Retriever</strong>
+            <span>Side-by-side fit, cost, and health-risk signals.</span>
+          </article>
+          <article class="breed-link">
+            <span class="tag">Planned /best/apartment-dogs-low-health-risk</span>
+            <strong>Apartment dogs with lower exposure</strong>
+            <span>Fit-first planning shortlists backed by transparent scoring.</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" id="sources">
+      <div class="container source-layout">
+        <div>
+          <p class="section-kicker">Trust model</p>
+          <h2>Clear source boundaries are part of the product.</h2>
+          <p class="muted">The site should earn trust by saying what it knows, where it learned it, and what it cannot conclude. That is especially important for pet health and insurance-adjacent content.</p>
+          <div class="section-actions">
+            <a class="button" href="#method">View source method</a>
+            <a class="button secondary" href="#breeds">Browse breed paths</a>
+          </div>
+        </div>
+        <div>
+          <ul class="source-list">
+            <li><strong>VetCompass and peer-reviewed studies</strong><br><span class="muted">Used for prevalence and lifespan facts where coverage exists, with UK context labeled.</span></li>
+            <li><strong>US cost references</strong><br><span class="muted">Used for ownership spend, insurance context, and veterinary claim range modeling.</span></li>
+            <li><strong>Reviewer layer</strong><br><span class="muted">Pet-health pages are launch-blocked until a named veterinary reviewer and credentials are shown.</span></li>
+            <li><strong>Prototype status</strong><br><span class="muted">Mapped: source categories and model limits. Pending: breed-level extraction, US cost tables, public formula, and named reviewer credentials.</span></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="band tight" id="disclosures">
+      <div class="container">
+        <div class="disclaimer">
+          <h3>Information, not advice</h3>
+          <p>BreedWise is intended for planning and research. It does not diagnose pets, recommend treatment, rank insurers, or decide whether insurance is worth it. Estimates depend on source coverage, location, age, individual health, provider pricing, and owner choices. Affiliate links may appear on tool pages and will be disclosed where used. This prototype has no live affiliate relationships and no named veterinary reviewer yet.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band tight dark">
+      <div class="container">
+        <div class="cta">
+          <div>
+            <h2>Start with the risk tool, then read the sources.</h2>
+            <p>Future owners deserve the downside scenario before they commit, not just a cute breed summary after the fact.</p>
+          </div>
+          <a class="button" href="#cost-risk">Open cost-risk tool</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contact">
+    <div class="container footer-row">
+      <span>&copy; 2026 BreedWise. Research planning prototype.</span>
+      <nav aria-label="Footer navigation">
+        <a href="#method">Methodology</a>
+        <a href="#disclosures">Disclosures</a>
+        <a href="#disclosures">Prototype status</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const profiles = {
+      "French Bulldog": {
+        score: 62,
+        title: "French Bulldog exposure preview",
+        copy: "Signals will emphasize respiratory, skin, and orthopedic watchlists where source coverage supports them."
+      },
+      "Cavalier King Charles Spaniel": {
+        score: 68,
+        title: "Cavalier exposure preview",
+        copy: "Signals will prioritize inherited and cardiac-risk source review before any public score is finalized."
+      },
+      "Labrador Retriever": {
+        score: 44,
+        title: "Labrador exposure preview",
+        copy: "Signals will balance broad ownership costs with orthopedic and weight-related risk considerations."
+      },
+      "Dachshund": {
+        score: 57,
+        title: "Dachshund exposure preview",
+        copy: "Signals will focus on back-related downside scenarios, routine costs, and source quality."
+      }
+    };
+
+    const breedSelect = document.querySelector("#breed");
+    const regionSelect = document.querySelector("#region");
+    const windowSelect = document.querySelector("#window");
+    const riskSelect = document.querySelector("#risk");
+    const dial = document.querySelector("#dial");
+    const title = document.querySelector("#result-title");
+    const copy = document.querySelector("#result-copy");
+    const evidenceLabel = document.querySelector("#evidence-label");
+    const costLabel = document.querySelector("#cost-label");
+    const outputLabel = document.querySelector("#output-label");
+    const dogSize = document.querySelector("#dog-size");
+    const careStyle = document.querySelector("#care-style");
+    const monthlyBasics = document.querySelector("#monthly-basics");
+    const healthBuffer = document.querySelector("#health-buffer");
+    const costTotal = document.querySelector("#cost-total");
+    const costSummary = document.querySelector("#cost-summary");
+    const routineCost = document.querySelector("#routine-cost");
+    const careCost = document.querySelector("#care-cost");
+    const bufferCost = document.querySelector("#buffer-cost");
+    const homeSetup = document.querySelector("#home-setup");
+    const ownerExperience = document.querySelector("#owner-experience");
+    const riskTolerance = document.querySelector("#risk-tolerance");
+    const climateConcern = document.querySelector("#climate-concern");
+    const matchList = document.querySelector("#match-list");
+
+    const careCosts = {
+      lean: 720,
+      standard: 1080,
+      premium: 1680
+    };
+
+    const sizeFactors = {
+      small: .86,
+      medium: 1,
+      large: 1.22
+    };
+
+    const bufferCosts = {
+      low: 2200,
+      medium: 4800,
+      high: 8200
+    };
+
+    const breedMatches = [
+      {
+        name: "Labrador Retriever",
+        apartment: "moderate",
+        first: "good",
+        risk: "moderate",
+        climate: "mixed",
+        note: "Broad source availability and a familiar ownership profile, with weight and orthopedic considerations."
+      },
+      {
+        name: "Cavalier King Charles Spaniel",
+        apartment: "good",
+        first: "moderate",
+        risk: "higher",
+        climate: "mixed",
+        note: "Strong companion fit, but inherited and cardiac-risk review must be prominent before launch."
+      },
+      {
+        name: "Dachshund",
+        apartment: "good",
+        first: "moderate",
+        risk: "moderate",
+        climate: "mixed",
+        note: "Compact home fit with back-related downside scenarios that need clear source labeling."
+      },
+      {
+        name: "French Bulldog",
+        apartment: "good",
+        first: "moderate",
+        risk: "higher",
+        climate: "cold",
+        note: "Popular apartment candidate, but respiratory and heat-sensitivity caveats should be impossible to miss."
+      }
+    ];
+
+    function renderPreview() {
+      const profile = profiles[breedSelect.value];
+      const score = Math.min(100, profile.score + (riskSelect.value === "Downside scenario" ? 8 : 0));
+      const nextBand = Math.min(score + 16, 100);
+      const costScope = regionSelect.value === "United States"
+        ? "US national spending and claim ranges"
+        : `${regionSelect.value} placeholder until local cost references are mapped`;
+      const outputMode = riskSelect.value === "Downside scenario"
+        ? `${windowSelect.value} downside scenario and source limits`
+        : `${windowSelect.value} range, watchlist, and source limits`;
+
+      dial.textContent = score;
+      dial.setAttribute("aria-label", `${score} out of 100 preliminary exposure preview for ${breedSelect.value}; not a finalized score`);
+      dial.style.background = `conic-gradient(var(--coral) 0 ${score}%, var(--amber) ${score}% ${nextBand}%, #d7e4db ${nextBand}% 100%)`;
+      title.textContent = `${profile.title}: ${riskSelect.value.toLowerCase()}`;
+      copy.textContent = `${profile.copy} Region and time-window controls currently show planned model behavior, not a finalized actuarial estimate.`;
+      evidenceLabel.textContent = "VetCompass and peer-reviewed sources, labeled as UK-context evidence";
+      costLabel.textContent = costScope;
+      outputLabel.textContent = outputMode;
+    }
+
+    [breedSelect, regionSelect, windowSelect, riskSelect].forEach((control) => {
+      control.addEventListener("change", renderPreview);
+    });
+
+    function money(value) {
+      return `$${Math.round(value / 100) / 10}k`;
+    }
+
+    function renderCostPreview() {
+      const basics = Number(monthlyBasics.value || 0) * 60 * sizeFactors[dogSize.value];
+      const care = careCosts[careStyle.value] * 5 * sizeFactors[dogSize.value];
+      const buffer = bufferCosts[healthBuffer.value] * sizeFactors[dogSize.value];
+      const low = basics + care + buffer;
+      const high = low * (healthBuffer.value === "high" ? 1.34 : 1.24);
+
+      costTotal.textContent = `${money(low)}-${money(high)}`;
+      routineCost.textContent = money(basics);
+      careCost.textContent = money(care);
+      bufferCost.textContent = money(buffer);
+      costSummary.textContent = `${careStyle.options[careStyle.selectedIndex].text} for a ${dogSize.value} dog, with a ${healthBuffer.options[healthBuffer.selectedIndex].text.toLowerCase()} and source-backed tables still pending.`;
+    }
+
+    function scoreMatch(breed) {
+      let score = 0;
+      if (homeSetup.value === "yard" || breed.apartment === "good") score += 2;
+      if (ownerExperience.value === "experienced" || breed.first === "good") score += 2;
+      if (riskTolerance.value === "higher" || breed.risk !== "higher") score += 2;
+      if (climateConcern.value === breed.climate || breed.climate === "mixed") score += 1;
+      return score;
+    }
+
+    function renderFinderPreview() {
+      const ranked = [...breedMatches]
+        .map((breed) => ({ ...breed, score: scoreMatch(breed) }))
+        .sort((a, b) => b.score - a.score)
+        .slice(0, 3);
+
+      matchList.innerHTML = ranked.map((breed) => `
+        <article class="match-card">
+          <div class="match-meta">
+            <span class="tag${breed.risk === "higher" ? " amber" : ""}">${breed.risk} exposure</span>
+            <span class="tag blue">${breed.apartment} apartment fit</span>
+          </div>
+          <strong>${breed.name}</strong>
+          <p>${breed.note}</p>
+        </article>
+      `).join("");
+    }
+
+    [dogSize, careStyle, monthlyBasics, healthBuffer].forEach((control) => {
+      control.addEventListener("input", renderCostPreview);
+      control.addEventListener("change", renderCostPreview);
+    });
+
+    [homeSetup, ownerExperience, riskTolerance, climateConcern].forEach((control) => {
+      control.addEventListener("change", renderFinderPreview);
+    });
+
+    renderPreview();
+    renderCostPreview();
+    renderFinderPreview();
+  </script>
+</body>
+</html>

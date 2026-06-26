@@ -1,0 +1,7 @@
+.git
+.github/content-queue
+docs
+dogbreedcost-*.json
+*.log
+__pycache__
+*.pyc

@@ -1,0 +1,44 @@
+{
+  "redirects": [
+    {
+      "source": "/index.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/index.html",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/about/index.html",
+      "destination": "/about/",
+      "permanent": true
+    },
+    {
+      "source": "/contact/index.html",
+      "destination": "/contact/",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy/index.html",
+      "destination": "/privacy-policy/",
+      "permanent": true
+    },
+    {
+      "source": "/terms/index.html",
+      "destination": "/terms/",
+      "permanent": true
+    },
+    {
+      "source": "/methodology/index.html",
+      "destination": "/methodology/",
+      "permanent": true
+    },
+    {
+      "source": "/disclosures/index.html",
+      "destination": "/disclosures/",
+      "permanent": true
+    }
+  ]
+}

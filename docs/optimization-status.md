@@ -16,7 +16,7 @@ Checked: 2026-06-26 KST
 - Local GSC token and credentials are present in `D:\env`.
 - Read-only Search Console site listing succeeded.
 - No visible property matched `dog-breed`, `BreedWise`, `lsk7209.github.io`, or `github.io` for this site.
-- Data-based GSC query/page optimization requires adding or granting access to the correct property, likely `https://lsk7209.github.io/dog-breed/` or the deployed custom domain if one is later used.
+- Data-based GSC query/page optimization requires adding or granting access to the correct property, likely `https://dogbreedcost.com/` or the deployed custom domain if one is later used.
 
 ## GA4
 

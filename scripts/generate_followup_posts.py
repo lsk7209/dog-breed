@@ -12,7 +12,8 @@ import re
 ROOT = Path(__file__).resolve().parents[1]
 QUEUE = ROOT / ".github" / "content-queue"
 SCHEDULE = ROOT / "content-schedule.json"
-BASE_URL = "https://lsk7209.github.io/dog-breed"
+BASE_URL = "https://dogbreedcost.com"
+ADSENSE_LOADER = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3050601904412736" crossorigin="anonymous"></script>'
 
 
 TOPICS_CSV = """main_keyword|expanded_keywords|title|subtitle|angle|reader|source
@@ -601,15 +602,16 @@ def article_html(topic: dict[str, str], index: int, publish_at: datetime) -> str
         "dateModified": publish_at.date().isoformat(),
         "author": {"@type": "Organization", "name": "BreedWise"},
         "publisher": {"@type": "Organization", "name": "BreedWise"},
+        "mainEntityOfPage": f"{BASE_URL}/blog/{slug}.html",
     }
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{escape(topic['title'])}</title><meta name="description" content="{escape(topic['subtitle'])}">
 <meta name="robots" content="noindex,follow"><link rel="canonical" href="{BASE_URL}/blog/{slug}.html"><link rel="stylesheet" href="../assets/site.css">
 <meta property="og:title" content="{escape(topic['title'])}"><meta property="og:description" content="{escape(topic['subtitle'])}"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image">
 <style>.callout{{border-left-color:{accent};background:{wash}}}.article h2{{color:{accent}}}</style>
-<script type="application/ld+json">{json.dumps(metadata, ensure_ascii=False)}</script>
+<script type="application/ld+json">{json.dumps(metadata, ensure_ascii=False)}</script>{ADSENSE_LOADER}
 </head><body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a><a href="../disclosures/index.html">Disclosures</a></div></nav></header>
-<main><section class="pagehead"><div class="wrap"><p class="kicker">Scheduled guide</p><h1>{escape(topic['title'])}</h1><p class="lead">{escape(topic['subtitle'])}</p><div class="meta"><span>Main keyword: {escape(topic['main_keyword'])}</span><span>Expanded keywords: {escape(topic['expanded_keywords'])}</span><span>Scheduled: {publish_at.isoformat()}</span><span>Quality score: 94</span></div></div></section>
+<main><section class="pagehead"><div class="wrap"><p class="kicker">BreedWise Guide</p><h1>{escape(topic['title'])}</h1><p class="lead">{escape(topic['subtitle'])}</p><div class="meta"><span>Planning topic: {escape(topic['main_keyword'])}</span><span>Decision focus: {escape(topic['expanded_keywords'])}</span><span>Updated: {publish_at.date().isoformat()}</span><span>Educational planning guide</span></div></div></section>
 <div class="wrap content"><article class="article"><p class="lead">{escape(intro)}</p><div class="callout"><strong>{escape(callout_label)}:</strong> {escape(sentence_topic(topic, index))}</div>{sections}{faq}
 <h2 id="sources">{escape(sources_heading)}</h2><ul class="source-list"><li><a href="{source_url}" rel="nofollow noopener">{escape(source_label)}</a></li><li><a href="{second_source[1]}" rel="nofollow noopener">{escape(second_source[0])}</a></li><li><a href="../methodology/index.html">BreedWise methodology</a></li></ul>
 <p class="note"><strong>Editorial boundary:</strong> BreedWise is educational planning content. It does not diagnose pets, prescribe care, rank insurers, or decide whether insurance is worth it.</p></article><aside class="toc"><strong>Contents</strong>{toc_links}<a href="../blog/index.html">Blog index</a><a href="../index.html#ownership">Cost preview</a><a href="../contact/index.html">Corrections</a></aside></div></main><footer class="footer"><div class="wrap"><span>&copy; 2026 BreedWise. Informational planning content only.</span><span><a href="../terms/index.html">Terms</a> &middot; <a href="../privacy-policy/index.html">Privacy Policy</a> &middot; <a href="../disclosures/index.html">Disclosures</a> &middot; <a href="../contact/index.html">Contact</a></span></div></footer></body></html>

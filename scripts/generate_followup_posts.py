@@ -167,6 +167,11 @@ def title_case_text(text: str) -> str:
     return "".join(words)
 
 
+def stable_choice(options: list[str], seed: str) -> str:
+    score = sum((position + 1) * ord(char) for position, char in enumerate(seed))
+    return options[score % len(options)]
+
+
 def read_topics() -> list[dict[str, str]]:
     reader = csv.DictReader(io.StringIO(TOPICS_CSV), delimiter="|")
     rows = [dict(row) for row in reader]
@@ -181,12 +186,36 @@ def read_topics() -> list[dict[str, str]]:
         "{main} and {expanded}: The Decision Guide",
         "Before Adoption: {main}, {expanded}, and the Real Routine",
         "{main}: What {expanded} Changes in Real Life",
+        "{main}: A Home-Test Guide for {expanded}",
+        "Choosing With {main}: {expanded} in the Real Week",
+        "{main} Questions for {expanded} Before Commitment",
+        "{main}: How {expanded} Affects the Shortlist",
+        "The {main} Field Guide to {expanded}",
+        "{main}: Owner Readiness Around {expanded}",
+        "{main} Reality Check: {expanded} in Daily Life",
+        "{main}: Compare {expanded} Before You Decide",
+        "{main} Planning Notes for {expanded}",
+        "{main}: The Practical Filter for {expanded}",
+        "Use {main} to Stress-Test {expanded}",
+        "{main}: Records, Routine, and {expanded}",
+        "{main} Decision Map: {expanded} at Home",
+        "{main}: What to Verify About {expanded}",
+        "A Better {main} Checklist for {expanded}",
+        "{main}: Budget, Evidence, and {expanded}",
     ]
     subtitle_patterns = [
         "A {main} guide that turns {expanded} into budget checks, record requests, daily routines, and source-quality decisions.",
         "Use this {main} article to compare {expanded} with housing fit, care workload, documented evidence, and long-term cost exposure.",
         "This {main} guide explains how {expanded} should shape the shortlist before adoption, purchase, or a serious breed comparison.",
         "For readers researching {main}, this guide connects {expanded} with practical questions, credible sources, and BreedWise planning boundaries.",
+        "A reader-first {main} guide for checking {expanded} against routines, local constraints, professional input, and ownership capacity.",
+        "This {main} resource turns {expanded} into a practical review of records, time, cost, home setup, and decision risk.",
+        "Use {main} to test whether {expanded} is manageable in the actual household rather than only attractive in a breed summary.",
+        "A practical {main} walkthrough for comparing {expanded}, owner workload, source quality, and the next responsible step.",
+        "This {main} guide helps future owners translate {expanded} into a shortlist that is smaller, clearer, and easier to verify.",
+        "For {main} research, this article weighs {expanded} through daily care, local proof, budget reserves, and realistic limits.",
+        "A focused {main} guide for turning {expanded} into questions that owners can answer before the dog comes home.",
+        "This {main} article links {expanded} with the documents, routines, cost buffers, and household roles that make a choice workable.",
     ]
     for index, row in enumerate(rows):
         main = row["main_keyword"]
@@ -224,11 +253,21 @@ def load_existing() -> tuple[list[dict], set[str], set[str], set[str]]:
     return schedule, titles, slugs, keywords
 
 
-def sentence_topic(topic: dict[str, str]) -> str:
-    return (
-        f"The main keyword is {topic['main_keyword']}, but the useful reader problem is narrower: "
-        f"{topic['expanded_keywords']} must fit the reader's real home, calendar, and budget."
-    )
+def sentence_topic(topic: dict[str, str], index: int) -> str:
+    main = topic["main_keyword"]
+    expanded = topic["expanded_keywords"]
+    reader = topic["reader"]
+    options = [
+        f"{main} is useful only when {expanded} can be checked against the reader's actual home, calendar, and budget.",
+        f"For {reader}, {main} should narrow the decision: test {expanded} against daily work, local rules, and backup care.",
+        f"The practical question behind {main} is whether {expanded} can survive a normal week, not whether a breed summary sounds appealing.",
+        f"Use {main} as a filter for {expanded}: what is documented, what is affordable, and what still depends on hope?",
+        f"{main} becomes a stronger planning topic when {expanded} is tied to named tasks, written evidence, and a reserve for surprises.",
+        f"The right use of {main} is to turn {expanded} into decisions the household can verify before commitment.",
+        f"For this reader, {main} is not a shortcut to a breed answer; it is a way to pressure-test {expanded}.",
+        f"A useful {main} review asks whether {expanded} fits the owner's routine on a tired weekday, not only on an ideal adoption weekend.",
+    ]
+    return stable_choice(options, f"{main}|{expanded}|topic-sentence|{index}")
 
 
 def expanded_parts(topic: dict[str, str]) -> list[str]:
@@ -267,83 +306,229 @@ def body_sections(topic: dict[str, str], index: int) -> list[tuple[str, str]]:
     second_source_label, second_source_url = SOURCES["avma"] if topic["source"] != "avma" else SOURCES["aaha"]
     e = escape
     def label(options: list[str], salt: str) -> str:
-        seed = f"{topic['main_keyword']}|{topic['expanded_keywords']}|{salt}|{index}"
-        score = sum((position + 1) * ord(char) for position, char in enumerate(seed))
-        return options[score % len(options)]
+        return stable_choice(options, f"{topic['main_keyword']}|{topic['expanded_keywords']}|{salt}|{index}")
+
+    def prose(options: list[str], salt: str) -> str:
+        return stable_choice(options, f"{topic['main_keyword']}|{topic['reader']}|{salt}|{index}")
 
     section_bank = {
         "answer": (
             label(["Answer first", "Short answer", "Bottom line", "Decision answer", "Plain answer", "Fast answer", "Reader-first answer", "The useful answer"], "answer"),
-            f"{topic['title']} should be treated as a decision worksheet, not a breed ranking. For {reader}, the useful answer is whether {first}, {second}, and {third} can be handled in the same real week: normal work obligations, bad weather, one unexpected bill, and a household that may be tired by evening. If the plan only works when every day is convenient, the shortlist is not ready."
+            prose([
+                f"{topic['title']} is strongest when it works like a home audit, not a breed ranking. For {reader}, the useful answer is whether {first}, {second}, and {third} still make sense during an ordinary week with work, weather, errands, and one inconvenient bill.",
+                f"Start with the constraint, not the dog photo. A good {main} decision checks whether {first}, {second}, and {third} fit the household when time is limited and the first plan needs a backup.",
+                f"The practical answer is not a universal yes or no. {reader.capitalize()} should use {main} to decide whether {first}, {second}, and {third} can be assigned, priced, documented, and repeated without relying on ideal conditions.",
+                f"Treat {main} as a readiness test. If {first} depends on enthusiasm, {second} depends on a guess, or {third} has no owner, the shortlist needs more work before the household compares breeds.",
+                f"A useful decision starts by asking what must happen every week. For this topic, that means checking {first}, {second}, and {third} against the current routine instead of assuming the routine will expand after adoption.",
+                f"{reader.capitalize()} do not need another broad breed promise. They need to know whether {first}, {second}, and {third} are realistic enough to survive busy days, local limits, and a budget that already has other demands.",
+            ], "answer-body")
         ),
         "friction": (
             label(["Where the friction usually appears", "The hidden friction", "Where plans usually break", "The part owners undercount", "The mismatch point", "Where the plan gets tested"], "friction"),
-            f"The {angle} problem often hides in ordinary details. {title_case_text(first)} may affect the daily routine, {second} may affect recurring costs or records, and {third} may affect the backup plan. None of those details automatically rules out a dog, but each one needs an owner, a budget range, and a source of evidence before the choice becomes responsible."
+            prose([
+                f"The {angle} problem usually appears after the easy comparison is over. {title_case_text(first)} changes the day-to-day routine, {second} can change the repeat cost, and {third} often decides whether the backup plan is real.",
+                f"Most mismatches are not caused by one dramatic fact. They come from small assumptions about {first}, loose estimates around {second}, and no written plan for {third}.",
+                f"The friction point is where preference meets logistics. A household may like the idea of the dog, but {first}, {second}, and {third} still need named responsibilities and evidence.",
+                f"Owners often notice this issue late because each part looks manageable alone. Put {first}, {second}, and {third} into the same week and the real workload becomes clearer.",
+                f"This is where source reading has to become household planning. A broad article may explain terms, but the owner still has to prove that {first}, {second}, and {third} fit the specific home.",
+            ], "friction-body")
         ),
         "decision_table": (
             label(["Decision table", "Green-yellow-red check", "Decision signals", "Readiness table", "Practical decision signals", "Fit check table"], "decision_table"),
-            f"<table class='table'><tr><th>Signal</th><th>What to verify</th><th>Why it matters</th></tr><tr><td>Green</td><td>{e(first)} is documented with a named routine and backup.</td><td>The plan can survive a normal busy week.</td></tr><tr><td>Yellow</td><td>{e(second)} still needs a quote, policy, record, or trial period.</td><td>The decision needs one more documented answer.</td></tr><tr><td>Red</td><td>{e(third)} is being minimized or assigned to nobody.</td><td>The household may be buying surprise work.</td></tr></table>"
+            prose([
+                f"<table class='table'><tr><th>Signal</th><th>What to verify</th><th>Why it matters</th></tr><tr><td>Green</td><td>{e(first)} is documented with a named routine and backup.</td><td>The plan can survive a normal busy week.</td></tr><tr><td>Yellow</td><td>{e(second)} still needs a quote, policy, record, or trial period.</td><td>The decision needs one more documented answer.</td></tr><tr><td>Red</td><td>{e(third)} is being minimized or assigned to nobody.</td><td>The household may be buying surprise work.</td></tr></table>",
+                f"<table class='table'><tr><th>Status</th><th>Reader evidence</th><th>Decision meaning</th></tr><tr><td>Ready</td><td>{e(first)} has a calendar slot and backup owner.</td><td>The household has moved beyond a vague preference.</td></tr><tr><td>Needs work</td><td>{e(second)} depends on a missing estimate, rule, or record.</td><td>One more fact should be gathered before commitment.</td></tr><tr><td>Not ready</td><td>{e(third)} is being dismissed because it is inconvenient.</td><td>The risk is likely being pushed into the future.</td></tr></table>",
+                f"<table class='table'><tr><th>Checkpoint</th><th>Acceptable answer</th><th>Weak answer</th></tr><tr><td>{e(first)}</td><td>Assigned to a person and routine.</td><td>Assumed from enthusiasm.</td></tr><tr><td>{e(second)}</td><td>Supported by a source, quote, policy, or note.</td><td>Left as a guess.</td></tr><tr><td>{e(third)}</td><td>Covered by a backup plan.</td><td>Deferred until a problem appears.</td></tr></table>",
+            ], "decision-table-body")
         ),
         "checklist": (
             label(["Pre-adoption checklist", "Questions to answer before commitment", "Before-you-choose checklist", "Decision checklist", "Commitment checklist", "Questions before the shortlist"], "checklist"),
-            f"<ul><li>Write the weekly job connected to {e(first)} in one sentence.</li><li>Ask what record, lease rule, service quote, or professional conversation supports the assumption about {e(second)}.</li><li>Decide how much money stays untouched if {e(third)} becomes harder than expected.</li><li>Compare the answer with the BreedWise cost framework before adding more breeds to the shortlist.</li></ul>"
+            prose([
+                f"<ul><li>Write the weekly job connected to {e(first)} in one sentence.</li><li>Find the document, quote, record, or professional conversation that supports the assumption about {e(second)}.</li><li>Name the person who handles {e(third)} when the first plan fails.</li><li>Compare the answer with the BreedWise cost framework before adding more breeds to the shortlist.</li></ul>",
+                f"<ul><li>List the recurring task behind {e(first)} and where it fits on the calendar.</li><li>Save the rule, invoice range, caregiver note, or source page that clarifies {e(second)}.</li><li>Set a reserve for the moment {e(third)} takes more time than expected.</li><li>Remove any breed from the shortlist if the household cannot answer these items honestly.</li></ul>",
+                f"<ul><li>Ask who owns {e(first)} on a weekday, weekend, and travel day.</li><li>Check whether {e(second)} needs a local price, policy, vet note, or service provider.</li><li>Decide what evidence would change your mind about {e(third)}.</li><li>Keep the notes with the adoption or breeder records so the decision remains traceable.</li></ul>",
+            ], "checklist-body")
         ),
         "scenario": (
             label(["Reader scenario", "A realistic week", "How this plays out", "A household example", "A normal-week example", "What the week can reveal"], "scenario"),
-            f"Picture a household researching {main} on a Sunday night. The appealing version of the plan is simple: find a dog that seems to match the lifestyle. The more useful version is stricter. On Monday, they confirm the rule or record behind {first}. On Tuesday, they price the recurring work around {second}. On Wednesday, they decide who handles {third} if the first plan fails. By the end of the week, the shortlist is smaller but more honest."
+            prose([
+                f"Picture a household researching {main} on a Sunday night. The easy version is to keep opening breed pages. The better version is to spend the week checking {first}, pricing or documenting {second}, and deciding what happens if {third} becomes harder than expected.",
+                f"A realistic week is revealing. Monday tests whether {first} fits the schedule. Midweek shows whether {second} has a local cost or record behind it. By the weekend, the family should know whether {third} is assigned or still being avoided.",
+                f"Imagine the reader has three breeds left on the shortlist. Instead of ranking them by appeal, they run each one through the same question: what changes in the home if {first}, {second}, or {third} is more demanding than expected?",
+                f"The useful scenario is not perfect adoption day. It is a tired Thursday, a delayed appointment, a wet walk, and a budget that cannot absorb every surprise. That is where {main} becomes practical.",
+            ], "scenario-body")
         ),
         "cost": (
             label(["Cost and time stack", "Budget pressure points", "The cost stack", "Where the budget gets real", "Time and money pressure", "Budget reality check"], "cost"),
-            f"Do not turn {main} into a single price question. Build three stacks instead: setup costs, repeat costs, and uncertainty reserve. Setup covers the first tools, appointments, and home changes. Repeat costs cover the work that returns every week or month. The reserve protects the household when these issues take more time, service help, or professional input than expected."
+            prose([
+                f"Do not turn {main} into one price. Separate setup costs, repeat costs, and uncertainty reserve. Setup covers the first tools and appointments, repeat costs cover the work that returns, and the reserve protects the household when the issues around {expanded} take more help than expected.",
+                f"The budget question has two clocks: what must be paid now and what keeps coming back. {title_case_text(first)} may affect setup, {second} may create recurring work, and {third} may become the reason a reserve is needed.",
+                f"A cleaner budget uses three columns: money, time, and proof. If the work around {first} costs time, the issue around {second} needs a quote, or the plan for {third} depends on a professional conversation, write that down before comparing breeds.",
+                f"Cost pressure is not only the purchase or adoption fee. The more useful review asks which part of {expanded} repeats, which part needs equipment, and which part could require outside support.",
+            ], "cost-body")
         ),
         "records": (
             label(["Records worth saving", "Evidence to collect", "Documentation that matters", "What to save before you decide", "Paper trail to keep", "Records that reduce guesswork"], "records"),
-            f"<ul><li>Source page: <a href='{source_url}' rel='nofollow noopener'>{e(source_label)}</a>, used for {e(source_claim(topic))}. Accessed 2026-06-27.</li><li>Cross-check page: <a href='{second_source_url}' rel='nofollow noopener'>{e(second_source_label)}</a>, used for general ownership and care-planning context.</li><li>Local evidence: lease terms, veterinary notes, shelter or breeder records, service estimates, trainer or groomer policies, and dated screenshots of any rules that affect the decision.</li></ul>"
+            prose([
+                f"<ul><li>Primary source: <a href='{source_url}' rel='nofollow noopener'>{e(source_label)}</a>, used for {e(source_claim(topic))}. Accessed 2026-06-27.</li><li>Cross-check: <a href='{second_source_url}' rel='nofollow noopener'>{e(second_source_label)}</a>, used for general ownership and care-planning context.</li><li>Household proof: lease terms, vet notes, caregiver records, local service estimates, and dated screenshots of any rule that affects the decision.</li></ul>",
+                f"<ul><li>Reference page: <a href='{source_url}' rel='nofollow noopener'>{e(source_label)}</a>, used for {e(source_claim(topic))}. Accessed 2026-06-27.</li><li>Second context source: <a href='{second_source_url}' rel='nofollow noopener'>{e(second_source_label)}</a>, used to keep the advice grounded in general ownership planning.</li><li>Local file: policies, estimates, records, emails, and professional notes that prove the plan can work where the reader lives.</li></ul>",
+                f"<ul><li>Source checked: <a href='{source_url}' rel='nofollow noopener'>{e(source_label)}</a>, used for {e(source_claim(topic))}. Accessed 2026-06-27.</li><li>Context checked: <a href='{second_source_url}' rel='nofollow noopener'>{e(second_source_label)}</a>, used for broader care-planning boundaries.</li><li>Decision evidence: written rules, appointment notes, rescue or breeder paperwork, trainer or groomer policies, and local cost ranges.</li></ul>",
+            ], "records-body")
         ),
         "source_ladder": (
             label(["Source ladder", "How to use sources", "Source quality check", "Evidence ladder", "How to read the evidence", "Source reality check"], "source_ladder"),
-            f"Use broad sources for vocabulary, not final certainty. {source_label} can help frame the question, but it cannot know the individual dog, local prices, housing rules, climate, training history, or caregiver capacity. The best evidence ladder is simple: public source for context, local document for feasibility, professional conversation for risk-sensitive questions, and a written household plan for who does the work."
+            prose([
+                f"Use broad sources for vocabulary and boundaries, not final certainty. {source_label} can frame the issue, but the reader still needs local documents, professional conversations, and a written household plan for the work.",
+                f"A source ladder keeps the decision honest: public reference for terms, local record for feasibility, professional input for sensitive questions, and a household assignment for the daily job.",
+                f"{source_label} is useful context, but it cannot see the individual dog, local prices, landlord rules, climate, or caregiver capacity. Treat it as step one, then verify the plan close to home.",
+                f"Good research moves from general to specific. Start with the public source, add the local rule or record, ask a professional when risk is involved, and write down who does the work.",
+            ], "source-ladder-body")
         ),
         "comparison": (
             label(["Compare two realistic options", "Side-by-side reality check", "Appealing vs sustainable", "Comparison worksheet", "Two-option comparison", "A more honest comparison"], "comparison"),
-            f"<table class='table'><tr><th>Question</th><th>Option that looks appealing</th><th>Option that may be sustainable</th></tr><tr><td>{e(first)}</td><td>Assumed from a breed summary.</td><td>Checked against the current home and schedule.</td></tr><tr><td>{e(second)}</td><td>Estimated from a casual average.</td><td>Priced with a local quote or documented rule.</td></tr><tr><td>{e(third)}</td><td>Handled only if a problem appears.</td><td>Assigned before commitment.</td></tr></table>"
+            prose([
+                f"<table class='table'><tr><th>Question</th><th>Easy assumption</th><th>Better evidence</th></tr><tr><td>{e(first)}</td><td>Borrowed from a breed summary.</td><td>Checked against the current home and schedule.</td></tr><tr><td>{e(second)}</td><td>Estimated from a casual average.</td><td>Priced with a local quote or documented rule.</td></tr><tr><td>{e(third)}</td><td>Handled only after trouble appears.</td><td>Assigned before commitment.</td></tr></table>",
+                f"<table class='table'><tr><th>Decision point</th><th>Weak version</th><th>Stronger version</th></tr><tr><td>{e(first)}</td><td>Assumed because the breed sounds suitable.</td><td>Tested in the reader's real routine.</td></tr><tr><td>{e(second)}</td><td>Left as a vague future cost.</td><td>Attached to a quote, record, or rule.</td></tr><tr><td>{e(third)}</td><td>Treated as somebody's future problem.</td><td>Given an owner and a backup.</td></tr></table>",
+                f"<table class='table'><tr><th>Area</th><th>Looks fine when...</th><th>Actually works when...</th></tr><tr><td>{e(first)}</td><td>The reader imagines an ideal week.</td><td>The reader can place it on the calendar.</td></tr><tr><td>{e(second)}</td><td>The cost is guessed.</td><td>The cost or rule is written down.</td></tr><tr><td>{e(third)}</td><td>No one has needed the backup yet.</td><td>The backup is ready before adoption.</td></tr></table>",
+            ], "comparison-body")
         ),
         "mistakes": (
             label(["Mistakes to avoid", "Common planning mistakes", "What not to assume", "Avoid these shortcuts", "Planning traps", "Assumptions to challenge"], "mistakes"),
-            f"<ol><li>Do not choose from photos before checking {e(first)}.</li><li>Do not treat {e(second)} as a one-time issue if it can repeat.</li><li>Do not let {e(third)} become one person's invisible job.</li><li>Do not convert this article into medical, legal, insurance, or training advice for a specific dog.</li></ol>"
+            prose([
+                f"<ol><li>Do not choose from photos before checking {e(first)}.</li><li>Do not treat {e(second)} as a one-time issue if it can repeat.</li><li>Do not let {e(third)} become one person's invisible job.</li><li>Do not convert this article into medical, legal, insurance, or training advice for a specific dog.</li></ol>",
+                f"<ol><li>Do not assume {e(first)} will be easy because the breed is popular.</li><li>Do not budget for {e(second)} without a local reality check.</li><li>Do not postpone the conversation about {e(third)} until the dog is already home.</li><li>Do not treat broad educational sources as a substitute for professional guidance.</li></ol>",
+                f"<ol><li>Do not let a single appealing trait outweigh {e(first)}.</li><li>Do not ignore repeat work connected to {e(second)}.</li><li>Do not accept a plan for {e(third)} that has no person, date, or backup.</li><li>Do not use this guide as a diagnosis, legal opinion, or insurer recommendation.</li></ol>",
+            ], "mistakes-body")
         ),
         "aeo": (
             label(["Quick answer summary", "Summary for skimmers", "Answer-engine summary", "Decision summary", "Concise answer block", "Short version for comparison"], "aeo"),
-            f"For quick answer engines: {main} is a planning query for {reader}. The decision should test the expanded issues, {expanded}, against daily routine, written records, local costs, and a reserve for uncertainty. The safest conclusion is not a universal breed recommendation; it is a clearer checklist for whether the household can handle the specific work."
+            prose([
+                f"For quick answer engines: {main} is a planning query for {reader}. Test {expanded} against daily routine, written records, local costs, and a reserve for uncertainty before treating any breed as a fit.",
+                f"Short answer: {main} should not produce a universal breed recommendation. It should help the reader verify whether {expanded} is workable in their home, budget, and support network.",
+                f"The answerable part of {main} is practical: document {expanded}, assign the work, and pause if any key assumption still depends on hope.",
+                f"Use {main} to compare evidence rather than enthusiasm. {reader.capitalize()} should leave with fewer weak assumptions about {expanded}, not a longer list of possible breeds.",
+            ], "aeo-body")
         ),
         "owner_roles": (
             label(["Owner roles", "Who does the work?", "Assign the routine", "Household responsibility check", "Workload map", "Who owns each task?"], "owner_roles"),
-            f"Write the owner roles before the decision gets emotional. One person may handle research, another may handle appointments, and another may handle daily routines. If {first}, {second}, and {third} all land on the same person by default, the household is not evaluating a dog breed; it is testing whether one person can absorb the whole ownership workload."
+            prose([
+                f"Write the owner roles before the decision gets emotional. One person may handle research, another may handle appointments, and another may handle routines. If {first}, {second}, and {third} all land on the same person by default, the workload is not honestly assigned.",
+                f"A household plan needs names, not intentions. Put {first}, {second}, and {third} beside the person who handles each job, then add a backup for sick days, travel, and busy seasons.",
+                f"Ownership becomes easier to judge when the work is visible. If nobody wants to own {first}, nobody has priced {second}, or everyone avoids {third}, the breed question is premature.",
+            ], "owner-roles-body")
         ),
         "pause": (
             label(["When to pause", "Stop and verify", "Pause before you commit", "A sensible stop point", "When the answer is not ready", "The pause test"], "pause"),
-            f"Pause if the answer depends on hope instead of evidence. That includes vague promises about {first}, missing records around {second}, or no backup plan for {third}. A pause is not a failure; it is the moment where a future owner prevents a mismatch before the dog is already part of the household."
+            prose([
+                f"Pause if the answer depends on hope instead of evidence. Vague promises about {first}, missing records around {second}, or no backup for {third} are not small details.",
+                f"A pause is warranted when the household likes the dog but cannot prove the plan. That usually means {first} is vague, {second} is unpriced, or {third} has no owner.",
+                f"Stop the shortlist process if one question keeps getting postponed. The delayed question is often the one connected to {first}, {second}, or {third}.",
+            ], "pause-body")
         ),
         "one_week": (
             label(["One-week test", "Try the routine for a week", "Seven-day reality test", "Trial week", "Seven-day home simulation", "Calendar test"], "one_week"),
-            f"Run a seven-day simulation without the dog. Put the walks, cleaning, phone calls, service quotes, record checks, and budget transfers on the calendar. If the household cannot make time for the research version of {main}, it should be cautious about the real version."
+            prose([
+                f"Run a seven-day simulation without the dog. Put the calls, quotes, record checks, cleaning, transport, and budget transfers on the calendar. If the research version of {main} cannot fit, the real version deserves caution.",
+                f"Use one ordinary week as a test. Schedule the work behind {first}, add the admin for {second}, and create a backup slot for {third}. The calendar will show whether the plan is realistic.",
+                f"Do not wait for ownership to discover the routine. A trial week lets the household practice the time, money, and coordination that {main} is likely to require.",
+            ], "one-week-body")
         ),
         "local_check": (
             label(["Local checks", "Local reality check", "What changes by address", "Local proof points", "Address-specific checks", "What to verify nearby"], "local_check"),
-            f"Local details can overturn broad advice. Rental rules, service availability, climate, travel distance, and professional fees all change how {expanded} feels in practice. This is why BreedWise treats public sources as a starting point and asks readers to verify the decision where they live."
+            prose([
+                f"Local details can overturn broad advice. Rental rules, service availability, climate, travel distance, and professional fees all change how {expanded} feels in practice.",
+                f"The same breed question can have a different answer by address. A reader should check housing rules, nearby services, weather, transport, and professional access before relying on general guidance about {expanded}.",
+                f"Public sources start the research, but local proof finishes it. For {main}, that proof may be a lease clause, clinic note, groomer policy, trainer intake form, or realistic service quote.",
+            ], "local-check-body")
+        ),
+        "professional_questions": (
+            label(["Questions for professionals", "What to ask before deciding", "Conversation prompts", "Expert questions to bring", "Better questions for the next call", "Ask this before commitment"], "professional_questions"),
+            prose([
+                f"<ul><li>Ask a veterinarian, trainer, groomer, shelter counselor, or breeder what they would want documented about {e(first)}.</li><li>Ask which parts of {e(second)} usually surprise new owners in the first year.</li><li>Ask what warning signs would make {e(third)} a reason to slow down.</li><li>Ask whether the answer changes by age, size, health history, housing type, or local service access.</li></ul>",
+                f"<p>Bring sharper questions to the next professional conversation. Instead of asking whether a breed is good, ask what evidence would reduce risk around {e(first)}, what recurring work is tied to {e(second)}, and what backup plan they would expect for {e(third)}.</p>",
+                f"<ul><li>What record or observation would make {e(first)} easier to evaluate?</li><li>What would you budget first for {e(second)}?</li><li>When does {e(third)} become a management issue rather than a preference?</li><li>What should a careful owner monitor during the first month?</li></ul>",
+                f"<p>Use professional input to test the weak parts of the plan. Ask what they would verify first, how they would document {e(first)}, which costs around {e(second)} are easy to miss, and when {e(third)} deserves a slower decision.</p>",
+                f"<ul><li>Which assumption about {e(first)} should be checked before commitment?</li><li>What normal range should the reader expect for {e(second)}?</li><li>What would make {e(third)} easier to manage at home?</li><li>What local factor changes the advice most often?</li></ul>",
+                f"<p>A better expert conversation starts with specifics. Bring the current plan, the evidence already collected, and the remaining questions about {e(first)}, {e(second)}, and {e(third)} so the answer can be practical rather than generic.</p>",
+            ], "professional-questions-body")
+        ),
+        "handoff": (
+            label(["Handoff plan", "Make the plan shareable", "Household handoff", "What another caregiver needs", "Caregiver notes", "Plan another person can follow"], "handoff"),
+            prose([
+                f"A strong plan can be handed to another caregiver without a long explanation. Write the routine for {first}, save the proof behind {second}, and keep the backup for {third} in the same folder as vet records, lease documents, and service contacts.",
+                f"If only one person understands the plan, the household is still fragile. Put the details for {first}, {second}, and {third} where another adult can find them during travel, illness, a schedule change, or an emergency appointment.",
+                f"Good ownership planning survives handoff. The reader should be able to show a pet sitter, family member, or future veterinarian what was assumed about {first}, what was checked about {second}, and what limit was set for {third}.",
+                f"Make the plan usable when the main caregiver is unavailable. A short note should explain the routine for {first}, the record or quote behind {second}, and the point where the plan for {third} needs outside help.",
+                f"Shared care works better when the details are visible. Store the plan for {first}, the source trail for {second}, and the backup rule for {third} somewhere the household already checks.",
+                f"A handoff note prevents quiet assumptions from becoming emergencies. It should say what is normal, what is changing, and who to contact if {first}, {second}, or {third} stops fitting the plan.",
+            ], "handoff-body")
+        ),
+        "internal_path": (
+            label(["Where to read next", "Related BreedWise checks", "Internal reading path", "Next comparison points", "Connect this with the cost lens", "Build the next shortlist"], "internal_path"),
+            prose([
+                f"After this article, compare the notes with the <a href='../methodology/index.html'>BreedWise methodology</a> and the <a href='../index.html#ownership'>ownership cost preview</a>. Those pages help separate breed appeal from repeat work, documented evidence, and long-term household capacity.",
+                f"Use the <a href='../blog/index.html'>Blog index</a> to pair this topic with one neighboring constraint, then check the <a href='../index.html#ownership'>cost preview</a> before adding more breeds. The goal is fewer weak assumptions, not more tabs.",
+                f"For a deeper review, read the <a href='../methodology/index.html'>methodology</a>, then compare this decision against the <a href='../index.html#ownership'>five-year ownership lens</a>. A breed that passes both checks is easier to defend than one that only looks good in a summary.",
+                f"Pair this guide with the <a href='../methodology/index.html'>methodology</a> if the reader needs a stricter decision process, or use the <a href='../blog/index.html'>Blog index</a> to compare one adjacent ownership constraint.",
+                f"The next useful page is not always another breed profile. Check the <a href='../index.html#ownership'>ownership cost preview</a> and the <a href='../methodology/index.html'>methodology</a> to see whether the plan still holds up.",
+                f"Use internal links as a decision path: start with this guide, confirm the framework in the <a href='../methodology/index.html'>methodology</a>, and use the <a href='../blog/index.html'>Blog index</a> only for a clearly related follow-up question.",
+            ], "internal-path-body")
+        ),
+        "first_month": (
+            label(["First-month review", "After adoption, check again", "What to monitor early", "The first-month signal"], "first_month"),
+            prose([
+                f"If the household moves forward, revisit the plan during the first month. Track whether the work around {first} is happening as expected, whether the plan for {second} is taking more time or money than planned, and whether the backup for {third} needs a different owner. Early notes are useful because they show patterns before frustration becomes the only data point.",
+                f"The first month should not be treated as proof that every assumption was correct. It is a review period. Watch how often the work around {first} changes the schedule, whether {second} creates repeat admin, and whether the plan for {third} needs outside help sooner than expected.",
+                f"Good planning continues after the dog comes home. Save receipts, appointment notes, behavior observations, and schedule changes related to {first}, {second}, and {third}. Those notes make future decisions calmer and more accurate.",
+            ], "first-month-body")
+        ),
+        "tradeoff": (
+            label(["Tradeoff to accept", "What the owner is really choosing", "The real compromise", "Decision tradeoff"], "tradeoff"),
+            prose([
+                f"Every breed choice has a tradeoff. The question is whether the household accepts the tradeoff openly. If {first} takes time, {second} takes money, and {third} takes coordination, those are not reasons to panic; they are reasons to decide with clear eyes.",
+                f"The right answer may still be yes. A household can accept work around {first}, costs around {second}, or limits around {third} when those tradeoffs are visible, budgeted, and shared by the people who will live with them.",
+                f"A bad match often begins when the owner accepts the benefit but ignores the cost. This guide asks the reader to hold both sides together: the appeal of the dog and the practical load created by {first}, {second}, and {third}.",
+            ], "tradeoff-body")
+        ),
+        "proof_before_profile": (
+            label(["Evidence before more profiles", "Proof before preference", "What would change your mind?", "Decision evidence"], "proof_before_profile"),
+            prose([
+                f"Before opening another breed profile, decide what evidence would change the shortlist. It might be a written rule about {first}, a professional comment about {second}, or a household limit around {third}. Without that standard, research can become endless browsing.",
+                f"Use a simple rule: preference can start the shortlist, but evidence should edit it. If the reader cannot identify the proof needed for {first}, {second}, and {third}, they are not ready to compare more breeds.",
+                f"Strong research creates a stopping point. Once {first} is documented, {second} is priced or explained, and {third} has a backup, the reader can make a cleaner decision instead of collecting more vague opinions.",
+            ], "proof-before-profile-body")
+        ),
+        "decision_boundary": (
+            label(["Decision boundary", "What this guide can and cannot decide", "Keep the conclusion honest", "Where judgment still matters"], "decision_boundary"),
+            prose([
+                f"This guide can organize the decision, but it cannot know the individual dog. Use it to decide what must be verified about {first}, what must be budgeted for {second}, and what limit should be set around {third}. The final choice still belongs with the household and qualified professionals who know the local facts.",
+                f"Keep the conclusion narrow. A useful result is not 'this breed is always right' or 'this breed is always wrong.' A useful result is a documented answer about {first}, a realistic plan for {second}, and a clear boundary for {third}.",
+                f"The article should leave the reader with better judgment, not false certainty. If {first}, {second}, or {third} changes after a professional conversation or local rule check, update the shortlist instead of defending the old assumption.",
+                f"Do not force a final answer from incomplete evidence. When the reader still lacks proof around {first}, a cost range for {second}, or a backup for {third}, the responsible conclusion is to keep researching before committing.",
+            ], "decision-boundary-body")
         ),
         "next": (
             label(["Practical next step", "Next action", "What to do now", "Use this guide", "Turn this into a plan", "Make the next choice smaller"], "next"),
-            f"Save this guide, write down two unanswered questions about {expanded}, and resolve them before reading more breed profiles. Then compare the answer with the BreedWise methodology and five-year ownership cost framework. Better research should narrow the shortlist, not make every option sound equally possible. If the checklist feels inconvenient now, treat that as useful evidence: the same work will usually feel harder after a dog is already home. Keep the notes and date them so the decision trail stays clear."
+            prose([
+                f"Save this guide, write down two unanswered questions about {expanded}, and resolve them before reading more breed profiles. Better research should narrow the shortlist, not make every option sound equally possible.",
+                f"Turn the article into a small action list: one document to find, one local cost to check, and one household responsibility to assign. Then compare the notes with the BreedWise methodology and five-year ownership cost framework.",
+                f"Do one practical thing next. Call for a quote, save the relevant rule, ask the current caregiver a clearer question, or remove one breed that cannot pass the {expanded} check.",
+                f"Keep the notes and date them. If the checklist feels inconvenient now, treat that as evidence; the same work usually becomes harder once the dog is already home.",
+            ], "next-body") + " " + prose([
+                f"Before closing the tab, mark the weakest assumption about {first} and decide who will verify it.",
+                f"If the next step is still vague, make it concrete: one phone call, one saved document, or one budget number.",
+                f"A good stopping point is a smaller shortlist with clearer reasons, not a larger folder of untested claims.",
+                f"Use the next 15 minutes to capture the decision trail while the tradeoffs are still fresh.",
+            ], "next-tail")
         ),
     }
     archetypes = [
-        ["answer", "friction", "decision_table", "records", "scenario", "cost", "checklist", "source_ladder", "one_week", "aeo", "pause", "next"],
-        ["answer", "cost", "comparison", "checklist", "records", "mistakes", "scenario", "source_ladder", "owner_roles", "aeo", "local_check", "next"],
-        ["answer", "scenario", "checklist", "decision_table", "source_ladder", "records", "cost", "mistakes", "one_week", "aeo", "pause", "next"],
-        ["answer", "records", "source_ladder", "comparison", "friction", "checklist", "scenario", "cost", "owner_roles", "aeo", "local_check", "next"],
-        ["answer", "comparison", "friction", "cost", "decision_table", "mistakes", "records", "source_ladder", "one_week", "aeo", "pause", "next"],
-        ["answer", "mistakes", "checklist", "scenario", "records", "decision_table", "source_ladder", "cost", "owner_roles", "aeo", "local_check", "next"],
+        ["answer", "friction", "decision_table", "tradeoff", "records", "scenario", "cost", "professional_questions", "checklist", "source_ladder", "handoff", "one_week", "proof_before_profile", "aeo", "internal_path", "decision_boundary", "first_month", "pause", "next"],
+        ["answer", "cost", "comparison", "checklist", "records", "mistakes", "scenario", "tradeoff", "professional_questions", "source_ladder", "owner_roles", "handoff", "aeo", "local_check", "proof_before_profile", "internal_path", "decision_boundary", "first_month", "next"],
+        ["answer", "scenario", "checklist", "decision_table", "source_ladder", "tradeoff", "records", "cost", "mistakes", "professional_questions", "one_week", "handoff", "aeo", "proof_before_profile", "internal_path", "decision_boundary", "pause", "first_month", "next"],
+        ["answer", "records", "source_ladder", "comparison", "friction", "checklist", "scenario", "cost", "professional_questions", "owner_roles", "tradeoff", "aeo", "local_check", "handoff", "internal_path", "proof_before_profile", "decision_boundary", "first_month", "next"],
+        ["answer", "comparison", "friction", "cost", "decision_table", "mistakes", "tradeoff", "records", "professional_questions", "source_ladder", "one_week", "aeo", "handoff", "proof_before_profile", "internal_path", "decision_boundary", "pause", "first_month", "next"],
+        ["answer", "mistakes", "checklist", "scenario", "records", "decision_table", "source_ladder", "cost", "professional_questions", "owner_roles", "handoff", "tradeoff", "aeo", "local_check", "proof_before_profile", "internal_path", "decision_boundary", "first_month", "next"],
     ]
     sections = [section_bank[key] for key in archetypes[index % len(archetypes)]]
     return sections
@@ -355,9 +540,7 @@ def article_html(topic: dict[str, str], index: int, publish_at: datetime) -> str
     source_label, source_url = SOURCES[topic["source"]]
     second_source = SOURCES["avma"] if topic["source"] != "avma" else SOURCES["aaha"]
     def article_label(options: list[str], salt: str) -> str:
-        seed = f"{topic['main_keyword']}|{salt}|{index}"
-        score = sum((position + 1) * ord(char) for position, char in enumerate(seed))
-        return options[score % len(options)]
+        return stable_choice(options, f"{topic['main_keyword']}|{salt}|{index}")
     section_parts = []
     for heading, text in body_sections(topic, index):
         body = text if text.lstrip().startswith("<") else f"<p>{text}</p>"
@@ -366,20 +549,37 @@ def article_html(topic: dict[str, str], index: int, publish_at: datetime) -> str
     faq = ""
     if index % 2 == 0:
         faq_heading = article_label(["FAQ", "Common questions", "Reader questions", "Quick questions"], "faq")
+        recommendation_answer = article_label([
+            "No. It is a planning frame for comparing constraints before choosing a dog.",
+            "No. Treat it as a readiness check, not a ranked breed list.",
+            "No. It helps the reader prepare better questions before making a breed decision.",
+            "No. The article narrows the research task; it does not choose a dog for the household.",
+        ], "faq-recommendation")
+        advice_answer = article_label([
+            "No. Use it to prepare questions for qualified professionals and documented sources.",
+            "No. It is educational content and should be checked against professional advice when risk is specific.",
+            "No. It can organize the conversation, but a qualified professional should handle case-specific guidance.",
+            "No. It points to evidence to collect before asking a veterinarian, trainer, landlord, insurer, or other qualified source.",
+        ], "faq-advice")
         faq = (
             f"<h2 id=\"faq\">{escape(faq_heading)}</h2><dl class=\"faq\">"
             f"<dt>Is {escape(topic['main_keyword'])} a breed recommendation?</dt>"
-            "<dd>No. It is a planning frame for comparing constraints before choosing a dog.</dd>"
+            f"<dd>{escape(recommendation_answer)}</dd>"
             "<dt>Can this replace veterinary or legal advice?</dt>"
-            "<dd>No. Use it to prepare questions for qualified professionals and documented sources.</dd>"
+            f"<dd>{escape(advice_answer)}</dd>"
             "</dl>"
         )
-    intro = (
-        f"{topic['subtitle']} This article is written for {topic['reader']} who need a clear decision process, "
-        f"not another generic breed profile."
-    )
+    intro = stable_choice([
+        f"{topic['subtitle']} It is built for {topic['reader']} who want a practical way to narrow the shortlist before emotions take over.",
+        f"{topic['subtitle']} The goal is to turn a broad breed question into records, routines, costs, and responsibilities the household can verify.",
+        f"{topic['subtitle']} Use it as a decision aid for {topic['reader']}, especially when a breed profile sounds appealing but the day-to-day plan is still vague.",
+        f"{topic['subtitle']} This guide keeps the focus on what can be checked: documents, local constraints, owner capacity, and repeatable care.",
+        f"{topic['subtitle']} Read it before comparing more breeds so the next choice is based on evidence rather than a longer wish list.",
+        f"{topic['subtitle']} It is written for readers who need a realistic ownership screen, not a promise that one breed label solves the problem.",
+    ], f"{topic['main_keyword']}|intro|{index}")
     toc_links = "".join(f"<a href=\"#{slugify(h)}\">{escape(h)}</a>" for h, _ in body_sections(topic, index)[:5])
     sources_heading = article_label(["Sources and limits", "Source notes and limits", "References and boundaries", "Evidence used"], "sources")
+    callout_label = article_label(["Answer first", "Use this as a filter", "Reader takeaway", "Planning lens", "Start here"], "callout")
     metadata = {
         "@context": "https://schema.org",
         "@type": "Article",
@@ -398,7 +598,7 @@ def article_html(topic: dict[str, str], index: int, publish_at: datetime) -> str
 <script type="application/ld+json">{json.dumps(metadata, ensure_ascii=False)}</script>
 </head><body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a></div></nav></header>
 <main><section class="pagehead"><div class="wrap"><p class="kicker">Scheduled guide</p><h1>{escape(topic['title'])}</h1><p class="lead">{escape(topic['subtitle'])}</p><div class="meta"><span>Main keyword: {escape(topic['main_keyword'])}</span><span>Expanded keywords: {escape(topic['expanded_keywords'])}</span><span>Scheduled: {publish_at.isoformat()}</span><span>Quality score: 94</span></div></div></section>
-<div class="wrap content"><article class="article"><p class="lead">{escape(intro)}</p><div class="callout"><strong>Answer first:</strong> {escape(sentence_topic(topic))}</div>{sections}{faq}
+<div class="wrap content"><article class="article"><p class="lead">{escape(intro)}</p><div class="callout"><strong>{escape(callout_label)}:</strong> {escape(sentence_topic(topic, index))}</div>{sections}{faq}
 <h2 id="sources">{escape(sources_heading)}</h2><ul class="source-list"><li><a href="{source_url}" rel="nofollow noopener">{escape(source_label)}</a></li><li><a href="{second_source[1]}" rel="nofollow noopener">{escape(second_source[0])}</a></li><li><a href="../methodology/index.html">BreedWise methodology</a></li></ul>
 <p class="note"><strong>Editorial boundary:</strong> BreedWise is educational planning content. It does not diagnose pets, prescribe care, rank insurers, or decide whether insurance is worth it.</p></article><aside class="toc"><strong>Contents</strong>{toc_links}<a href="../blog/index.html">Blog index</a><a href="../index.html#ownership">Cost preview</a><a href="../contact/index.html">Corrections</a></aside></div></main><footer class="footer"><div class="wrap"><span>&copy; 2026 BreedWise. Informational planning content only.</span><span><a href="../terms/index.html">Terms</a> &middot; <a href="../privacy-policy/index.html">Privacy Policy</a></span></div></footer></body></html>
 """

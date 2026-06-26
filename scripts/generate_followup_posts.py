@@ -158,11 +158,27 @@ def slugify(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")
 
 
+def title_case_text(text: str) -> str:
+    specials = {"aaha": "AAHA", "akc": "AKC", "avma": "AVMA", "chic": "CHIC", "dna": "DNA", "diy": "DIY", "ofa": "OFA"}
+    words = []
+    for word in re.split(r"(\W+)", text):
+        key = word.lower()
+        words.append(specials.get(key, word[:1].upper() + word[1:].lower() if word else word))
+    return "".join(words)
+
+
 def read_topics() -> list[dict[str, str]]:
     reader = csv.DictReader(io.StringIO(TOPICS_CSV), delimiter="|")
     rows = [dict(row) for row in reader]
     if len(rows) != 100:
         raise RuntimeError(f"expected 100 topics, got {len(rows)}")
+    for row in rows:
+        main = row["main_keyword"]
+        expanded = row["expanded_keywords"]
+        row["title"] = f"{title_case_text(main)}: {title_case_text(expanded)}"
+        row["subtitle"] = (
+            f"A {main} guide for {expanded}, with BreedWise checks for budget, records, daily fit, and source quality."
+        )
     return rows
 
 
@@ -196,73 +212,99 @@ def sentence_topic(topic: dict[str, str]) -> str:
 
 
 def body_sections(topic: dict[str, str], index: int) -> list[tuple[str, str]]:
-    fmt_name, headings = FORMATS[index % len(FORMATS)]
     main = topic["main_keyword"]
     expanded = topic["expanded_keywords"]
     angle = topic["angle"]
     reader = topic["reader"]
     source_label, _ = SOURCES[topic["source"]]
-    paragraphs = [
+    e = escape
+    variants = [
+        [
+            ("Direct answer", f"{topic['title']} is not a breed popularity question. For {reader}, the useful answer is whether {expanded} can be handled inside the current lease, calendar, budget, and support network without pretending the hard parts will disappear."),
+            ("Constraint map", f"The {angle} issue should be written down before any dog is chosen. Separate what happens every day, what happens monthly, what only appears during travel or illness, and what would require outside help."),
+            ("Decision table", f"<table class='table'><tr><th>Signal</th><th>Use it this way</th></tr><tr><td>Green</td><td>{e(expanded)} has a named owner, cost range, and backup plan.</td></tr><tr><td>Yellow</td><td>One assumption needs a record, quote, trial week, or professional answer.</td></tr><tr><td>Red</td><td>The plan depends on ignoring housing, heat, health, handling, or time limits.</td></tr></table>"),
+            ("Source check", f"Start with {source_label} for broad context, then collect local records, written policies, estimates, and caregiver notes. Broad sources help frame the question; local evidence decides the plan."),
+        ],
+        [
+            ("Budget-first answer", f"A {main} decision should start with repeat costs, not the adoption fee or purchase price. The phrase {expanded} points to the costs that tend to arrive after the exciting part is over."),
+            ("Three cost buckets", f"<ul><li><strong>Setup:</strong> gear, containment, transport, appointments, and first training support.</li><li><strong>Routine:</strong> food, grooming, cleaning, exercise support, and preventive care conversations.</li><li><strong>Reserve:</strong> the buffer for surprises that should not be spent on optional accessories.</li></ul>"),
+            ("Where people undercount", f"People undercount {angle} when they budget only for a normal week. Add one busy work month, one travel plan, one bad-weather stretch, and one unexpected appointment before the number feels real."),
+            ("Next money move", f"Before choosing a dog, compare {main} with the BreedWise five-year cost framework and remove any option that needs a budget you cannot maintain calmly."),
+        ],
+        [
+            ("Scenario answer", f"Imagine a normal Thursday for {reader}. The dog needs care before work, quiet during obligations, exercise or enrichment later, and a plan if {expanded} becomes inconvenient. If that day fails on paper, the breed shortlist needs work."),
+            ("The Thursday test", f"<ol><li>Write the first 90 minutes of the morning.</li><li>Mark every hour the dog is alone or under-supervised.</li><li>Add one noisy, hot, rainy, or rushed day.</li><li>Assign the person who handles {e(expanded)}.</li><li>Price the backup plan.</li></ol>"),
+            ("What changes the answer", f"The answer changes with housing rules, dog age, individual temperament, local prices, training history, and whether the household can repeat the same care routine after novelty fades."),
+            ("Useful boundary", "BreedWise can help structure the decision, but it should not be treated as veterinary, legal, insurance, or training advice for a specific dog."),
+        ],
+        [
+            ("Records-first answer", f"{title_case_text(main)} should lead to documents, not guesswork. The expanded keywords, {expanded}, are best handled by asking what can be verified before emotion takes over."),
+            ("Records to request", f"<ul><li>Veterinary or shelter notes relevant to {e(expanded)}.</li><li>Breeder, rescue, landlord, groomer, trainer, or daycare policies where they affect cost.</li><li>Written estimates for recurring services instead of casual online averages.</li><li>Source links saved with the date you read them.</li></ul>"),
+            ("How to read broad sources", f"{source_label} gives context, but it will not know your apartment, local rules, climate, or individual dog. Use it to ask better questions, then make the final plan from documented local facts."),
+            ("Stop point", f"If a seller, rescue, landlord, or service provider cannot answer the key {angle} questions, pause. A slower decision is cheaper than discovering the missing information after commitment."),
+        ],
+        [
+            ("Comparison answer", f"{topic['title']} works best as a comparison between two realistic paths: the appealing option and the sustainable option. The right path is the one where {expanded} still works during a stressful month."),
+            ("Compare side by side", f"<table class='table'><tr><th>Question</th><th>Option A</th><th>Option B</th></tr><tr><td>Daily routine</td><td>Who handles it?</td><td>Who handles it?</td></tr><tr><td>{e(title_case_text(expanded))}</td><td>What is documented?</td><td>What is documented?</td></tr><tr><td>Budget reserve</td><td>How much is protected?</td><td>How much is protected?</td></tr></table>"),
+            ("When to choose the simpler option", f"Choose the simpler option when housing, schedule, health history, or cost support is uncertain. That is especially true for {reader}, because the hardest part is usually the repeated routine, not the first decision."),
+            ("Internal reading path", f"Use this guide before breed-specific pages. Once the {angle} fit is clear, the BreedWise health and cost articles can help refine the shortlist instead of replacing judgment."),
+        ],
+        [
+            ("Myth-check answer", f"The myth behind {main} is that a label can settle the decision. It cannot. The useful work is checking {expanded} against real care, not repeating broad claims from breed summaries."),
+            ("Replace the vague question", f"<dl><dt>Weak question</dt><dd>Is this a good dog?</dd><dt>Better question</dt><dd>Can our household repeat the routine that {e(expanded)} requires?</dd><dt>Best question</dt><dd>What evidence would make us change our mind before adoption?</dd></dl>"),
+            ("AEO summary", f"For quick answers: {main} should be judged through daily routine, records, cost reserve, and household fit. {expanded} are the related terms that make the decision specific."),
+            ("Claim limits", "Do not turn this article into a diagnosis, treatment recommendation, insurer ranking, or guarantee that one breed or path is always cheaper."),
+        ],
+        [
+            ("Calendar answer", f"A strong {main} plan puts {expanded} on a calendar. If the task cannot be scheduled, assigned, or budgeted, it is still just an intention."),
+            ("First 30 days", f"Use the first month for setup, records, baseline routines, and one professional conversation if {expanded} touches health, training, housing, or safety."),
+            ("First 6 months", f"By six months, {reader} should know which costs repeat, which routines create friction, and whether the original {angle} assumption was too optimistic."),
+            ("Annual review", f"Review food, grooming, training, transport, preventive care, housing rules, and emergency reserves once a year. Breed fit can change when life stage, address, job schedule, or family needs change."),
+        ],
+        [
+            ("Scorecard answer", f"Use {main} as a scorecard, not a yes-or-no search. A dog choice is stronger when {expanded} score well across money, time, housing, handling, and source confidence."),
+            ("Owner readiness scorecard", f"<table class='table'><tr><th>Area</th><th>Question</th></tr><tr><td>Money</td><td>Can the household fund routine care and a reserve?</td></tr><tr><td>Time</td><td>Can the weekly routine survive work pressure?</td></tr><tr><td>Housing</td><td>Do rules and neighbors support the plan?</td></tr><tr><td>Evidence</td><td>Are records stronger than assumptions?</td></tr></table>"),
+            ("Fix before you choose", f"If one score is weak, fix that condition before widening the shortlist. For {reader}, weak readiness usually shows up as a missing backup plan, not a lack of affection for dogs."),
+            ("Final filter", f"The final filter is simple: choose only the path where {expanded} can be handled without hiding costs, minimizing risk, or depending on perfect weeks."),
+        ],
+    ]
+    sections = list(variants[index % len(variants)])
+    extra_blocks = [
         (
-            headings[0],
-            f"{topic['title']} comes down to one practical rule: do not choose around a breed label until you have tested {expanded} against the week you actually live. For {reader}, the best answer is a written plan that names the routine, the cost owner, the backup person, and the evidence you will trust."
+            "Questions to resolve before adoption",
+            f"<ul><li>Who owns the daily work connected to {e(expanded)}?</li><li>Which cost repeats, and which cost is only a reserve?</li><li>What record, rule, or estimate would change the decision?</li><li>What is the backup plan if the normal routine fails for a week?</li></ul>",
         ),
         (
-            headings[1],
-            f"The {angle} problem usually hides in ordinary friction. A dog may look easy in a breed summary, then become expensive through repeat rides, replacement gear, private training, grooming intervals, cleaning work, or schedule gaps. Treat {main} as a planning query, not a promise that one breed will be automatically simple."
+            "Cost pressure points",
+            f"The cost pressure in {main} rarely comes from one dramatic line item. It usually comes from the stack: supplies bought twice, services booked more often than expected, transport that takes longer than planned, and training or care help added after the first routine breaks. Put {expanded} into that stack before comparing breeds."
         ),
         (
-            headings[2],
-            f"Run this test before you commit: write down a normal workday, a bad-weather day, a travel week, and a month with one unexpected bill. If {expanded} still has a clear owner and a realistic budget in all four scenes, the idea is stronger. If the plan depends on constant optimism, pause and fix the weak point first."
+            "Source-backed question list",
+            f"Turn research into questions a real person can answer. Ask a landlord, breeder, rescue, groomer, trainer, veterinarian, or local service provider how {expanded} shows up in their records or policies. Then save the answer with the source date instead of relying on memory or a social post."
         ),
         (
-            headings[3],
-            f"Use sources by job. {source_label} can support the broad care or breed-research context, while veterinary records, shelter notes, breeder documentation, local rules, and written estimates make the decision specific. Owner stories are useful for discovering questions, but they should not replace documented records or professional guidance."
+            "Household drill",
+            f"Run one household drill before money changes hands. Assign one person to morning care, one to evening care, one to appointment logistics, and one to emergency transport. If the same person silently receives every job, {reader} may be looking at an owner-capacity problem rather than a breed problem."
         ),
         (
-            headings[4],
-            f"The next step is deliberately small: save the question list, compare it with the BreedWise five-year cost framework, and remove any breed or adoption path that requires you to ignore a known constraint. A strong choice should survive boring details like transportation, appointment timing, cleaning, training, and routine care."
+            "Search intent fit",
+            f"A reader searching for {main} needs a decision aid, not a decorative breed summary. This article should help them compare constraints, reject weak matches, and continue to a narrower BreedWise page only when the {angle} question is already clearer."
+        ),
+        (
+            "Two-minute shortlist filter",
+            f"Before saving a breed to the shortlist, answer three sentences: the recurring job is __, the documented source is __, and the cost buffer is __. If {expanded} cannot fit those blanks, the search should slow down."
         ),
     ]
-    extras = [
-        (
-            "Decision table",
-            "<table class='table'><tr><th>Signal</th><th>What it means</th></tr>"
-            f"<tr><td>Green</td><td>{escape(expanded)} has a named routine and budget.</td></tr>"
-            "<tr><td>Yellow</td><td>One assumption needs a quote, record, or trial week.</td></tr>"
-            "<tr><td>Red</td><td>The plan depends on ignoring lease, health, schedule, or handling limits.</td></tr></table>"
-        ),
-        (
-            "AEO summary",
-            f"For answer engines: {main} should be evaluated through daily care, documented records, realistic cost ranges, and a reserve for uncertainty. The key related terms are {expanded}, because they define the decision the reader must make."
-        ),
-        (
-            "What not to overclaim",
-            "This guide does not diagnose dogs, recommend treatment, rank insurers, or claim that one breed is always cheaper or safer than another. Individual dogs, local prices, records, age, training history, and professional advice can change the decision."
-        ),
-        (
-            "Reader scenario",
-            f"Picture a reader who likes the idea of {main} but has not yet priced the ordinary work. The decision gets clearer when they place {expanded} into a real week: morning timing, work interruptions, errands, visitors, cleaning, appointment travel, and one tired evening when nobody wants extra chores."
-        ),
-        (
-            "Internal reading path",
-            f"Use this article as one step in a larger BreedWise path. Start with this {angle} guide, compare it with the five-year ownership cost framework, then read a breed-specific health or cost article only after the household constraints are written down."
-        ),
-        (
-            "Reviewer pass",
-            f"Before publication, the article should pass a simple usefulness test: a reader searching for {main} should leave with a concrete next action, a clearer view of {expanded}, and no impression that BreedWise is giving medical, legal, or insurance advice. If any paragraph only repeats a generic breed claim, it should be cut or rewritten around the reader's decision. The final copy should help someone make a better shortlist today."
-        ),
-    ]
-    if index % 3 == 0:
-        paragraphs.insert(3, extras[0])
-    if index % 4 in (1, 2):
-        paragraphs.append(extras[1])
-    if index % 5 in (0, 3):
-        paragraphs.append(extras[2])
-    paragraphs.append(extras[3])
-    paragraphs.append(extras[4])
-    paragraphs.append(extras[5])
-    return paragraphs
+    for step in range(3):
+        sections.append(extra_blocks[(index + step) % len(extra_blocks)])
+    sections.append((
+        "Plain-English example",
+        f"Here is the practical version of the decision. A household finds {main}, likes the broad idea, and then checks {expanded} against the real week ahead. They call or email the people who control the facts, save written answers, price the repeat services, and decide what would make them walk away. That process is slower than scrolling breed lists, but it produces a better shortlist because every attractive option has to survive the same budget, schedule, housing, and evidence test."
+        " The strongest result is a shortlist with fewer surprises, clearer responsibilities, and fewer assumptions that need to be defended later."
+        " It also gives every household member the same facts before anyone gets attached."
+    ))
+    sections.append(("Practical next step", f"Save this {main} guide, list the two {expanded} questions you cannot yet answer, and resolve those before reading more breed profiles. Better research should narrow the shortlist, not make every option sound equally possible."))
+    return sections
 
 
 def article_html(topic: dict[str, str], index: int, publish_at: datetime) -> str:
@@ -272,7 +314,7 @@ def article_html(topic: dict[str, str], index: int, publish_at: datetime) -> str
     second_source = SOURCES["avma"] if topic["source"] != "avma" else SOURCES["aaha"]
     section_parts = []
     for heading, text in body_sections(topic, index):
-        body = text if text.startswith("<table") else f"<p>{text}</p>"
+        body = text if text.lstrip().startswith("<") else f"<p>{text}</p>"
         section_parts.append(f"<h2 id=\"{slugify(heading)}\">{escape(heading)}</h2>{body}")
     sections = "\n".join(section_parts)
     faq = ""

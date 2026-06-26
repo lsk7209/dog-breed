@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
@@ -829,10 +829,13 @@
         <span>BreedWise</span>
       </a>
       <div class="nav-links" aria-label="Site sections">
+        <a href="blog/index.html">Blog</a>
         <a href="#cost-risk">Cost-risk</a>
         <a href="#ownership">Cost calculator</a>
-        <a href="#finder">Breed finder</a>
-        <a href="#method">Methodology</a>
+        <a href="methodology/index.html">Methodology</a>
+        <a href="about/index.html">About</a>
+        <a href="contact/index.html">Contact</a>
+        <a href="privacy-policy/index.html">Privacy</a>
       </div>
       <a class="button" href="#cost-risk">Preview estimate</a>
     </nav>
@@ -963,9 +966,9 @@
               <li><strong>Clinical evidence</strong><span id="evidence-label">VetCompass and peer-reviewed sources</span></li>
               <li><strong>Cost reference</strong><span id="cost-label">US national spending and claim ranges</span></li>
               <li><strong>Output</strong><span id="output-label">Range, downside, and source limits</span></li>
-              <li><strong>Review status</strong><span>Veterinary review pending before launch</span></li>
+              <li><strong>Editorial status</strong><span>Educational planning content with source limits shown</span></li>
             </ul>
-            <p class="note">Preview only. Final breed scores require source mapping, reviewer checks, and methodology publication.</p>
+            <p class="note">Planning preview only. Use the methodology and article sources before making decisions about a specific dog.</p>
           </aside>
         </div>
       </div>
@@ -984,7 +987,7 @@
         <div class="planner-grid">
           <div class="panel risk-panel">
             <h3>5-year ownership inputs</h3>
-            <p class="muted">This prototype uses broad planning bands only. Published breed pages will need source-backed regional cost references before showing final estimates.</p>
+            <p class="muted">This calculator uses broad planning bands to separate routine spend from an uncertainty buffer. Local prices, individual dogs, and provider choices can change the result.</p>
             <form class="risk-form" aria-label="Ownership cost preview controls">
               <label>
                 Dog size
@@ -1035,7 +1038,7 @@
                 <span class="muted">Uncertainty buffer</span>
               </div>
             </div>
-            <p class="note">Not a quote, premium estimate, or treatment recommendation. It is a planning placeholder until source-backed cost tables are published.</p>
+            <p class="note">Not a quote, premium estimate, or treatment recommendation. It is a planning aid for comparing routine costs and uncertainty before choosing a dog.</p>
           </aside>
         </div>
       </div>
@@ -1048,7 +1051,7 @@
             <p class="section-kicker">Breed finder</p>
             <h2>Filter for fit before comparing popularity.</h2>
           </div>
-          <p>The discovery layer should keep users away from one-size-fits-all breed rankings by showing fit constraints, cost exposure, and missing-review status together.</p>
+          <p>The discovery layer keeps users away from one-size-fits-all breed rankings by showing fit constraints, cost exposure, and practical ownership caveats together.</p>
         </div>
 
         <div class="planner-grid">
@@ -1125,12 +1128,12 @@
             <p class="section-kicker">Methodology</p>
             <h2>Built to be slower, sourced, and harder to fake.</h2>
           </div>
-          <p>BreedWise avoids a single cheapest-breed ranking. The useful signal comes from separating clinical prevalence, US cost references, model assumptions, and review status.</p>
+          <p>BreedWise avoids a single cheapest-breed ranking. The useful signal comes from separating source quality, US cost references, model assumptions, and article limits.</p>
         </div>
         <div class="method">
           <article class="method-step">
             <h3>Curate breed evidence</h3>
-            <p>Start with breeds that have usable VetCompass coverage, then map source fields and limitations.</p>
+            <p>Start with credible veterinary, university, breed-health, and ownership-cost references, then explain what each source can and cannot prove.</p>
           </article>
           <article class="method-step">
             <h3>Attach cost references</h3>
@@ -1138,11 +1141,11 @@
           </article>
           <article class="method-step">
             <h3>Calculate exposure</h3>
-            <p>Publish the formula behind cost-risk exposure, 5-year cost, fit scores, and discarded weak signals.</p>
+            <p>Show the assumptions behind cost-risk exposure, 5-year planning ranges, fit signals, and discarded weak claims.</p>
           </article>
           <article class="method-step">
             <h3>Review and disclose</h3>
-            <p>Label reviewer status, affiliate relationships, and the UK-prevalence to US-cost limitation.</p>
+            <p>Label advertising relationships, source limits, and the boundary between planning content and professional advice.</p>
           </article>
         </div>
       </div>
@@ -1153,31 +1156,31 @@
         <div class="section-head">
           <div>
             <p class="section-kicker">Breed paths</p>
-            <h2>From a homepage to durable pSEO pages.</h2>
+            <h2>Read the published breed planning guides.</h2>
           </div>
-          <p>The first build should link to a small, defensible beachhead set before expanding into broader breed waves.</p>
+          <p>Start with practical guides that already include source notes, cost planning, and clear editorial limits.</p>
         </div>
         <div class="breed-grid">
-          <article class="breed-link">
-            <span class="tag">Planned /breeds/french-bulldog/health</span>
+          <a class="breed-link" href="blog/french-bulldog-vet-costs.html">
+            <span class="tag">Published guide</span>
             <strong>French Bulldog</strong>
             <span>Condition watchlists, cost exposure, and source notes.</span>
-          </article>
-          <article class="breed-link">
-            <span class="tag amber">Planned /breeds/cavalier-king-charles-spaniel/cost</span>
+          </a>
+          <a class="breed-link" href="blog/cavalier-king-charles-health-costs.html">
+            <span class="tag amber">Published guide</span>
             <strong>Cavalier King Charles Spaniel</strong>
             <span>Ownership cost ranges, downside scenarios, and limits.</span>
-          </article>
-          <article class="breed-link">
-            <span class="tag blue">Planned /compare/labrador-retriever-vs-golden-retriever</span>
-            <strong>Labrador vs Golden Retriever</strong>
-            <span>Side-by-side fit, cost, and health-risk signals.</span>
-          </article>
-          <article class="breed-link">
-            <span class="tag">Planned /best/apartment-dogs-low-health-risk</span>
-            <strong>Apartment dogs with lower exposure</strong>
-            <span>Fit-first planning shortlists backed by transparent scoring.</span>
-          </article>
+          </a>
+          <a class="breed-link" href="blog/labrador-retriever-health-costs.html">
+            <span class="tag blue">Published guide</span>
+            <strong>Labrador Retriever</strong>
+            <span>Weight, joints, food, and prevention planning.</span>
+          </a>
+          <a class="breed-link" href="blog/beagle-apartment-exercise-plan.html">
+            <span class="tag">Published guide</span>
+            <strong>Beagle apartment exercise</strong>
+            <span>Scent work, barking management, and schedule planning.</span>
+          </a>
         </div>
       </div>
     </section>
@@ -1197,8 +1200,8 @@
           <ul class="source-list">
             <li><strong>VetCompass and peer-reviewed studies</strong><br><span class="muted">Used for prevalence and lifespan facts where coverage exists, with UK context labeled.</span></li>
             <li><strong>US cost references</strong><br><span class="muted">Used for ownership spend, insurance context, and veterinary claim range modeling.</span></li>
-            <li><strong>Reviewer layer</strong><br><span class="muted">Pet-health pages are launch-blocked until a named veterinary reviewer and credentials are shown.</span></li>
-            <li><strong>Prototype status</strong><br><span class="muted">Mapped: source categories and model limits. Pending: breed-level extraction, US cost tables, public formula, and named reviewer credentials.</span></li>
+            <li><strong>Editorial boundary</strong><br><span class="muted">Articles help readers prepare questions and budgets. They do not diagnose pets, prescribe care, rank insurers, or replace qualified professional advice.</span></li>
+            <li><strong>Advertising separation</strong><br><span class="muted">Ads and affiliate relationships, if used, are disclosed and do not determine article conclusions or source interpretation.</span></li>
           </ul>
         </div>
       </div>
@@ -1208,7 +1211,7 @@
       <div class="container">
         <div class="disclaimer">
           <h3>Information, not advice</h3>
-          <p>BreedWise is intended for planning and research. It does not diagnose pets, recommend treatment, rank insurers, or decide whether insurance is worth it. Estimates depend on source coverage, location, age, individual health, provider pricing, and owner choices. Affiliate links may appear on tool pages and will be disclosed where used. This prototype has no live affiliate relationships and no named veterinary reviewer yet.</p>
+          <p>BreedWise is intended for planning and research. It does not diagnose pets, recommend treatment, rank insurers, or decide whether insurance is worth it. Estimates depend on source coverage, location, age, individual health, provider pricing, and owner choices. Advertising or affiliate links, if used, are disclosed and kept separate from editorial conclusions.</p>
         </div>
       </div>
     </section>
@@ -1228,11 +1231,15 @@
 
   <footer id="contact">
     <div class="container footer-row">
-      <span>&copy; 2026 BreedWise. Research planning prototype.</span>
+      <span>&copy; 2026 BreedWise. Informational planning content only.</span>
       <nav aria-label="Footer navigation">
-        <a href="#method">Methodology</a>
-        <a href="#disclosures">Disclosures</a>
-        <a href="#disclosures">Prototype status</a>
+        <a href="blog/index.html">Blog</a>
+        <a href="methodology/index.html">Methodology</a>
+        <a href="about/index.html">About</a>
+        <a href="contact/index.html">Contact</a>
+        <a href="disclosures/index.html">Disclosures</a>
+        <a href="privacy-policy/index.html">Privacy</a>
+        <a href="terms/index.html">Terms</a>
       </nav>
     </div>
   </footer>
@@ -1354,7 +1361,7 @@
       dial.setAttribute("aria-label", `${score} out of 100 preliminary exposure preview for ${breedSelect.value}; not a finalized score`);
       dial.style.background = `conic-gradient(var(--coral) 0 ${score}%, var(--amber) ${score}% ${nextBand}%, #d7e4db ${nextBand}% 100%)`;
       title.textContent = `${profile.title}: ${riskSelect.value.toLowerCase()}`;
-      copy.textContent = `${profile.copy} Region and time-window controls currently show planned model behavior, not a finalized actuarial estimate.`;
+      copy.textContent = `${profile.copy} Region and time-window controls show planning context, not an actuarial estimate or veterinary recommendation.`;
       evidenceLabel.textContent = "VetCompass and peer-reviewed sources, labeled as UK-context evidence";
       costLabel.textContent = costScope;
       outputLabel.textContent = outputMode;
@@ -1379,7 +1386,7 @@
       routineCost.textContent = money(basics);
       careCost.textContent = money(care);
       bufferCost.textContent = money(buffer);
-      costSummary.textContent = `${careStyle.options[careStyle.selectedIndex].text} for a ${dogSize.value} dog, with a ${healthBuffer.options[healthBuffer.selectedIndex].text.toLowerCase()} and source-backed tables still pending.`;
+      costSummary.textContent = `${careStyle.options[careStyle.selectedIndex].text} for a ${dogSize.value} dog, with a ${healthBuffer.options[healthBuffer.selectedIndex].text.toLowerCase()} for uncertainty. Local prices and individual care needs can change the result.`;
     }
 
     function scoreMatch(breed) {

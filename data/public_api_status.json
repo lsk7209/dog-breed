@@ -1,0 +1,27 @@
+{
+  "checked_at": "2026-06-27T04:52:13.984944+00:00",
+  "checks": {
+    "noaa_cdo": {
+      "ok": true,
+      "sample": "GHCND"
+    },
+    "fred": {
+      "ok": true,
+      "sample_date": "2026-05-01",
+      "series_id": "CPIAUCSL"
+    },
+    "data_gov": {
+      "ok": true,
+      "checked_endpoint": "Data.gov Catalog API",
+      "sample_count": 0
+    },
+    "airnow": {
+      "ok": true,
+      "sample_count": 2
+    },
+    "nws": {
+      "ok": true,
+      "key_required": false
+    }
+  }
+}

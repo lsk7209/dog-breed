@@ -1,0 +1,39 @@
+name: Check Public Data APIs
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "40 15 * * 2"
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check public data API credentials
+        env:
+          NOAA_CDO_TOKEN: ${{ secrets.NOAA_CDO_TOKEN }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          DATA_GOV_API_KEY: ${{ secrets.DATA_GOV_API_KEY }}
+          AIRNOW_API_KEY: ${{ secrets.AIRNOW_API_KEY }}
+        run: python scripts/check_public_data_apis.py
+
+      - name: Commit status snapshot
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/public_api_status.json scripts/check_public_data_apis.py
+          if git diff --cached --quiet; then
+            echo "No API status changes."
+          else
+            git commit -m "Update public data API status"
+            git push
+          fi

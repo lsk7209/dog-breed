@@ -1,0 +1,32 @@
+name: Sync Turso Public Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "55 15 * * 2"
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install libsql client
+        run: |
+          mkdir -p "$RUNNER_TEMP/turso-sync"
+          npm init -y --prefix "$RUNNER_TEMP/turso-sync" >/dev/null
+          npm install @libsql/client --prefix "$RUNNER_TEMP/turso-sync" --silent
+
+      - name: Sync public data snapshots to Turso
+        env:
+          NODE_PATH: ${{ runner.temp }}/turso-sync/node_modules
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+        run: |
+          test -n "$TURSO_DATABASE_URL"
+          test -n "$TURSO_AUTH_TOKEN"
+          node scripts/sync_turso_public_data.js

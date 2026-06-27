@@ -49,3 +49,10 @@ jobs:
             git commit -m "Update public data API status"
             git push
           fi
+
+      - name: Sync API status to Turso
+        env:
+          NODE_PATH: ${{ runner.temp }}/turso-check/node_modules
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+        run: node scripts/sync_turso_public_data.js

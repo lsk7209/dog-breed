@@ -66,3 +66,19 @@ jobs:
           GSC_SITE_URL: https://dogbreedcost.com/
           GSC_SITEMAP_URL: https://dogbreedcost.com/sitemap.xml
         run: python scripts/submit_gsc_sitemap.py
+
+      - name: Install libsql client
+        run: |
+          mkdir -p "$RUNNER_TEMP/turso-sync"
+          npm init -y --prefix "$RUNNER_TEMP/turso-sync" >/dev/null
+          npm install @libsql/client --prefix "$RUNNER_TEMP/turso-sync" --silent
+
+      - name: Sync BLS data to Turso
+        env:
+          NODE_PATH: ${{ runner.temp }}/turso-sync/node_modules
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+        run: |
+          test -n "$TURSO_DATABASE_URL"
+          test -n "$TURSO_AUTH_TOKEN"
+          node scripts/sync_turso_public_data.js

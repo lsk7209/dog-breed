@@ -1,0 +1,342 @@
+{
+  "updated": "2026-06-27",
+  "source": "BLS Public Data API v2",
+  "pages": {
+    "pet-food-inflation": {
+      "series_id": "CUUR0000SS61031",
+      "title": "Pet Food Inflation Index",
+      "headline": "Pet Food Inflation Index for Dog Owners",
+      "description": "Track BLS CPI changes for pet food and treats, with practical dog ownership budgeting notes.",
+      "intent": "dog food budget planning",
+      "owner_note": "Food is a recurring cost, so even modest CPI movement compounds when a household feeds a medium or large dog every month.",
+      "breed_examples": [
+        "Large and giant breeds make this signal more important because the monthly food base is already high.",
+        "Food-motivated breeds such as Labrador Retrievers also need portion discipline, not only a larger food line item.",
+        "Sensitive-stomach diets, prescription diets, and brand changes should be discussed with a veterinarian instead of inferred from CPI."
+      ],
+      "questions": [
+        "What adult weight range is realistic for the dog, not just the puppy?",
+        "How many cups or calories does the current food plan require each day?",
+        "Can the household absorb a 12-month food cost increase without reducing preventive care?"
+      ],
+      "catalog": {
+        "series_title": "Pet food and treats in U.S. city average, all urban consumers, not seasonally adjusted",
+        "series_id": "CUUR0000SS61031",
+        "seasonality": "Not Seasonally Adjusted",
+        "survey_name": "Consumer Price Index for All Urban Consumers (CPI-U)",
+        "survey_abbreviation": "CU",
+        "measure_data_type": "Pet food and treats",
+        "area": "U.S. city average",
+        "item": "Pet food and treats"
+      },
+      "latest": {
+        "year": "2026",
+        "period": "May",
+        "value": "193.229",
+        "pct_changes": {
+          "1": "-0.4",
+          "3": "-0.2",
+          "6": "1.4",
+          "12": "1.8"
+        },
+        "year_over_year_same_month": 1.8
+      },
+      "history": [
+        {
+          "year": "2026",
+          "period": "May",
+          "value": "193.229"
+        },
+        {
+          "year": "2026",
+          "period": "April",
+          "value": "193.973"
+        },
+        {
+          "year": "2026",
+          "period": "March",
+          "value": "194.383"
+        },
+        {
+          "year": "2026",
+          "period": "February",
+          "value": "193.555"
+        },
+        {
+          "year": "2026",
+          "period": "January",
+          "value": "192.551"
+        },
+        {
+          "year": "2025",
+          "period": "December",
+          "value": "191.075"
+        },
+        {
+          "year": "2025",
+          "period": "November",
+          "value": "190.625"
+        },
+        {
+          "year": "2025",
+          "period": "September",
+          "value": "191.490"
+        },
+        {
+          "year": "2025",
+          "period": "August",
+          "value": "191.485"
+        },
+        {
+          "year": "2025",
+          "period": "July",
+          "value": "192.103"
+        },
+        {
+          "year": "2025",
+          "period": "June",
+          "value": "191.230"
+        },
+        {
+          "year": "2025",
+          "period": "May",
+          "value": "189.760"
+        },
+        {
+          "year": "2025",
+          "period": "April",
+          "value": "189.736"
+        },
+        {
+          "year": "2025",
+          "period": "March",
+          "value": "189.959"
+        }
+      ]
+    },
+    "pet-supplies-inflation": {
+      "series_id": "CUUR0000SS61032",
+      "title": "Pet Supplies Inflation Index",
+      "headline": "Pet Supplies Inflation Index for Dog Setup Costs",
+      "description": "Track BLS CPI changes for pets, pet supplies, and accessories, with setup-budget notes for dog owners.",
+      "intent": "dog supplies budget planning",
+      "owner_note": "Supply inflation matters most in the first year, when owners buy crates, beds, leashes, grooming tools, gates, bowls, and replacement equipment.",
+      "breed_examples": [
+        "Puppies and rescue dogs often need extra setup spending because the owner is still learning what the dog destroys, ignores, or outgrows.",
+        "Strong chewers, giant breeds, and escape-prone dogs can turn inexpensive gear into repeat purchases.",
+        "Apartment owners should treat gates, crates, cleaning tools, and noise-management supplies as part of the real setup cost."
+      ],
+      "questions": [
+        "Which supplies are one-time purchases, and which are likely to be replaced every few months?",
+        "Does the breed or individual dog need sturdier gear than the cheapest starter kit?",
+        "Will the home need gates, ramps, traction mats, or crate upgrades before the dog is fully settled?"
+      ],
+      "catalog": {
+        "series_title": "Purchase of pets, pet supplies, accessories in U.S. city average, all urban consumers, not seasonally adjusted",
+        "series_id": "CUUR0000SS61032",
+        "seasonality": "Not Seasonally Adjusted",
+        "survey_name": "Consumer Price Index for All Urban Consumers (CPI-U)",
+        "survey_abbreviation": "CU",
+        "measure_data_type": "Purchase of pets, pet supplies, accessories",
+        "area": "U.S. city average",
+        "item": "Purchase of pets, pet supplies, accessories"
+      },
+      "latest": {
+        "year": "2026",
+        "period": "May",
+        "value": "132.763",
+        "pct_changes": {
+          "1": "-1.3",
+          "3": "0.0",
+          "6": "0.9",
+          "12": "0.1"
+        },
+        "year_over_year_same_month": 0.1
+      },
+      "history": [
+        {
+          "year": "2026",
+          "period": "May",
+          "value": "132.763"
+        },
+        {
+          "year": "2026",
+          "period": "April",
+          "value": "134.558"
+        },
+        {
+          "year": "2026",
+          "period": "March",
+          "value": "134.986"
+        },
+        {
+          "year": "2026",
+          "period": "February",
+          "value": "132.698"
+        },
+        {
+          "year": "2026",
+          "period": "January",
+          "value": "131.533"
+        },
+        {
+          "year": "2025",
+          "period": "December",
+          "value": "132.840"
+        },
+        {
+          "year": "2025",
+          "period": "November",
+          "value": "131.631"
+        },
+        {
+          "year": "2025",
+          "period": "September",
+          "value": "132.065"
+        },
+        {
+          "year": "2025",
+          "period": "August",
+          "value": "130.816"
+        },
+        {
+          "year": "2025",
+          "period": "July",
+          "value": "131.575"
+        },
+        {
+          "year": "2025",
+          "period": "June",
+          "value": "131.571"
+        },
+        {
+          "year": "2025",
+          "period": "May",
+          "value": "132.608"
+        },
+        {
+          "year": "2025",
+          "period": "April",
+          "value": "132.004"
+        },
+        {
+          "year": "2025",
+          "period": "March",
+          "value": "130.423"
+        }
+      ]
+    },
+    "pet-services-inflation": {
+      "series_id": "CUUR0000SS62053",
+      "title": "Pet Services Inflation Index",
+      "headline": "Pet Services Inflation Index for Dog Care Budgets",
+      "description": "Track BLS CPI changes for pet services, with planning notes for grooming, boarding, walking, and care support.",
+      "intent": "dog service cost planning",
+      "owner_note": "Service inflation can affect owners who rely on grooming, boarding, daycare, walkers, or paid backup care during travel and schedule changes.",
+      "breed_examples": [
+        "Grooming-intensive breeds can feel affordable at adoption and then become service-heavy because coat care repeats on a calendar.",
+        "High-energy dogs may need walkers, daycare, training classes, or sport outlets when the owner schedule is not enough.",
+        "Brachycephalic, senior, giant, anxious, or medication-dependent dogs may need more careful boarding and sitter screening."
+      ],
+      "questions": [
+        "Which services are optional convenience, and which are required for this dog's health, coat, or behavior?",
+        "What happens during travel, illness, long workdays, or a family emergency?",
+        "Can the household pay for professional help before a behavior or grooming problem becomes harder to fix?"
+      ],
+      "catalog": {
+        "series_title": "Pet services in U.S. city average, all urban consumers, not seasonally adjusted",
+        "series_id": "CUUR0000SS62053",
+        "seasonality": "Not Seasonally Adjusted",
+        "survey_name": "Consumer Price Index for All Urban Consumers (CPI-U)",
+        "survey_abbreviation": "CU",
+        "measure_data_type": "Pet services",
+        "area": "U.S. city average",
+        "item": "Pet services"
+      },
+      "latest": {
+        "year": "2026",
+        "period": "May",
+        "value": "282.815",
+        "pct_changes": {
+          "1": "1.4",
+          "3": "1.9",
+          "6": "4.1",
+          "12": "7.0"
+        },
+        "year_over_year_same_month": 7.0
+      },
+      "history": [
+        {
+          "year": "2026",
+          "period": "May",
+          "value": "282.815"
+        },
+        {
+          "year": "2026",
+          "period": "April",
+          "value": "278.868"
+        },
+        {
+          "year": "2026",
+          "period": "March",
+          "value": "278.446"
+        },
+        {
+          "year": "2026",
+          "period": "February",
+          "value": "277.462"
+        },
+        {
+          "year": "2026",
+          "period": "January",
+          "value": "273.801"
+        },
+        {
+          "year": "2025",
+          "period": "December",
+          "value": "272.224"
+        },
+        {
+          "year": "2025",
+          "period": "November",
+          "value": "271.556"
+        },
+        {
+          "year": "2025",
+          "period": "September",
+          "value": "269.084"
+        },
+        {
+          "year": "2025",
+          "period": "August",
+          "value": "269.738"
+        },
+        {
+          "year": "2025",
+          "period": "July",
+          "value": "269.458"
+        },
+        {
+          "year": "2025",
+          "period": "June",
+          "value": "266.759"
+        },
+        {
+          "year": "2025",
+          "period": "May",
+          "value": "264.380"
+        },
+        {
+          "year": "2025",
+          "period": "April",
+          "value": "261.602"
+        },
+        {
+          "year": "2025",
+          "period": "March",
+          "value": "258.354"
+        }
+      ]
+    }
+  }
+}

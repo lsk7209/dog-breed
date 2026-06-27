@@ -11,6 +11,7 @@ import subprocess
 ROOT = Path(__file__).resolve().parents[1]
 SCHEDULE = ROOT / "content-schedule.json"
 BLOG_DIR = ROOT / "blog"
+COST_DIR = ROOT / "cost"
 QUEUE_DIR = ROOT / ".github" / "content-queue"
 BASE_URL = "https://dogbreedcost.com"
 KST = timezone(timedelta(hours=9))
@@ -180,7 +181,7 @@ def rebuild_blog_index() -> None:
 <title>BreedWise Blog | Dog breed health-risk and cost planning guides</title><meta name="description" content="Read practical BreedWise guides about dog breed health risks, ownership costs, screening questions, and lifestyle fit."><link rel="stylesheet" href="../assets/site.css">
 <link rel="canonical" href="{BASE_URL}/blog/"><meta property="og:title" content="BreedWise Blog | Dog breed health-risk and cost planning guides"><meta property="og:description" content="Read practical BreedWise guides about dog breed health risks, ownership costs, screening questions, and lifestyle fit.">
 <meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="theme-color" content="#2f6b54">{ADSENSE_LOADER}{GA4_TAG}{FEED_LINK}{VERIFICATION_TAGS}</head>
-<body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a><a href="../disclosures/index.html">Disclosures</a></div></nav></header><main><section class="hero"><div class="wrap"><p class="kicker">BreedWise Blog</p><h1>Dog breed planning guides built for useful decisions.</h1><p class="lead">Evidence-aware articles about breed health risks, ownership cost exposure, screening questions, and lifestyle fit. Each guide is written to help future owners ask better questions before commitment.</p></div></section><section class="wrap" style="padding:46px 0"><div class="blog-tools"><p class="blog-count">{len(posts)} published guides</p><a class="button" href="../methodology/index.html">Review methodology</a></div><div class="blog-grid">{cards}</div></section></main><footer class="footer"><div class="wrap"><span>&copy; 2026 BreedWise. Informational planning content only.</span><span><a href="../terms/index.html">Terms</a> &middot; <a href="../privacy-policy/index.html">Privacy Policy</a> &middot; <a href="../disclosures/index.html">Disclosures</a> &middot; <a href="../contact/index.html">Contact</a></span></div></footer></body></html>
+<body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../cost/index.html">Cost Data</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a><a href="../disclosures/index.html">Disclosures</a></div></nav></header><main><section class="hero"><div class="wrap"><p class="kicker">BreedWise Blog</p><h1>Dog breed planning guides built for useful decisions.</h1><p class="lead">Evidence-aware articles about breed health risks, ownership cost exposure, screening questions, and lifestyle fit. Each guide is written to help future owners ask better questions before commitment.</p></div></section><section class="wrap" style="padding:46px 0"><div class="blog-tools"><p class="blog-count">{len(posts)} published guides</p><a class="button" href="../methodology/index.html">Review methodology</a></div><div class="blog-grid">{cards}</div></section></main><footer class="footer"><div class="wrap"><span>&copy; 2026 BreedWise. Informational planning content only.</span><span><a href="../terms/index.html">Terms</a> &middot; <a href="../privacy-policy/index.html">Privacy Policy</a> &middot; <a href="../disclosures/index.html">Disclosures</a> &middot; <a href="../contact/index.html">Contact</a></span></div></footer></body></html>
 """
     (BLOG_DIR / "index.html").write_text(html, encoding="utf-8")
 
@@ -190,6 +191,7 @@ def rebuild_sitemap() -> None:
     urls = [
         "",
         "blog/",
+        "cost/",
         "about/",
         "contact/",
         "privacy-policy/",
@@ -198,6 +200,8 @@ def rebuild_sitemap() -> None:
         "disclosures/",
     ]
     urls.extend(f"blog/{path.name}" for path in sorted(BLOG_DIR.glob("*.html")) if path.name != "index.html")
+    if COST_DIR.exists():
+        urls.extend(f"cost/{path.name}" for path in sorted(COST_DIR.glob("*.html")) if path.name != "index.html")
     body = "\n".join(f"  <url><loc>{BASE_URL}/{url}</loc><lastmod>{today}</lastmod></url>" for url in urls)
     sitemap = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{body}\n</urlset>\n'
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")

@@ -95,6 +95,24 @@ def ensure_canonical(html: str, canonical: str) -> str:
     return html
 
 
+def ensure_open_graph(html: str) -> str:
+    meta = read_meta_from_html(html)
+    if 'property="og:title"' not in html:
+        html = html.replace("</head>", f'<meta property="og:title" content="{escape(meta["title"])}"></head>')
+    if 'property="og:description"' not in html:
+        html = html.replace("</head>", f'<meta property="og:description" content="{escape(meta["description"])}"></head>')
+    return html
+
+
+def read_meta_from_html(html: str) -> dict[str, str]:
+    title = re.search(r"<title>(.*?)</title>", html, re.I | re.S)
+    description = re.search(r'<meta name="description" content="(.*?)"', html, re.I | re.S)
+    return {
+        "title": re.sub(r"\s+", " ", title.group(1)).strip() if title else "BreedWise Guide",
+        "description": re.sub(r"\s+", " ", description.group(1)).strip() if description else "BreedWise dog breed planning guide.",
+    }
+
+
 def ensure_article_main_entity(html: str, canonical: str) -> str:
     if "mainEntityOfPage" in html:
         return html
@@ -118,6 +136,7 @@ def prepare_published_html(html: str, target_file: str) -> str:
     canonical = f"{BASE_URL}/{normalized_target}"
     html = normalize_published_html(html)
     html = ensure_canonical(html, canonical)
+    html = ensure_open_graph(html)
     html = ensure_article_main_entity(html, canonical)
     html = ensure_tag(html, f'<meta property="og:type" content="article">')
     return html

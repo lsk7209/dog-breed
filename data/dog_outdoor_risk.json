@@ -1,5 +1,5 @@
 {
-  "updated": "2026-06-27T15:00:09+09:00",
+  "updated": "2026-06-27T15:03:06+09:00",
   "sources": [
     "NWS API",
     "AirNow API"
@@ -355,7 +355,7 @@
           "temperatureUnit": "F",
           "windSpeed": "8 mph",
           "shortForecast": "Partly Cloudy",
-          "probabilityOfPrecipitation": 4
+          "probabilityOfPrecipitation": 10
         },
         {
           "name": "Saturday",

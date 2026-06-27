@@ -63,6 +63,17 @@ async function ensureSchema(db) {
         details_json text not null,
         primary key (provider, checked_at)
       )`,
+      `create table if not exists dog_outdoor_risk_snapshots (
+        slug text not null,
+        checked_at text not null,
+        city text not null,
+        state text not null,
+        risk_level text not null,
+        reasons_json text not null,
+        forecast_json text not null,
+        airnow_json text not null,
+        primary key (slug, checked_at)
+      )`,
     ],
     "write",
   );
@@ -135,6 +146,47 @@ async function syncApiStatus(db, syncedAt) {
   return { checked_at: data.checked_at, checks };
 }
 
+async function syncOutdoorRisk(db, syncedAt) {
+  const riskPath = path.join(root, "data/dog_outdoor_risk.json");
+  if (!fs.existsSync(riskPath)) return { pages: 0, skipped: true };
+
+  const data = readJson("data/dog_outdoor_risk.json");
+  await db.execute({
+    sql: `insert into public_data_snapshots (source, snapshot_date, payload_json, synced_at)
+          values (?, ?, ?, ?)
+          on conflict(source, snapshot_date) do update set payload_json = excluded.payload_json, synced_at = excluded.synced_at`,
+    args: ["dog_outdoor_risk", data.updated, JSON.stringify(data), syncedAt],
+  });
+
+  let pages = 0;
+  for (const [slug, page] of Object.entries(data.pages || {})) {
+    await db.execute({
+      sql: `insert into dog_outdoor_risk_snapshots
+            (slug, checked_at, city, state, risk_level, reasons_json, forecast_json, airnow_json)
+            values (?, ?, ?, ?, ?, ?, ?, ?)
+            on conflict(slug, checked_at) do update set
+              city = excluded.city,
+              state = excluded.state,
+              risk_level = excluded.risk_level,
+              reasons_json = excluded.reasons_json,
+              forecast_json = excluded.forecast_json,
+              airnow_json = excluded.airnow_json`,
+      args: [
+        slug,
+        data.updated,
+        page.city,
+        page.state,
+        page.risk_level,
+        JSON.stringify(page.reasons || []),
+        JSON.stringify(page.nws_periods || []),
+        JSON.stringify(page.airnow || []),
+      ],
+    });
+    pages += 1;
+  }
+  return { snapshot: data.updated, pages };
+}
+
 async function main() {
   const url = readSecret("TURSO_DATABASE_URL", "D:/env/turso_database_url.txt");
   const authToken = readSecret("TURSO_AUTH_TOKEN", "D:/env/turso_auth_token.txt");
@@ -144,14 +196,18 @@ async function main() {
   await ensureSchema(db);
   const bls = await syncBls(db, syncedAt);
   const apiStatus = await syncApiStatus(db, syncedAt);
+  const outdoorRisk = await syncOutdoorRisk(db, syncedAt);
   const check = await db.execute("select count(*) as count from bls_pet_cpi_observations");
+  const riskCheck = await db.execute("select count(*) as count from dog_outdoor_risk_snapshots");
 
   console.log(
     JSON.stringify({
       ok: true,
       bls,
       apiStatus,
+      outdoorRisk,
       total_bls_observations: Number(check.rows[0].count),
+      total_outdoor_risk_snapshots: Number(riskCheck.rows[0].count),
     }),
   );
 }

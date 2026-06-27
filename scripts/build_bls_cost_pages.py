@@ -185,7 +185,7 @@ def nav(prefix: str = "../") -> str:
         '<body><header class="topbar"><nav class="nav" aria-label="Primary">'
         f'<a class="brand" href="{prefix}index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a>'
         '<div class="navlinks">'
-        f'<a href="{prefix}blog/index.html">Blog</a><a href="{prefix}cost/index.html">Cost Data</a>'
+        f'<a href="{prefix}blog/index.html">Blog</a><a href="{prefix}cost/index.html">Cost Data</a><a href="{prefix}outdoor-risk/index.html">Outdoor Risk</a>'
         f'<a href="{prefix}methodology/index.html">Methodology</a><a href="{prefix}about/index.html">About</a>'
         f'<a href="{prefix}contact/index.html">Contact</a><a href="{prefix}privacy-policy/index.html">Privacy</a>'
         f'<a href="{prefix}disclosures/index.html">Disclosures</a></div></nav></header>'

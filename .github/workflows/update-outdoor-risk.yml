@@ -1,0 +1,84 @@
+name: Update Outdoor Risk Data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "15 12 * * *"
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Build outdoor risk pages
+        env:
+          AIRNOW_API_KEY: ${{ secrets.AIRNOW_API_KEY }}
+        run: |
+          test -n "$AIRNOW_API_KEY"
+          python scripts/build_outdoor_risk_pages.py
+
+      - name: Validate generated files
+        run: |
+          python -m py_compile scripts/build_outdoor_risk_pages.py scripts/publish_scheduled_posts.py
+          test -f data/dog_outdoor_risk.json
+          test -f outdoor-risk/index.html
+          grep -q "https://dogbreedcost.com/outdoor-risk/phoenix-dog-heat-risk.html" sitemap.xml
+
+      - name: Commit outdoor risk update
+        id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add outdoor-risk data/dog_outdoor_risk.json sitemap.xml scripts/build_outdoor_risk_pages.py scripts/publish_scheduled_posts.py scripts/sync_turso_public_data.js
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No outdoor risk data changes."
+          else
+            git commit -m "Update outdoor dog risk data"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install libsql client
+        run: |
+          mkdir -p "$RUNNER_TEMP/turso-sync"
+          npm init -y --prefix "$RUNNER_TEMP/turso-sync" >/dev/null
+          npm install @libsql/client --prefix "$RUNNER_TEMP/turso-sync" --silent
+
+      - name: Sync outdoor risk to Turso
+        env:
+          NODE_PATH: ${{ runner.temp }}/turso-sync/node_modules
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+        run: |
+          test -n "$TURSO_DATABASE_URL"
+          test -n "$TURSO_AUTH_TOKEN"
+          node scripts/sync_turso_public_data.js
+
+      - name: Write GSC credentials
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+        run: |
+          test -n "$GSC_SERVICE_ACCOUNT_JSON"
+          printf '%s' "$GSC_SERVICE_ACCOUNT_JSON" > "$RUNNER_TEMP/gsc-service-account.json"
+
+      - name: Submit sitemap after outdoor risk update
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/gsc-service-account.json
+          GSC_SITE_URL: https://dogbreedcost.com/
+          GSC_SITEMAP_URL: https://dogbreedcost.com/sitemap.xml
+        run: python scripts/submit_gsc_sitemap.py

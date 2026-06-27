@@ -1,0 +1,556 @@
+{
+  "updated": "2026-06-27T14:58:03+09:00",
+  "sources": [
+    "NWS API",
+    "AirNow API"
+  ],
+  "pages": {
+    "phoenix-dog-heat-risk": {
+      "city": "Phoenix",
+      "state": "Arizona",
+      "zip": "85004",
+      "lat": 33.4484,
+      "lon": -112.074,
+      "angle": "desert heat and pavement timing",
+      "sensitive": "flat-faced dogs, senior dogs, dark-coated dogs, overweight dogs, and giant breeds",
+      "local_notes": [
+        "Phoenix heat can turn a normal afternoon walk into a paw and breathing-risk decision, especially when pavement stores heat after sunset.",
+        "Owners should budget for early-morning routines, shade breaks, cooling mats, indoor enrichment, and backup exercise plans during hot stretches.",
+        "High-energy breeds may still need work, but the work often has to move indoors or into short structured sessions instead of long exposed walks."
+      ],
+      "slug": "phoenix-dog-heat-risk",
+      "risk_level": "moderate",
+      "reasons": [
+        "forecast high near 105F"
+      ],
+      "nws_periods": [
+        {
+          "name": "Tonight",
+          "temperature": 82,
+          "temperatureUnit": "F",
+          "windSpeed": "0 to 10 mph",
+          "shortForecast": "Clear",
+          "probabilityOfPrecipitation": 1
+        },
+        {
+          "name": "Saturday",
+          "temperature": 105,
+          "temperatureUnit": "F",
+          "windSpeed": "5 to 15 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 1
+        },
+        {
+          "name": "Saturday Night",
+          "temperature": 79,
+          "temperatureUnit": "F",
+          "windSpeed": "0 to 10 mph",
+          "shortForecast": "Mostly Clear",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Sunday",
+          "temperature": 101,
+          "temperatureUnit": "F",
+          "windSpeed": "0 to 10 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Sunday Night",
+          "temperature": 77,
+          "temperatureUnit": "F",
+          "windSpeed": "0 to 10 mph",
+          "shortForecast": "Clear",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Monday",
+          "temperature": 101,
+          "temperatureUnit": "F",
+          "windSpeed": "0 to 10 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Monday Night",
+          "temperature": 75,
+          "temperatureUnit": "F",
+          "windSpeed": "0 to 10 mph",
+          "shortForecast": "Clear",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Tuesday",
+          "temperature": 101,
+          "temperatureUnit": "F",
+          "windSpeed": "0 to 5 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 0
+        }
+      ],
+      "airnow": [
+        {
+          "reportingArea": "Phoenix",
+          "parameter": "O3",
+          "aqi": 35,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 22
+        },
+        {
+          "reportingArea": "Phoenix",
+          "parameter": "PM2.5",
+          "aqi": 28,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 22
+        },
+        {
+          "reportingArea": "Phoenix",
+          "parameter": "PM10",
+          "aqi": 44,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 22
+        }
+      ]
+    },
+    "miami-dog-heat-humidity-risk": {
+      "city": "Miami",
+      "state": "Florida",
+      "zip": "33130",
+      "lat": 25.7617,
+      "lon": -80.1918,
+      "angle": "heat, humidity, storms, and air quality",
+      "sensitive": "brachycephalic dogs, toy breeds on hot pavement, senior dogs, and dogs with breathing limits",
+      "local_notes": [
+        "Miami planning is not only about the high temperature. Humidity, storms, and air quality can make recovery harder after a walk.",
+        "Owners should budget for towel drying, skin-fold care conversations, indoor play, shaded routes, and flexible walk timing.",
+        "Flat-faced breeds may need a stricter stop rule because warm humid air can make ordinary exertion feel harder."
+      ],
+      "slug": "miami-dog-heat-humidity-risk",
+      "risk_level": "moderate",
+      "reasons": [
+        "warm forecast near 90F"
+      ],
+      "nws_periods": [
+        {
+          "name": "Tonight",
+          "temperature": 83,
+          "temperatureUnit": "F",
+          "windSpeed": "12 mph",
+          "shortForecast": "Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 40
+        },
+        {
+          "name": "Saturday",
+          "temperature": 89,
+          "temperatureUnit": "F",
+          "windSpeed": "8 to 12 mph",
+          "shortForecast": "Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 29
+        },
+        {
+          "name": "Saturday Night",
+          "temperature": 83,
+          "temperatureUnit": "F",
+          "windSpeed": "10 mph",
+          "shortForecast": "Mostly Clear then Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 36
+        },
+        {
+          "name": "Sunday",
+          "temperature": 89,
+          "temperatureUnit": "F",
+          "windSpeed": "7 to 10 mph",
+          "shortForecast": "Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 34
+        },
+        {
+          "name": "Sunday Night",
+          "temperature": 83,
+          "temperatureUnit": "F",
+          "windSpeed": "10 mph",
+          "shortForecast": "Slight Chance Showers And Thunderstorms then Mostly Clear",
+          "probabilityOfPrecipitation": 17
+        },
+        {
+          "name": "Monday",
+          "temperature": 90,
+          "temperatureUnit": "F",
+          "windSpeed": "8 to 12 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 8
+        },
+        {
+          "name": "Monday Night",
+          "temperature": 82,
+          "temperatureUnit": "F",
+          "windSpeed": "6 to 10 mph",
+          "shortForecast": "Mostly Clear",
+          "probabilityOfPrecipitation": 8
+        },
+        {
+          "name": "Tuesday",
+          "temperature": 90,
+          "temperatureUnit": "F",
+          "windSpeed": "5 to 10 mph",
+          "shortForecast": "Sunny then Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 33
+        }
+      ],
+      "airnow": [
+        {
+          "reportingArea": "Miami",
+          "parameter": "O3",
+          "aqi": 15,
+          "category": "Good",
+          "dateObserved": "2026-06-27",
+          "hourObserved": 0
+        },
+        {
+          "reportingArea": "Miami",
+          "parameter": "PM2.5",
+          "aqi": 66,
+          "category": "Moderate",
+          "dateObserved": "2026-06-27",
+          "hourObserved": 0
+        }
+      ]
+    },
+    "minneapolis-dog-cold-weather-risk": {
+      "city": "Minneapolis",
+      "state": "Minnesota",
+      "zip": "55401",
+      "lat": 44.9778,
+      "lon": -93.265,
+      "angle": "cold exposure, ice, wind, and paw care",
+      "sensitive": "toy breeds, thin-coated breeds, puppies, senior dogs, and dogs with joint stiffness",
+      "local_notes": [
+        "Minneapolis cold-weather planning often moves the cost from exercise time into gear, paw protection, traction, and indoor training.",
+        "Small and thin-coated dogs may need shorter outings even when a larger double-coated breed is comfortable.",
+        "Ice and wind matter for senior dogs because slipping or stiffness can turn a simple walk into a mobility problem."
+      ],
+      "slug": "minneapolis-dog-cold-weather-risk",
+      "risk_level": "moderate",
+      "reasons": [
+        "forecast high near 98F"
+      ],
+      "nws_periods": [
+        {
+          "name": "Overnight",
+          "temperature": 62,
+          "temperatureUnit": "F",
+          "windSpeed": "5 mph",
+          "shortForecast": "Partly Cloudy",
+          "probabilityOfPrecipitation": 5
+        },
+        {
+          "name": "Saturday",
+          "temperature": 83,
+          "temperatureUnit": "F",
+          "windSpeed": "5 to 15 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 3
+        },
+        {
+          "name": "Saturday Night",
+          "temperature": 65,
+          "temperatureUnit": "F",
+          "windSpeed": "10 to 15 mph",
+          "shortForecast": "Partly Cloudy then Slight Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 19
+        },
+        {
+          "name": "Sunday",
+          "temperature": 86,
+          "temperatureUnit": "F",
+          "windSpeed": "15 mph",
+          "shortForecast": "Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 54
+        },
+        {
+          "name": "Sunday Night",
+          "temperature": 74,
+          "temperatureUnit": "F",
+          "windSpeed": "10 to 15 mph",
+          "shortForecast": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
+          "probabilityOfPrecipitation": 23
+        },
+        {
+          "name": "Monday",
+          "temperature": 98,
+          "temperatureUnit": "F",
+          "windSpeed": "10 to 20 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 12
+        },
+        {
+          "name": "Monday Night",
+          "temperature": 76,
+          "temperatureUnit": "F",
+          "windSpeed": "10 to 15 mph",
+          "shortForecast": "Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 48
+        },
+        {
+          "name": "Tuesday",
+          "temperature": 94,
+          "temperatureUnit": "F",
+          "windSpeed": "10 mph",
+          "shortForecast": "Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 48
+        }
+      ],
+      "airnow": [
+        {
+          "reportingArea": "Twin Cities",
+          "parameter": "O3",
+          "aqi": 33,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 23
+        },
+        {
+          "reportingArea": "Twin Cities",
+          "parameter": "PM2.5",
+          "aqi": 37,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 23
+        },
+        {
+          "reportingArea": "Twin Cities",
+          "parameter": "PM10",
+          "aqi": 15,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 23
+        }
+      ]
+    },
+    "denver-dog-outdoor-air-risk": {
+      "city": "Denver",
+      "state": "Colorado",
+      "zip": "80202",
+      "lat": 39.7392,
+      "lon": -104.9903,
+      "angle": "temperature swings, altitude, wind, and air quality",
+      "sensitive": "high-drive sporting dogs, brachycephalic dogs, senior dogs, and dogs new to altitude",
+      "local_notes": [
+        "Denver owners should treat altitude, wind, temperature swings, and smoke episodes as part of the outdoor plan.",
+        "A dog that handles a cool morning may still need a different plan later in the day when sun, wind, or AQI changes.",
+        "Sporting and working breeds may need structured alternatives when outdoor intensity is not appropriate."
+      ],
+      "slug": "denver-dog-outdoor-air-risk",
+      "risk_level": "moderate",
+      "reasons": [
+        "forecast high near 96F"
+      ],
+      "nws_periods": [
+        {
+          "name": "Tonight",
+          "temperature": 62,
+          "temperatureUnit": "F",
+          "windSpeed": "8 mph",
+          "shortForecast": "Partly Cloudy",
+          "probabilityOfPrecipitation": 10
+        },
+        {
+          "name": "Saturday",
+          "temperature": 94,
+          "temperatureUnit": "F",
+          "windSpeed": "9 to 17 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 1
+        },
+        {
+          "name": "Saturday Night",
+          "temperature": 62,
+          "temperatureUnit": "F",
+          "windSpeed": "8 to 17 mph",
+          "shortForecast": "Mostly Clear",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Sunday",
+          "temperature": 96,
+          "temperatureUnit": "F",
+          "windSpeed": "6 to 14 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 1
+        },
+        {
+          "name": "Sunday Night",
+          "temperature": 62,
+          "temperatureUnit": "F",
+          "windSpeed": "5 to 14 mph",
+          "shortForecast": "Mostly Clear",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Monday",
+          "temperature": 92,
+          "temperatureUnit": "F",
+          "windSpeed": "5 to 13 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Monday Night",
+          "temperature": 60,
+          "temperatureUnit": "F",
+          "windSpeed": "3 to 13 mph",
+          "shortForecast": "Mostly Clear",
+          "probabilityOfPrecipitation": 1
+        },
+        {
+          "name": "Tuesday",
+          "temperature": 91,
+          "temperatureUnit": "F",
+          "windSpeed": "2 to 14 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 6
+        }
+      ],
+      "airnow": [
+        {
+          "reportingArea": "Denver-Boulder",
+          "parameter": "O3",
+          "aqi": 54,
+          "category": "Moderate",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 22
+        },
+        {
+          "reportingArea": "Denver-Boulder",
+          "parameter": "PM2.5",
+          "aqi": 37,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 22
+        },
+        {
+          "reportingArea": "Denver-Boulder",
+          "parameter": "PM10",
+          "aqi": 19,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 22
+        }
+      ]
+    },
+    "seattle-dog-rain-walk-risk": {
+      "city": "Seattle",
+      "state": "Washington",
+      "zip": "98101",
+      "lat": 47.6062,
+      "lon": -122.3321,
+      "angle": "rain routines, slick surfaces, and low-light walks",
+      "sensitive": "long-coated dogs, low-clearance dogs, anxious dogs, and dogs needing consistent exercise",
+      "local_notes": [
+        "Seattle outdoor planning is often about consistency: rain, slick paths, darkness, and coat drying can quietly reduce exercise.",
+        "Owners should budget for towels, drying space, reflective gear, paw checks, and enrichment that prevents rainy-day under-exercise.",
+        "Low-clearance and long-coated dogs may need more cleanup and grooming support even when temperatures are mild."
+      ],
+      "slug": "seattle-dog-rain-walk-risk",
+      "risk_level": "low",
+      "reasons": [
+        "no major stressor in the snapshot"
+      ],
+      "nws_periods": [
+        {
+          "name": "Tonight",
+          "temperature": 53,
+          "temperatureUnit": "F",
+          "windSpeed": "8 to 14 mph",
+          "shortForecast": "Slight Chance Showers And Thunderstorms then Chance Light Rain",
+          "probabilityOfPrecipitation": 41
+        },
+        {
+          "name": "Saturday",
+          "temperature": 67,
+          "temperatureUnit": "F",
+          "windSpeed": "3 to 8 mph",
+          "shortForecast": "Chance Light Rain",
+          "probabilityOfPrecipitation": 34
+        },
+        {
+          "name": "Saturday Night",
+          "temperature": 54,
+          "temperatureUnit": "F",
+          "windSpeed": "3 to 7 mph",
+          "shortForecast": "Mostly Cloudy",
+          "probabilityOfPrecipitation": 7
+        },
+        {
+          "name": "Sunday",
+          "temperature": 68,
+          "temperatureUnit": "F",
+          "windSpeed": "9 mph",
+          "shortForecast": "Mostly Cloudy",
+          "probabilityOfPrecipitation": 3
+        },
+        {
+          "name": "Sunday Night",
+          "temperature": 54,
+          "temperatureUnit": "F",
+          "windSpeed": "9 to 13 mph",
+          "shortForecast": "Mostly Cloudy",
+          "probabilityOfPrecipitation": 5
+        },
+        {
+          "name": "Monday",
+          "temperature": 68,
+          "temperatureUnit": "F",
+          "windSpeed": "9 mph",
+          "shortForecast": "Mostly Cloudy",
+          "probabilityOfPrecipitation": 5
+        },
+        {
+          "name": "Monday Night",
+          "temperature": 54,
+          "temperatureUnit": "F",
+          "windSpeed": "8 to 13 mph",
+          "shortForecast": "Mostly Cloudy",
+          "probabilityOfPrecipitation": 4
+        },
+        {
+          "name": "Tuesday",
+          "temperature": 65,
+          "temperatureUnit": "F",
+          "windSpeed": "12 mph",
+          "shortForecast": "Mostly Cloudy",
+          "probabilityOfPrecipitation": 4
+        }
+      ],
+      "airnow": [
+        {
+          "reportingArea": "Seattle-Bellevue-Kent Valley",
+          "parameter": "O3",
+          "aqi": 24,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 21
+        },
+        {
+          "reportingArea": "Seattle-Bellevue-Kent Valley",
+          "parameter": "PM2.5",
+          "aqi": 23,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 21
+        },
+        {
+          "reportingArea": "Seattle-Bellevue-Kent Valley",
+          "parameter": "PM10",
+          "aqi": 6,
+          "category": "Good",
+          "dateObserved": "2026-06-26",
+          "hourObserved": 21
+        }
+      ]
+    }
+  }
+}

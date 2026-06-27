@@ -18,7 +18,16 @@ ADSENSE_LOADER = (
     '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?'
     'client=ca-pub-3050601904412736" crossorigin="anonymous"></script>'
 )
+GA4_TAG = (
+    '<script async src="https://www.googletagmanager.com/gtag/js?id=G-5FZSHME54N"></script>'
+    '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+    "gtag('js',new Date());gtag('config','G-5FZSHME54N');</script>"
+)
 FEED_LINK = '<link rel="alternate" type="application/rss+xml" title="BreedWise RSS" href="https://dogbreedcost.com/feed.xml">'
+VERIFICATION_TAGS = (
+    '<meta name="google-site-verification" content="33-RSHdhGx_IC-b1_fpFOHyr-s0P35VSCOwIOFy6UAE">'
+    '<meta name="naver-site-verification" content="d0084eb5ece035b3d7de4936181ae0dd92022175">'
+)
 
 
 def parse_dt(value: str) -> datetime:
@@ -62,8 +71,12 @@ def normalize_published_html(html: str) -> str:
     html = html.replace("Why this keyword deserves its own guide", "Why this guide is useful")
     if "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" not in html:
         html = html.replace("</head>", f"{ADSENSE_LOADER}</head>")
+    if "googletagmanager.com/gtag/js?id=G-5FZSHME54N" not in html:
+        html = html.replace("</head>", f"{GA4_TAG}</head>")
     if FEED_LINK not in html:
         html = html.replace("</head>", f"{FEED_LINK}</head>")
+    if 'name="google-site-verification"' not in html:
+        html = html.replace("</head>", f"{VERIFICATION_TAGS}</head>")
     return html
 
 
@@ -166,7 +179,7 @@ def rebuild_blog_index() -> None:
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BreedWise Blog | Dog breed health-risk and cost planning guides</title><meta name="description" content="Read practical BreedWise guides about dog breed health risks, ownership costs, screening questions, and lifestyle fit."><link rel="stylesheet" href="../assets/site.css">
 <link rel="canonical" href="{BASE_URL}/blog/"><meta property="og:title" content="BreedWise Blog | Dog breed health-risk and cost planning guides"><meta property="og:description" content="Read practical BreedWise guides about dog breed health risks, ownership costs, screening questions, and lifestyle fit.">
-<meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="theme-color" content="#2f6b54">{ADSENSE_LOADER}{FEED_LINK}</head>
+<meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="theme-color" content="#2f6b54">{ADSENSE_LOADER}{GA4_TAG}{FEED_LINK}{VERIFICATION_TAGS}</head>
 <body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a><a href="../disclosures/index.html">Disclosures</a></div></nav></header><main><section class="hero"><div class="wrap"><p class="kicker">BreedWise Blog</p><h1>Dog breed planning guides built for useful decisions.</h1><p class="lead">Evidence-aware articles about breed health risks, ownership cost exposure, screening questions, and lifestyle fit. Each guide is written to help future owners ask better questions before commitment.</p></div></section><section class="wrap" style="padding:46px 0"><div class="blog-tools"><p class="blog-count">{len(posts)} published guides</p><a class="button" href="../methodology/index.html">Review methodology</a></div><div class="blog-grid">{cards}</div></section></main><footer class="footer"><div class="wrap"><span>&copy; 2026 BreedWise. Informational planning content only.</span><span><a href="../terms/index.html">Terms</a> &middot; <a href="../privacy-policy/index.html">Privacy Policy</a> &middot; <a href="../disclosures/index.html">Disclosures</a> &middot; <a href="../contact/index.html">Contact</a></span></div></footer></body></html>
 """
     (BLOG_DIR / "index.html").write_text(html, encoding="utf-8")

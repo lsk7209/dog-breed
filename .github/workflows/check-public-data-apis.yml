@@ -26,6 +26,18 @@ jobs:
           AIRNOW_API_KEY: ${{ secrets.AIRNOW_API_KEY }}
         run: python scripts/check_public_data_apis.py
 
+      - name: Check Turso database credentials
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+        run: |
+          test -n "$TURSO_DATABASE_URL"
+          test -n "$TURSO_AUTH_TOKEN"
+          mkdir -p "$RUNNER_TEMP/turso-check"
+          npm init -y --prefix "$RUNNER_TEMP/turso-check" >/dev/null
+          npm install @libsql/client --prefix "$RUNNER_TEMP/turso-check" --silent
+          NODE_PATH="$RUNNER_TEMP/turso-check/node_modules" node -e "const { createClient } = require('@libsql/client'); const db = createClient({ url: process.env.TURSO_DATABASE_URL, authToken: process.env.TURSO_AUTH_TOKEN }); db.execute('select 1 as ok').then((r) => { if (r.rows[0].ok !== 1) process.exit(1); console.log('Turso connection ok'); }).catch((err) => { console.error(err.name); process.exit(1); });"
+
       - name: Commit status snapshot
         run: |
           git config user.name "github-actions[bot]"

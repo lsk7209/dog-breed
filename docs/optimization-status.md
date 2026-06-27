@@ -1,6 +1,6 @@
 # BreedWise Optimization Status
 
-Checked: 2026-06-26 KST
+Checked: 2026-06-27 KST
 
 ## Implemented
 
@@ -10,26 +10,30 @@ Checked: 2026-06-26 KST
 - Article tables/lists are protected from overflow on small screens.
 - Scheduled articles include noindex while queued, canonical URLs, Article JSON-LD, title/meta description, source links, internal links, visible table of contents, and 1-2 restrained accent colors.
 - Homepage has a canonical URL and preloads the hero image used as the likely LCP asset.
+- RSS is available at `/feed.xml` and `/rss.xml`, and public pages expose a feed alternate link.
+- `llms.txt` is available for AI crawler context.
+- GSC HTML-file verification is deployed at the site root.
 
 ## GSC
 
-- Local GSC token and credentials are present in `D:\env`.
-- Read-only Search Console site listing succeeded.
-- No visible property matched `dog-breed`, `BreedWise`, `lsk7209.github.io`, or `github.io` for this site.
-- Data-based GSC query/page optimization requires adding or granting access to the correct property, likely `https://dogbreedcost.com/` or the deployed custom domain if one is later used.
+- Local GSC service-account credentials are present in `D:\env`.
+- Search Console URL-prefix property `https://dogbreedcost.com/` is verified as `siteOwner`.
+- `https://dogbreedcost.com/sitemap.xml` was submitted through the Search Console API.
+- Latest API check: `pending=false`, `errors=0`, `warnings=0`, with `lastDownloaded` present.
 
 ## GA4
 
-- Local GA4 token is present in `D:\env`.
-- GA4 Admin account summary read succeeded.
-- No visible property matched `dog-breed`, `BreedWise`, `lsk7209.github.io`, or `github.io`.
-- The site currently has no GA4 tag in the static HTML.
+- GA4 Admin access through the available Google credentials succeeded.
+- No visible GA4 property matched `dogbreedcost.com` or BreedWise.
+- The site currently has no GA4 tag in the static HTML; GA4 optimization remains blocked until a property/measurement ID exists or is provided.
 
 ## AdSense
 
 - Local AdSense credential files exist in `D:\env`.
-- The site currently has no AdSense script or ad slots.
-- AdSense readiness work should keep ad slots below the main answer, reserve slot dimensions to avoid CLS, and avoid policy-sensitive medical, insurance, or deceptive monetization claims.
+- `ads.txt` is deployed with `google.com, pub-3050601904412736, DIRECT, f08c47fec0942fa0`.
+- The default AdSense Auto Ads loader is present on public HTML pages.
+- No manual ad slots are placed; Auto Ads only.
+- AdSense readiness work should keep ads from obscuring the main answer and avoid policy-sensitive medical, insurance, or deceptive monetization claims.
 
 ## Not Done Without Explicit Approval
 

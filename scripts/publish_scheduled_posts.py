@@ -18,6 +18,7 @@ ADSENSE_LOADER = (
     '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?'
     'client=ca-pub-3050601904412736" crossorigin="anonymous"></script>'
 )
+FEED_LINK = '<link rel="alternate" type="application/rss+xml" title="BreedWise RSS" href="https://dogbreedcost.com/feed.xml">'
 
 
 def parse_dt(value: str) -> datetime:
@@ -61,6 +62,8 @@ def normalize_published_html(html: str) -> str:
     html = html.replace("Why this keyword deserves its own guide", "Why this guide is useful")
     if "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" not in html:
         html = html.replace("</head>", f"{ADSENSE_LOADER}</head>")
+    if FEED_LINK not in html:
+        html = html.replace("</head>", f"{FEED_LINK}</head>")
     return html
 
 
@@ -163,7 +166,7 @@ def rebuild_blog_index() -> None:
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BreedWise Blog | Dog breed health-risk and cost planning guides</title><meta name="description" content="Read practical BreedWise guides about dog breed health risks, ownership costs, screening questions, and lifestyle fit."><link rel="stylesheet" href="../assets/site.css">
 <link rel="canonical" href="{BASE_URL}/blog/"><meta property="og:title" content="BreedWise Blog | Dog breed health-risk and cost planning guides"><meta property="og:description" content="Read practical BreedWise guides about dog breed health risks, ownership costs, screening questions, and lifestyle fit.">
-<meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="theme-color" content="#2f6b54">{ADSENSE_LOADER}</head>
+<meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="theme-color" content="#2f6b54">{ADSENSE_LOADER}{FEED_LINK}</head>
 <body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a><a href="../disclosures/index.html">Disclosures</a></div></nav></header><main><section class="hero"><div class="wrap"><p class="kicker">BreedWise Blog</p><h1>Dog breed planning guides built for useful decisions.</h1><p class="lead">Evidence-aware articles about breed health risks, ownership cost exposure, screening questions, and lifestyle fit. Each guide is written to help future owners ask better questions before commitment.</p></div></section><section class="wrap" style="padding:46px 0"><div class="blog-tools"><p class="blog-count">{len(posts)} published guides</p><a class="button" href="../methodology/index.html">Review methodology</a></div><div class="blog-grid">{cards}</div></section></main><footer class="footer"><div class="wrap"><span>&copy; 2026 BreedWise. Informational planning content only.</span><span><a href="../terms/index.html">Terms</a> &middot; <a href="../privacy-policy/index.html">Privacy Policy</a> &middot; <a href="../disclosures/index.html">Disclosures</a> &middot; <a href="../contact/index.html">Contact</a></span></div></footer></body></html>
 """
     (BLOG_DIR / "index.html").write_text(html, encoding="utf-8")
@@ -187,6 +190,35 @@ def rebuild_sitemap() -> None:
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
 
 
+def rebuild_feed() -> None:
+    posts = [read_meta(path) for path in sorted(BLOG_DIR.glob("*.html")) if path.name != "index.html"]
+    latest = datetime.now(KST).strftime("%a, %d %b %Y %H:%M:%S %z")
+    items = "\n".join(
+        "  <item>"
+        f"<title>{escape(post['title'])}</title>"
+        f"<link>{BASE_URL}/blog/{escape(post['slug'])}</link>"
+        f"<guid>{BASE_URL}/blog/{escape(post['slug'])}</guid>"
+        f"<description>{escape(post['description'])}</description>"
+        f"<pubDate>{latest}</pubDate>"
+        "</item>"
+        for post in posts[:20]
+    )
+    feed = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<rss version="2.0">\n'
+        "<channel>\n"
+        "  <title>BreedWise Dog Breed Planning Guides</title>\n"
+        f"  <link>{BASE_URL}/blog/</link>\n"
+        "  <description>Evidence-aware dog breed health-risk, ownership cost, and lifestyle fit guides.</description>\n"
+        f"  <lastBuildDate>{latest}</lastBuildDate>\n"
+        f"{items}\n"
+        "</channel>\n"
+        "</rss>\n"
+    )
+    (ROOT / "feed.xml").write_text(feed, encoding="utf-8")
+    (ROOT / "rss.xml").write_text(feed, encoding="utf-8")
+
+
 def git_has_changes() -> bool:
     result = subprocess.run(["git", "status", "--short"], cwd=ROOT, text=True, capture_output=True, check=True)
     return bool(result.stdout.strip())
@@ -200,10 +232,11 @@ def main() -> int:
         return 0
     rebuild_blog_index()
     rebuild_sitemap()
+    rebuild_feed()
     if git_has_changes():
         subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=ROOT, check=True)
         subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=ROOT, check=True)
-        subprocess.run(["git", "add", "blog", "sitemap.xml", "content-schedule.json", ".github/content-queue"], cwd=ROOT, check=True)
+        subprocess.run(["git", "add", "blog", "sitemap.xml", "feed.xml", "rss.xml", "content-schedule.json", ".github/content-queue"], cwd=ROOT, check=True)
         subprocess.run(["git", "commit", "-m", f"Publish {len(published)} scheduled BreedWise post(s)"], cwd=ROOT, check=True)
         subprocess.run(["git", "push"], cwd=ROOT, check=True)
     print(f"Published {len(published)} scheduled post(s):")

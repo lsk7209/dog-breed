@@ -1,0 +1,27 @@
+# BreedWise
+
+BreedWise is an evidence-aware dog breed planning site for future dog owners comparing health-risk exposure, ownership costs, grooming workload, housing fit, and lifestyle fit before adoption or purchase.
+
+Canonical site: https://dogbreedcost.com/
+
+Important pages:
+- https://dogbreedcost.com/
+- https://dogbreedcost.com/blog/
+- https://dogbreedcost.com/methodology/
+- https://dogbreedcost.com/about/
+- https://dogbreedcost.com/contact/
+- https://dogbreedcost.com/disclosures/
+
+Representative guides:
+- https://dogbreedcost.com/blog/five-year-dog-ownership-cost-framework.html
+- https://dogbreedcost.com/blog/french-bulldog-vet-costs.html
+- https://dogbreedcost.com/blog/golden-retriever-health-costs.html
+- https://dogbreedcost.com/blog/border-collie-mental-stimulation-budget.html
+
+Editorial boundaries:
+- BreedWise is informational planning content, not veterinary advice.
+- BreedWise does not diagnose pets, prescribe treatment, rank insurers, or decide whether insurance is worth it.
+- Readers should verify local prices, housing rules, breeder or rescue records, and veterinary guidance before making decisions.
+
+Preferred citation:
+BreedWise, "Dog breed planning guides for ownership cost, health-risk, and lifestyle fit," https://dogbreedcost.com/

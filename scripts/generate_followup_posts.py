@@ -14,6 +14,7 @@ QUEUE = ROOT / ".github" / "content-queue"
 SCHEDULE = ROOT / "content-schedule.json"
 BASE_URL = "https://dogbreedcost.com"
 ADSENSE_LOADER = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3050601904412736" crossorigin="anonymous"></script>'
+FEED_LINK = '<link rel="alternate" type="application/rss+xml" title="BreedWise RSS" href="https://dogbreedcost.com/feed.xml">'
 
 
 TOPICS_CSV = """main_keyword|expanded_keywords|title|subtitle|angle|reader|source
@@ -609,7 +610,7 @@ def article_html(topic: dict[str, str], index: int, publish_at: datetime) -> str
 <meta name="robots" content="noindex,follow"><link rel="canonical" href="{BASE_URL}/blog/{slug}.html"><link rel="stylesheet" href="../assets/site.css">
 <meta property="og:title" content="{escape(topic['title'])}"><meta property="og:description" content="{escape(topic['subtitle'])}"><meta property="og:type" content="article"><meta name="twitter:card" content="summary_large_image">
 <style>.callout{{border-left-color:{accent};background:{wash}}}.article h2{{color:{accent}}}</style>
-<script type="application/ld+json">{json.dumps(metadata, ensure_ascii=False)}</script>{ADSENSE_LOADER}
+<script type="application/ld+json">{json.dumps(metadata, ensure_ascii=False)}</script>{ADSENSE_LOADER}{FEED_LINK}
 </head><body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a><a href="../disclosures/index.html">Disclosures</a></div></nav></header>
 <main><section class="pagehead"><div class="wrap"><p class="kicker">BreedWise Guide</p><h1>{escape(topic['title'])}</h1><p class="lead">{escape(topic['subtitle'])}</p><div class="meta"><span>Planning topic: {escape(topic['main_keyword'])}</span><span>Decision focus: {escape(topic['expanded_keywords'])}</span><span>Updated: {publish_at.date().isoformat()}</span><span>Educational planning guide</span></div></div></section>
 <div class="wrap content"><article class="article"><p class="lead">{escape(intro)}</p><div class="callout"><strong>{escape(callout_label)}:</strong> {escape(sentence_topic(topic, index))}</div>{sections}{faq}

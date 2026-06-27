@@ -9,6 +9,9 @@ on:
       - sitemap.xml
       - feed.xml
       - rss.xml
+      - cost/**
+      - data/bls_pet_cost_cpi.json
+      - scripts/build_bls_cost_pages.py
       - scripts/submit_gsc_sitemap.py
 
 jobs:

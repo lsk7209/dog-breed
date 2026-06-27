@@ -272,10 +272,13 @@ def update_sitemap(dataset: dict[str, object]) -> None:
     today = datetime.now(KST).date().isoformat()
     urls = [f"{BASE_URL}/cost/"] + [f"{BASE_URL}/cost/{slug}.html" for slug in dataset["pages"]]
     existing = set(re.findall(r"<loc>(.*?)</loc>", text))
+    for url in urls:
+        pattern = rf"(<url><loc>{re.escape(url)}</loc><lastmod>)([^<]+)(</lastmod></url>)"
+        text = re.sub(pattern, rf"\g<1>{today}\g<3>", text)
     additions = "\n".join(f"  <url><loc>{url}</loc><lastmod>{today}</lastmod></url>" for url in urls if url not in existing)
     if additions:
         text = text.replace("</urlset>", f"{additions}\n</urlset>")
-        sitemap.write_text(text, encoding="utf-8")
+    sitemap.write_text(text, encoding="utf-8")
 
 
 def main() -> int:

@@ -68,9 +68,9 @@ def normalize_published_html(html: str) -> str:
     html = re.sub(r"Scheduled:\s*[^<]+", lambda match: "Updated: " + match.group(0).split("T", 1)[0].replace("Scheduled:", "").strip(), html)
     html = html.replace("Quality score: 94", "Educational planning guide")
     html = html.replace("Quality target: 90+", "Educational planning guide")
-    html = html.replace("Pre-publish quality check", "Why this guide is useful")
+    html = html.replace("Pre-publish quality check", "Decision boundary and next step")
     html = html.replace("AEO summary", "Short answer")
-    html = html.replace("Why this keyword deserves its own guide", "Why this guide is useful")
+    html = html.replace("Why this keyword deserves its own guide", "Why this topic needs its own guide")
     if "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" not in html:
         html = html.replace("</head>", f"{ADSENSE_LOADER}</head>")
     if "googletagmanager.com/gtag/js?id=G-5FZSHME54N" not in html:

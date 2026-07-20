@@ -6,6 +6,8 @@ from pathlib import Path
 import json
 import os
 import re
+import time
+import urllib.error
 import urllib.parse
 import urllib.request
 
@@ -117,10 +119,18 @@ def read_airnow_key() -> str:
     return value
 
 
-def read_json(url: str, headers: dict[str, str] | None = None) -> object:
+def read_json(url: str, headers: dict[str, str] | None = None, retries: int = 3) -> object:
     request = urllib.request.Request(url, headers=headers or {})
-    with urllib.request.urlopen(request, timeout=30) as response:
-        return json.loads(response.read().decode("utf-8"))
+    last_error: Exception | None = None
+    for attempt in range(retries):
+        try:
+            with urllib.request.urlopen(request, timeout=30) as response:
+                return json.loads(response.read().decode("utf-8"))
+        except (TimeoutError, urllib.error.URLError) as error:
+            last_error = error
+            if attempt < retries - 1:
+                time.sleep(2 ** attempt)
+    raise RuntimeError(f"Failed to fetch {url} after {retries} attempts") from last_error
 
 
 def fetch_nws(location: dict[str, object]) -> list[dict[str, object]]:

@@ -39,6 +39,11 @@
       "source": "/disclosures/index.html",
       "destination": "/disclosures/",
       "permanent": true
+    },
+    {
+      "source": "/favicon.ico",
+      "destination": "/assets/breedwise-mark.svg",
+      "permanent": true
     }
   ]
 }

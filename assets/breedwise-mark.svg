@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="BreedWise">
+  <rect width="64" height="64" rx="14" fill="#2f6b54"/>
+  <path fill="#fbfcf7" d="M18 17h20c5.5 0 10 4.5 10 10v10c0 5.5-4.5 10-10 10H18V17Zm8 8v14h11c1.7 0 3-1.3 3-3v-8c0-1.7-1.3-3-3-3H26Z"/>
+  <circle cx="45" cy="19" r="5" fill="#bd7b2a"/>
+</svg>

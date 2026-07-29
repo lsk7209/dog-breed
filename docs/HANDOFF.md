@@ -3,10 +3,11 @@
 ## Editorial originality audit checkpoint (2026-07-29 11:25 KST)
 
 - Fresh dashboard evidence now comes from the 103-site snapshot generated `2026-07-29T02:16:44.411Z`; `dogbreedcost` has 21 last-7-day GSC impressions, zero clicks, position 25.0, and healthy public AdSense/ads.txt collector states.
-- The repository is static Vercel content, not a Vercel API/DB collection site. One individually verified local content revision is pending release; no schedule, title, URL, indexing, or AdSense state has changed.
+- The repository is static Vercel content, not a Vercel API/DB collection site. The first individually verified content revision is released; no schedule, title, URL, indexing, or AdSense state changed.
 - The published corpus has 105 (not 101) files with the exact `Practical next step` heading. Existing review documentation is therefore stale about the count, but correct that this is an editorial originality risk.
 - Do not bulk-rewrite the 105 files or alter schedules. The next safe action is a topic-cluster representative source/originality review, followed only by individually verified article revisions with evidence, originality, and medical-advice boundaries preserved.
 - First individual revision: `blog/beagle-apartment-exercise-plan.html` replaces the generic next-step paragraph with a Beagle-specific seven-day apartment-readiness log. It cites the current AKC Beagle exercise/handling overview and retains the existing no-diagnosis editorial boundary. Local validation: `audit_heading_uniqueness.py` passed 165 pages; the article has one H1, one canonical, the new heading, and the cited source link.
+- Released in `0ee222d` after preserving two intervening scheduled-publication commits. Vercel production deployment `dog-breed-dhptrtwpl-limsubs-projects.vercel.app` is Ready from that commit. Public verification confirms the article returns 200 with the new heading/source, zero remaining generic next-step heading, one H1, one canonical, and one article-route AdSense loader.
 
 ## Site 23 `dogbreedcost.com` production repair complete (2026-07-29 03:12 KST)
 

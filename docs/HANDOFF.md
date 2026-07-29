@@ -1,11 +1,12 @@
 # Handoff
 
-## Basenji quiet-home decision guide staged (2026-07-29 11:55 KST)
+## Basenji quiet-home decision guide released (2026-07-29 11:57 KST)
 
-- Current state: `blog/basenji-barkless-breed-reality.html` has one individually reviewed source/originality revision staged for release. It replaces the repeated generic next-step section with a normal-workday test for sound-sensitive moments, safety routine, repeatable work, and source-specific questions.
+- Current state: `blog/basenji-barkless-breed-reality.html` has one individually reviewed source/originality revision released. It replaces the repeated generic next-step section with a normal-workday test for sound-sensitive moments, safety routine, repeatable work, and source-specific questions.
 - Evidence: the guide links directly to the American Kennel Club Basenji profile and limits its claim to the documented distinction between no ordinary bark and other vocal sounds plus general activity, secure handling, and training considerations. `python scripts/audit_heading_uniqueness.py` passed all 167 pages; the article has zero generic next-step heading, one H1, one canonical, the article-route AdSense loader, and the existing no-diagnosis boundary.
-- Side-effect boundary: no title, URL, schedule, indexing, AdSense application, or external Google action has been changed. The article-only release is pending remote-history reconciliation, push, Vercel readiness, and public-page verification.
-- Single next step: fetch/rebase against `origin/main`, release the article-only commit, then record deployment and public verification evidence.
+- Release evidence: article commit `4baed3f` and checkpoint commit `4790851` are pushed to `origin/main`. Production deployment `dpl_Fp9W3vLDV8q98696yZHYHsWVtxbs` (`dog-breed-fd1hma64v-limsubs-projects.vercel.app`) is Ready with the production aliases. The public article returns HTTP 200 with the new heading and AKC link, zero generic next-step heading, one H1, one canonical, one article-route AdSense loader, and the no-diagnosis boundary.
+- Side-effect boundary: no title, URL, schedule, indexing, AdSense application, or external Google action has been changed.
+- Single next step: select another non-overlapping topic cluster for one individually verified source/originality revision; do not bulk-rewrite the remaining generic sections.
 
 ## Doberman record-verification revision released (2026-07-29 11:48 KST)
 

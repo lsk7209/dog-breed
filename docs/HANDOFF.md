@@ -1,5 +1,12 @@
 # Handoff
 
+## Basenji quiet-home decision guide staged (2026-07-29 11:55 KST)
+
+- Current state: `blog/basenji-barkless-breed-reality.html` has one individually reviewed source/originality revision staged for release. It replaces the repeated generic next-step section with a normal-workday test for sound-sensitive moments, safety routine, repeatable work, and source-specific questions.
+- Evidence: the guide links directly to the American Kennel Club Basenji profile and limits its claim to the documented distinction between no ordinary bark and other vocal sounds plus general activity, secure handling, and training considerations. `python scripts/audit_heading_uniqueness.py` passed all 167 pages; the article has zero generic next-step heading, one H1, one canonical, the article-route AdSense loader, and the existing no-diagnosis boundary.
+- Side-effect boundary: no title, URL, schedule, indexing, AdSense application, or external Google action has been changed. The article-only release is pending remote-history reconciliation, push, Vercel readiness, and public-page verification.
+- Single next step: fetch/rebase against `origin/main`, release the article-only commit, then record deployment and public verification evidence.
+
 ## Doberman record-verification revision released (2026-07-29 11:48 KST)
 
 - Current state: `blog/doberman-heart-screening-questions.html` has one individually reviewed source/originality revision released. It replaces the generic `Practical next step` section with a record-verification sheet; it does not diagnose, prescribe, or make a health guarantee.

@@ -1,5 +1,12 @@
 # Handoff
 
+## Doberman record-verification revision staged (2026-07-29 11:45 KST)
+
+- Current state: `blog/doberman-heart-screening-questions.html` has one individually reviewed source/originality revision staged for release. It replaces the generic `Practical next step` section with a record-verification sheet; it does not diagnose, prescribe, or make a health guarantee.
+- Evidence: it links directly to the Orthopedic Foundation for Animals CHIC-program and cardiac-record guidance, keeps the existing AVMA/AAHA/Cornell source list and the no-diagnosis editorial boundary. `python scripts/audit_heading_uniqueness.py` passed all 167 pages; the article has zero generic next-step heading, one H1, one canonical, and one article-route AdSense loader.
+- Side-effect boundary: no title, URL, schedule, indexing, AdSense application, or external Google action has been changed. The release is pending remote-history reconciliation, push, Vercel readiness, and public-page verification.
+- Single next step: fetch/rebase against `origin/main`, release the article-only commit, then record the deployment and public verification result below.
+
 ## Editorial originality audit checkpoint (2026-07-29 11:25 KST)
 
 - Fresh dashboard evidence now comes from the 103-site snapshot generated `2026-07-29T02:16:44.411Z`; `dogbreedcost` has 21 last-7-day GSC impressions, zero clicks, position 25.0, and healthy public AdSense/ads.txt collector states.

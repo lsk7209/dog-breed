@@ -1,11 +1,12 @@
 # Handoff
 
-## Doberman record-verification revision staged (2026-07-29 11:45 KST)
+## Doberman record-verification revision released (2026-07-29 11:48 KST)
 
-- Current state: `blog/doberman-heart-screening-questions.html` has one individually reviewed source/originality revision staged for release. It replaces the generic `Practical next step` section with a record-verification sheet; it does not diagnose, prescribe, or make a health guarantee.
+- Current state: `blog/doberman-heart-screening-questions.html` has one individually reviewed source/originality revision released. It replaces the generic `Practical next step` section with a record-verification sheet; it does not diagnose, prescribe, or make a health guarantee.
 - Evidence: it links directly to the Orthopedic Foundation for Animals CHIC-program and cardiac-record guidance, keeps the existing AVMA/AAHA/Cornell source list and the no-diagnosis editorial boundary. `python scripts/audit_heading_uniqueness.py` passed all 167 pages; the article has zero generic next-step heading, one H1, one canonical, and one article-route AdSense loader.
-- Side-effect boundary: no title, URL, schedule, indexing, AdSense application, or external Google action has been changed. The release is pending remote-history reconciliation, push, Vercel readiness, and public-page verification.
-- Single next step: fetch/rebase against `origin/main`, release the article-only commit, then record the deployment and public verification result below.
+- Release evidence: article commit `fc66c1b` and checkpoint commit `2aa0068` are pushed to `origin/main`. Production deployment `dpl_99XHN6UPDbyfPFiggepoucvbjuB1` (`dog-breed-qw7631yb4-limsubs-projects.vercel.app`) is Ready with the production aliases. The public article returns HTTP 200 with the new heading and both OFA links, zero generic next-step heading, one H1, one canonical, one article-route AdSense loader, and the no-diagnosis boundary.
+- Side-effect boundary: no title, URL, schedule, indexing, AdSense application, or external Google action has been changed.
+- Single next step: select a third non-overlapping topic cluster for one individually verified source/originality revision; do not bulk-rewrite the remaining generic sections.
 
 ## Editorial originality audit checkpoint (2026-07-29 11:25 KST)
 

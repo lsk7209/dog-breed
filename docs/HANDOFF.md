@@ -1,5 +1,13 @@
 # Handoff
 
+## DogBreedCost source-linked hub repair (2026-08-06 KST)
+
+- Current state: a bounded content-quality repair is ready for release in the clean checkout. It expands only `/cost/`, `/outdoor-risk/`, and `/methodology/` with source scope, update context, local-verification limits, correction path, and no-diagnosis boundaries. `scripts/build_bls_cost_pages.py` and `scripts/build_outdoor_risk_pages.py` now preserve the two hub explanations on future generation; `BREEDWISE_USE_CACHED_DATA=1` rebuilds only from the checked-in snapshots for deterministic verification.
+- Evidence: existing `data/bls_pet_cost_cpi.json` identifies BLS CPI-U U.S. city-average, not-seasonally-adjusted series; existing `data/dog_outdoor_risk.json` identifies NWS and AirNow snapshots. The added links are the exact BLS, NWS, and AirNow source endpoints already used by the scripts. Local generation from the checked-in data passed; `python scripts/audit_heading_uniqueness.py` checked 207 pages with zero failures; sitemap/feed/RSS XML parse passed.
+- Scope and boundary: no individual article, title, URL, schedule, source data value, health claim, AdSense application, indexing request, or Vercel configuration is changed. The public hub pages remain educational planning content and explicitly defer urgent, veterinary, and local-price decisions to the appropriate source.
+- Rollback: revert the release commit; the affected static routes and their two generators are the only production files. No data refresh was made during this repair.
+- Single next step: commit and push this bounded repair through the existing Git-connected Vercel workflow, then verify the three production URLs under normal and Googlebot user agents.
+
 ## Basenji quiet-home decision guide released (2026-07-29 11:57 KST)
 
 - Current state: `blog/basenji-barkless-breed-reality.html` has one individually reviewed source/originality revision released. It replaces the repeated generic next-step section with a normal-workday test for sound-sensitive moments, safety routine, repeatable work, and source-specific questions.

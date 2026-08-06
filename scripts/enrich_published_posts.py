@@ -110,6 +110,41 @@ ENRICHMENTS = {
 <h2 id="poodle-decision-rule">Decision rule</h2>
 <p>A Poodle plan is strong when the owner can afford the coat, understand the size-specific questions, and keep up with records. Low shedding is useful only when the maintenance behind it is also realistic.</p>
 """,
+    "afghan-hound-grooming-temperament-cost.html": """
+<h2 id="afghan-coat-workflow">Turn coat care into a repeatable workflow</h2>
+<p>Afghan Hound coat planning is easier when the owner separates daily maintenance from professional grooming. Ask a local groomer what the current coat condition would require, how long a visit usually takes, and which home tools are realistic for the dog's tolerance. Do not use a generic appointment interval as a promise; coat length, texture, handling history, and the owner's routine can change the actual workload.</p>
+<p>Write the workflow before adoption: where brushing happens, who handles the dog, what happens when the coat is wet or tangled, and how a missed session is recovered. A low price estimate that assumes perfect cooperation is not a reliable budget. Save the quote and the questions that produced it so the estimate can be updated after the first month.</p>
+<h2 id="afghan-secure-outdoor-plan">Secure outdoor and recall plan</h2>
+<p>A sighthound-oriented household should verify fencing, leash rules, transport, and nearby exercise options before treating a yard as a solution. A fenced area is not a substitute for checking escape points or planning what happens when weather, travel, or a repair removes access. The decision is stronger when the owner can name a safe weekday route, a bad-weather alternative, and the person who handles the dog if the primary caregiver is away.</p>
+""",
+    "airedale-terrier-grooming-exercise.html": """
+<h2 id="airedale-grooming-quote">Get a grooming quote that matches the coat plan</h2>
+<p>Airedale grooming should be budgeted as a service and a household skill. Ask whether the local groomer recommends stripping, clipping, or a mixed maintenance plan for the individual coat, and record what is included in the quote. The visit price alone may not describe brushing, bathing, drying, handling time, tools, or the work the owner must repeat between appointments.</p>
+<p>Exercise planning needs the same specificity. Put walks, training, play, rest, and bad-weather alternatives on a normal-week calendar. A large terrier can make an energetic plan look easy on paper while the daily combination of arousal, leash work, and coat maintenance creates friction. Test the schedule for two weeks and change the plan before adding optional equipment.</p>
+<h2 id="airedale-training-boundary">Training and household boundary</h2>
+<p>Ask who practices calm greetings, leash skills, handling, and recovery after activity. The responsible conclusion is not that every Airedale needs the same program; it is that the household should budget for repetition and qualified help when its own practice is not enough. Keep local quotes, the weekly schedule, and the records behind the decision together.</p>
+""",
+    "akita-first-time-owner-risk.html": """
+<h2 id="akita-household-management">Write the handling plan for ordinary visitors</h2>
+<p>First-time-owner planning becomes concrete when it covers the people who will actually enter the home. Decide where the dog rests, how doors and gates are managed, how guests receive instructions, and who takes over if the owner is tired or absent. This is not a temperament prediction. It is a test of whether the household can create consistent boundaries before a difficult interaction occurs.</p>
+<p>Use the same approach outside the home. Check local leash and housing rules, identify a route that allows space from other dogs, and price training support before a problem becomes urgent. If the plan depends on every family member improvising, it is not yet a first-time-owner plan. Put the rules in writing and make the safer choice the easier choice.</p>
+<h2 id="akita-records-and-review">Records and review point</h2>
+<p>Before commitment, request the available health, behavior, vaccination, training, and ownership-history records. Missing information is not an automatic verdict, but it increases the uncertainty reserve and makes a slower introduction more important. Review the plan after the first month using actual incidents, costs, and questions for a veterinarian or qualified trainer rather than relying on a breed label.</p>
+""",
+    "alaskan-malamute-food-escape-cost.html": """
+<h2 id="malamute-food-budget">Build the food budget from the actual dog</h2>
+<p>Food planning should start with the dog's current weight, life stage, activity, feeding instructions, and the product's own label rather than a single breed-wide number. Record the package size, price, measured daily amount, treats, and any change recommended by a veterinarian. Prices vary by retailer and region, while the correct amount can change as the dog grows or its routine changes.</p>
+<p>Use a monthly sheet with food, treats, supplements if professionally advised, grooming, equipment, training, boarding, and a separate uncertainty reserve. This makes it clear which amount is a recurring estimate and which amount is only a placeholder. A large-dog budget should be stress-tested against a price increase, a travel week, and a month when exercise or care needs outside help.</p>
+<h2 id="malamute-containment-and-climate">Containment and climate checks</h2>
+<p>Fencing is a system, not just a purchase. Walk the boundary, check gates and digging points, confirm local rules, and decide how the dog is transported when the yard is unavailable. Coat care and exercise also depend on climate and the dog's individual tolerance. Keep an indoor enrichment option and a cooler or safer-time routine so the plan does not rely on one perfect outdoor window.</p>
+""",
+    "american-bully-housing-health-cost.html": """
+<h2 id="american-bully-housing-check">Verify housing rules before health assumptions</h2>
+<p>Housing is an evidence question before it becomes a breed question. Ask the landlord, insurer, homeowners association, or local authority for the current written rule and save the response. A listing, forum comment, or verbal assumption is not enough when a restriction could change the household's ability to keep the dog. Also check pet deposits, liability terms, weight limits, elevator access, and emergency transport.</p>
+<p>Keep the health and cost plan equally concrete. Record the dog's current weight and body condition with a veterinarian, ask what routine care is due, and price food, training, equipment, grooming, and local veterinary access. Avoid turning body shape or a label into a diagnosis. The useful result is a list of records, questions, and recurring costs that can be reviewed as the individual dog changes.</p>
+<h2 id="american-bully-training-system">Training system and backup owner</h2>
+<p>Write down who handles leash practice, calm greetings, exercise, feeding, and care during travel or illness. If a backup person cannot safely manage the routine, include qualified help in the budget before adoption. A strong plan is one the household can repeat on an ordinary weekday, not one that works only when every adult has extra time.</p>
+""",
 }
 
 FOLLOWUPS = {

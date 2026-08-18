@@ -1,5 +1,5 @@
 {
-  "updated": "2026-08-05",
+  "updated": "2026-08-19",
   "source": "BLS Public Data API v2",
   "pages": {
     "pet-food-inflation": {
@@ -31,17 +31,22 @@
       },
       "latest": {
         "year": "2026",
-        "period": "June",
-        "value": "193.646",
+        "period": "July",
+        "value": "194.687",
         "pct_changes": {
-          "1": "0.2",
-          "3": "-0.4",
-          "6": "1.3",
+          "1": "0.5",
+          "3": "0.4",
+          "6": "1.1",
           "12": "1.3"
         },
         "year_over_year_same_month": 1.3
       },
       "history": [
+        {
+          "year": "2026",
+          "period": "July",
+          "value": "194.687"
+        },
         {
           "year": "2026",
           "period": "June",
@@ -106,11 +111,6 @@
           "year": "2025",
           "period": "May",
           "value": "189.760"
-        },
-        {
-          "year": "2025",
-          "period": "April",
-          "value": "189.736"
         }
       ]
     },
@@ -143,17 +143,22 @@
       },
       "latest": {
         "year": "2026",
-        "period": "June",
-        "value": "132.753",
+        "period": "July",
+        "value": "133.824",
         "pct_changes": {
-          "1": "0.0",
-          "3": "-1.7",
-          "6": "-0.1",
-          "12": "0.9"
+          "1": "0.8",
+          "3": "-0.5",
+          "6": "1.7",
+          "12": "1.7"
         },
-        "year_over_year_same_month": 0.9
+        "year_over_year_same_month": 1.7
       },
       "history": [
+        {
+          "year": "2026",
+          "period": "July",
+          "value": "133.824"
+        },
         {
           "year": "2026",
           "period": "June",
@@ -218,11 +223,6 @@
           "year": "2025",
           "period": "May",
           "value": "132.608"
-        },
-        {
-          "year": "2025",
-          "period": "April",
-          "value": "132.004"
         }
       ]
     },
@@ -255,17 +255,22 @@
       },
       "latest": {
         "year": "2026",
-        "period": "June",
-        "value": "283.490",
+        "period": "July",
+        "value": "283.121",
         "pct_changes": {
-          "1": "0.2",
-          "3": "1.8",
-          "6": "4.1",
-          "12": "6.3"
+          "1": "-0.1",
+          "3": "1.5",
+          "6": "3.4",
+          "12": "5.1"
         },
-        "year_over_year_same_month": 6.3
+        "year_over_year_same_month": 5.1
       },
       "history": [
+        {
+          "year": "2026",
+          "period": "July",
+          "value": "283.121"
+        },
         {
           "year": "2026",
           "period": "June",
@@ -330,11 +335,6 @@
           "year": "2025",
           "period": "May",
           "value": "264.380"
-        },
-        {
-          "year": "2025",
-          "period": "April",
-          "value": "261.602"
         }
       ]
     }

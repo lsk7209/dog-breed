@@ -1,5 +1,5 @@
 {
-  "updated": "2026-09-04T01:22:38+09:00",
+  "updated": "2026-09-05T01:18:30+09:00",
   "sources": [
     "NWS API",
     "AirNow API"
@@ -26,92 +26,92 @@
       "nws_periods": [
         {
           "name": "Today",
-          "temperature": 102,
+          "temperature": 101,
           "temperatureUnit": "F",
           "windSpeed": "5 to 10 mph",
           "shortForecast": "Sunny then Slight Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 13
+          "probabilityOfPrecipitation": 12
         },
         {
           "name": "Tonight",
           "temperature": 82,
           "temperatureUnit": "F",
-          "windSpeed": "5 to 10 mph",
-          "shortForecast": "Slight Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 24
-        },
-        {
-          "name": "Friday",
-          "temperature": 102,
-          "temperatureUnit": "F",
-          "windSpeed": "5 to 10 mph",
-          "shortForecast": "Slight Chance Showers And Thunderstorms then Sunny",
-          "probabilityOfPrecipitation": 11
-        },
-        {
-          "name": "Friday Night",
-          "temperature": 83,
-          "temperatureUnit": "F",
           "windSpeed": "0 to 10 mph",
-          "shortForecast": "Slight Chance Rain Showers",
-          "probabilityOfPrecipitation": 16
+          "shortForecast": "Partly Cloudy",
+          "probabilityOfPrecipitation": 4
         },
         {
           "name": "Saturday",
-          "temperature": 101,
-          "temperatureUnit": "F",
-          "windSpeed": "5 to 10 mph",
-          "shortForecast": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 17
-        },
-        {
-          "name": "Saturday Night",
-          "temperature": 83,
-          "temperatureUnit": "F",
-          "windSpeed": "0 to 5 mph",
-          "shortForecast": "Slight Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 17
-        },
-        {
-          "name": "Sunday",
-          "temperature": 103,
+          "temperature": 100,
           "temperatureUnit": "F",
           "windSpeed": "0 to 10 mph",
           "shortForecast": "Mostly Sunny",
-          "probabilityOfPrecipitation": 8
+          "probabilityOfPrecipitation": 3
+        },
+        {
+          "name": "Saturday Night",
+          "temperature": 82,
+          "temperatureUnit": "F",
+          "windSpeed": "5 to 10 mph",
+          "shortForecast": "Partly Cloudy",
+          "probabilityOfPrecipitation": 0
+        },
+        {
+          "name": "Sunday",
+          "temperature": 102,
+          "temperatureUnit": "F",
+          "windSpeed": "5 to 10 mph",
+          "shortForecast": "Mostly Sunny",
+          "probabilityOfPrecipitation": 1
         },
         {
           "name": "Sunday Night",
           "temperature": 84,
           "temperatureUnit": "F",
+          "windSpeed": "0 to 10 mph",
+          "shortForecast": "Partly Cloudy",
+          "probabilityOfPrecipitation": 4
+        },
+        {
+          "name": "Labor Day",
+          "temperature": 103,
+          "temperatureUnit": "F",
+          "windSpeed": "0 to 10 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 3
+        },
+        {
+          "name": "Monday Night",
+          "temperature": 85,
+          "temperatureUnit": "F",
           "windSpeed": "0 to 5 mph",
           "shortForecast": "Partly Cloudy",
-          "probabilityOfPrecipitation": 5
+          "probabilityOfPrecipitation": 6
         }
       ],
       "airnow": [
         {
           "reportingArea": "Phoenix",
           "parameter": "O3",
-          "aqi": 35,
+          "aqi": 37,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 9
         },
         {
           "reportingArea": "Phoenix",
           "parameter": "PM2.5",
-          "aqi": 56,
-          "category": "Moderate",
-          "dateObserved": "2026-09-03",
+          "aqi": 41,
+          "category": "Good",
+          "dateObserved": "2026-09-04",
           "hourObserved": 9
         },
         {
           "reportingArea": "Phoenix",
           "parameter": "PM10",
-          "aqi": 49,
+          "aqi": 44,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 9
         }
       ]
@@ -133,16 +133,16 @@
       "risk_level": "moderate",
       "reasons": [
         "warm forecast near 89F",
-        "precipitation chance up to 68%"
+        "precipitation chance up to 78%"
       ],
       "nws_periods": [
         {
           "name": "Today",
-          "temperature": 89,
+          "temperature": 88,
           "temperatureUnit": "F",
-          "windSpeed": "5 to 10 mph",
+          "windSpeed": "9 mph",
           "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 44
+          "probabilityOfPrecipitation": 60
         },
         {
           "name": "Tonight",
@@ -150,80 +150,80 @@
           "temperatureUnit": "F",
           "windSpeed": "9 mph",
           "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 27
-        },
-        {
-          "name": "Friday",
-          "temperature": 88,
-          "temperatureUnit": "F",
-          "windSpeed": "7 to 10 mph",
-          "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 62
-        },
-        {
-          "name": "Friday Night",
-          "temperature": 82,
-          "temperatureUnit": "F",
-          "windSpeed": "9 mph",
-          "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 47
+          "probabilityOfPrecipitation": 26
         },
         {
           "name": "Saturday",
           "temperature": 88,
           "temperatureUnit": "F",
           "windSpeed": "5 to 8 mph",
-          "shortForecast": "Showers And Thunderstorms Likely",
-          "probabilityOfPrecipitation": 63
+          "shortForecast": "Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 44
         },
         {
           "name": "Saturday Night",
-          "temperature": 82,
+          "temperature": 81,
           "temperatureUnit": "F",
           "windSpeed": "6 mph",
           "shortForecast": "Showers And Thunderstorms Likely then Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 63
+          "probabilityOfPrecipitation": 56
         },
         {
           "name": "Sunday",
-          "temperature": 88,
+          "temperature": 89,
           "temperatureUnit": "F",
-          "windSpeed": "3 to 7 mph",
-          "shortForecast": "Showers And Thunderstorms Likely",
-          "probabilityOfPrecipitation": 68
+          "windSpeed": "3 to 8 mph",
+          "shortForecast": "Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 78
         },
         {
           "name": "Sunday Night",
+          "temperature": 81,
+          "temperatureUnit": "F",
+          "windSpeed": "7 mph",
+          "shortForecast": "Showers And Thunderstorms then Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 78
+        },
+        {
+          "name": "Labor Day",
+          "temperature": 89,
+          "temperatureUnit": "F",
+          "windSpeed": "2 to 8 mph",
+          "shortForecast": "Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 77
+        },
+        {
+          "name": "Monday Night",
           "temperature": 80,
           "temperatureUnit": "F",
-          "windSpeed": "3 to 7 mph",
-          "shortForecast": "Showers And Thunderstorms Likely",
-          "probabilityOfPrecipitation": 68
+          "windSpeed": "2 to 7 mph",
+          "shortForecast": "Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 77
         }
       ],
       "airnow": [
         {
           "reportingArea": "Miami",
           "parameter": "O3",
-          "aqi": 20,
+          "aqi": 26,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 11
         },
         {
           "reportingArea": "Miami",
           "parameter": "PM2.5",
-          "aqi": 41,
+          "aqi": 30,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 11
         },
         {
           "reportingArea": "Miami",
           "parameter": "PM10",
-          "aqi": 17,
+          "aqi": 9,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 11
         }
       ]
@@ -244,64 +244,49 @@
       "slug": "minneapolis-dog-cold-weather-risk",
       "risk_level": "moderate",
       "reasons": [
-        "warm forecast near 89F"
+        "warm forecast near 92F",
+        "precipitation chance up to 81%"
       ],
       "nws_periods": [
         {
           "name": "Today",
-          "temperature": 87,
+          "temperature": 92,
           "temperatureUnit": "F",
-          "windSpeed": "5 to 10 mph",
-          "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 40
+          "windSpeed": "0 to 5 mph",
+          "shortForecast": "Sunny",
+          "probabilityOfPrecipitation": 1
         },
         {
           "name": "Tonight",
-          "temperature": 70,
-          "temperatureUnit": "F",
-          "windSpeed": "5 to 10 mph",
-          "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 35
-        },
-        {
-          "name": "Friday",
-          "temperature": 89,
+          "temperature": 67,
           "temperatureUnit": "F",
           "windSpeed": "5 mph",
-          "shortForecast": "Mostly Sunny",
-          "probabilityOfPrecipitation": 4
-        },
-        {
-          "name": "Friday Night",
-          "temperature": 68,
-          "temperatureUnit": "F",
-          "windSpeed": "5 mph",
-          "shortForecast": "Partly Cloudy",
-          "probabilityOfPrecipitation": 9
+          "shortForecast": "Mostly Clear then Patchy Fog",
+          "probabilityOfPrecipitation": 3
         },
         {
           "name": "Saturday",
-          "temperature": 87,
+          "temperature": 89,
           "temperatureUnit": "F",
           "windSpeed": "5 mph",
-          "shortForecast": "Mostly Sunny",
-          "probabilityOfPrecipitation": 7
+          "shortForecast": "Patchy Fog then Mostly Sunny",
+          "probabilityOfPrecipitation": 2
         },
         {
           "name": "Saturday Night",
-          "temperature": 69,
+          "temperature": 70,
           "temperatureUnit": "F",
           "windSpeed": "5 mph",
-          "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 39
+          "shortForecast": "Partly Cloudy then Chance Rain Showers",
+          "probabilityOfPrecipitation": 40
         },
         {
           "name": "Sunday",
-          "temperature": 85,
+          "temperature": 83,
           "temperatureUnit": "F",
           "windSpeed": "5 to 10 mph",
           "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 39
+          "probabilityOfPrecipitation": 45
         },
         {
           "name": "Sunday Night",
@@ -309,32 +294,48 @@
           "temperatureUnit": "F",
           "windSpeed": "5 mph",
           "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 46
+          "probabilityOfPrecipitation": 42
+        },
+        {
+          "name": "Labor Day",
+          "temperature": 81,
+          "temperatureUnit": "F",
+          "windSpeed": "5 to 10 mph",
+          "shortForecast": "Rain Showers Likely",
+          "probabilityOfPrecipitation": 55
+        },
+        {
+          "name": "Monday Night",
+          "temperature": 68,
+          "temperatureUnit": "F",
+          "windSpeed": "10 to 15 mph",
+          "shortForecast": "Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 81
         }
       ],
       "airnow": [
         {
           "reportingArea": "Twin Cities",
           "parameter": "O3",
-          "aqi": 32,
+          "aqi": 11,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 10
         },
         {
           "reportingArea": "Twin Cities",
           "parameter": "PM2.5",
-          "aqi": 41,
-          "category": "Good",
-          "dateObserved": "2026-09-03",
+          "aqi": 62,
+          "category": "Moderate",
+          "dateObserved": "2026-09-04",
           "hourObserved": 10
         },
         {
           "reportingArea": "Twin Cities",
           "parameter": "PM10",
-          "aqi": 28,
+          "aqi": 44,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 10
         }
       ]
@@ -355,97 +356,98 @@
       "slug": "denver-dog-outdoor-air-risk",
       "risk_level": "moderate",
       "reasons": [
-        "warm forecast near 93F"
+        "forecast high near 95F",
+        "precipitation chance up to 58%"
       ],
       "nws_periods": [
         {
           "name": "Today",
-          "temperature": 93,
+          "temperature": 95,
           "temperatureUnit": "F",
-          "windSpeed": "7 mph",
-          "shortForecast": "Sunny",
-          "probabilityOfPrecipitation": 1
+          "windSpeed": "3 to 8 mph",
+          "shortForecast": "Mostly Sunny then Slight Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 16
         },
         {
           "name": "Tonight",
-          "temperature": 62,
-          "temperatureUnit": "F",
-          "windSpeed": "3 to 8 mph",
-          "shortForecast": "Partly Cloudy",
-          "probabilityOfPrecipitation": 2
-        },
-        {
-          "name": "Friday",
-          "temperature": 93,
-          "temperatureUnit": "F",
-          "windSpeed": "3 to 8 mph",
-          "shortForecast": "Mostly Sunny",
-          "probabilityOfPrecipitation": 12
-        },
-        {
-          "name": "Friday Night",
           "temperature": 63,
           "temperatureUnit": "F",
-          "windSpeed": "3 to 7 mph",
+          "windSpeed": "3 to 8 mph",
           "shortForecast": "Partly Cloudy",
-          "probabilityOfPrecipitation": 4
+          "probabilityOfPrecipitation": 13
         },
         {
           "name": "Saturday",
           "temperature": 92,
           "temperatureUnit": "F",
-          "windSpeed": "2 to 7 mph",
-          "shortForecast": "Mostly Sunny",
-          "probabilityOfPrecipitation": 5
+          "windSpeed": "2 to 6 mph",
+          "shortForecast": "Partly Sunny",
+          "probabilityOfPrecipitation": 8
         },
         {
           "name": "Saturday Night",
+          "temperature": 65,
+          "temperatureUnit": "F",
+          "windSpeed": "2 to 7 mph",
+          "shortForecast": "Partly Cloudy",
+          "probabilityOfPrecipitation": 8
+        },
+        {
+          "name": "Sunday",
+          "temperature": 91,
+          "temperatureUnit": "F",
+          "windSpeed": "2 to 7 mph",
+          "shortForecast": "Mostly Sunny then Chance Showers And Thunderstorms",
+          "probabilityOfPrecipitation": 25
+        },
+        {
+          "name": "Sunday Night",
           "temperature": 64,
           "temperatureUnit": "F",
           "windSpeed": "2 to 7 mph",
           "shortForecast": "Slight Chance Showers And Thunderstorms then Partly Cloudy",
-          "probabilityOfPrecipitation": 17
+          "probabilityOfPrecipitation": 18
         },
         {
-          "name": "Sunday",
-          "temperature": 90,
+          "name": "Labor Day",
+          "temperature": 91,
           "temperatureUnit": "F",
           "windSpeed": "2 to 7 mph",
-          "shortForecast": "Mostly Sunny then Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 40
+          "shortForecast": "Partly Sunny then Showers And Thunderstorms Likely",
+          "probabilityOfPrecipitation": 58
         },
         {
-          "name": "Sunday Night",
+          "name": "Monday Night",
           "temperature": 63,
           "temperatureUnit": "F",
-          "windSpeed": "3 to 7 mph",
+          "windSpeed": "2 to 6 mph",
           "shortForecast": "Chance Showers And Thunderstorms then Mostly Cloudy",
-          "probabilityOfPrecipitation": 37
+          "probabilityOfPrecipitation": 26
         }
       ],
       "airnow": [
         {
           "reportingArea": "Denver-Boulder",
           "parameter": "O3",
-          "aqi": 38,
+          "aqi": 40,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 9
         },
         {
           "reportingArea": "Denver-Boulder",
           "parameter": "PM2.5",
-          "aqi": 47,
+          "aqi": 45,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 9
         },
         {
           "reportingArea": "Denver-Boulder",
           "parameter": "PM10",
-          "aqi": 62,
+          "aqi": 89,
           "category": "Moderate",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 9
         }
       ]
@@ -466,62 +468,46 @@
       "slug": "seattle-dog-rain-walk-risk",
       "risk_level": "low",
       "reasons": [
-        "precipitation chance up to 65%"
+        "no major stressor in the snapshot"
       ],
       "nws_periods": [
         {
           "name": "Today",
-          "temperature": 66,
+          "temperature": 69,
           "temperatureUnit": "F",
-          "windSpeed": "3 to 8 mph",
-          "shortForecast": "Chance Showers And Thunderstorms",
-          "probabilityOfPrecipitation": 65
+          "windSpeed": "0 to 7 mph",
+          "shortForecast": "Partly Sunny",
+          "probabilityOfPrecipitation": 7
         },
         {
           "name": "Tonight",
           "temperature": 53,
           "temperatureUnit": "F",
-          "windSpeed": "1 to 5 mph",
-          "shortForecast": "Partly Cloudy",
-          "probabilityOfPrecipitation": 9
-        },
-        {
-          "name": "Friday",
-          "temperature": 68,
-          "temperatureUnit": "F",
           "windSpeed": "1 to 6 mph",
-          "shortForecast": "Mostly Sunny",
-          "probabilityOfPrecipitation": 13
-        },
-        {
-          "name": "Friday Night",
-          "temperature": 53,
-          "temperatureUnit": "F",
-          "windSpeed": "1 to 5 mph",
           "shortForecast": "Mostly Cloudy",
-          "probabilityOfPrecipitation": 6
+          "probabilityOfPrecipitation": 7
         },
         {
           "name": "Saturday",
-          "temperature": 69,
+          "temperature": 70,
           "temperatureUnit": "F",
-          "windSpeed": "1 to 5 mph",
-          "shortForecast": "Partly Sunny",
-          "probabilityOfPrecipitation": 7
+          "windSpeed": "0 to 8 mph",
+          "shortForecast": "Mostly Cloudy",
+          "probabilityOfPrecipitation": 13
         },
         {
           "name": "Saturday Night",
           "temperature": 54,
           "temperatureUnit": "F",
-          "windSpeed": "5 mph",
+          "windSpeed": "6 mph",
           "shortForecast": "Partly Cloudy",
-          "probabilityOfPrecipitation": 7
+          "probabilityOfPrecipitation": 8
         },
         {
           "name": "Sunday",
-          "temperature": 72,
+          "temperature": 71,
           "temperatureUnit": "F",
-          "windSpeed": "2 to 7 mph",
+          "windSpeed": "3 to 9 mph",
           "shortForecast": "Mostly Sunny",
           "probabilityOfPrecipitation": 2
         },
@@ -529,34 +515,50 @@
           "name": "Sunday Night",
           "temperature": 55,
           "temperatureUnit": "F",
-          "windSpeed": "1 to 6 mph",
+          "windSpeed": "2 to 7 mph",
           "shortForecast": "Partly Cloudy",
-          "probabilityOfPrecipitation": 13
+          "probabilityOfPrecipitation": 3
+        },
+        {
+          "name": "Labor Day",
+          "temperature": 73,
+          "temperatureUnit": "F",
+          "windSpeed": "2 to 6 mph",
+          "shortForecast": "Mostly Sunny",
+          "probabilityOfPrecipitation": 3
+        },
+        {
+          "name": "Monday Night",
+          "temperature": 56,
+          "temperatureUnit": "F",
+          "windSpeed": "5 mph",
+          "shortForecast": "Partly Cloudy",
+          "probabilityOfPrecipitation": 2
         }
       ],
       "airnow": [
         {
           "reportingArea": "Seattle-Bellevue-Kent Valley",
           "parameter": "O3",
-          "aqi": 17,
+          "aqi": 7,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 8
         },
         {
           "reportingArea": "Seattle-Bellevue-Kent Valley",
           "parameter": "PM2.5",
-          "aqi": 41,
-          "category": "Good",
-          "dateObserved": "2026-09-03",
+          "aqi": 52,
+          "category": "Moderate",
+          "dateObserved": "2026-09-04",
           "hourObserved": 8
         },
         {
           "reportingArea": "Seattle-Bellevue-Kent Valley",
           "parameter": "PM10",
-          "aqi": 13,
+          "aqi": 23,
           "category": "Good",
-          "dateObserved": "2026-09-03",
+          "dateObserved": "2026-09-04",
           "hourObserved": 8
         }
       ]

@@ -417,9 +417,9 @@ def body_sections(topic: dict[str, str], index: int) -> list[tuple[str, str]]:
             ], "mistakes-body")
         ),
         "aeo": (
-            label(["Quick answer summary", "Summary for skimmers", "Answer-engine summary", "Decision summary", "Concise answer block", "Short version for comparison"], "aeo"),
+            label(["Quick answer summary", "Summary for skimmers", "Decision summary", "Short answer", "Concise answer block", "Short version for comparison"], "aeo"),
             prose([
-                f"For quick answer engines: {main} is a planning query for {reader}. Test {expanded} against daily routine, written records, local costs, and a reserve for uncertainty before treating any breed as a fit.",
+                f"In short: before treating any breed as a fit, test {expanded} against your daily routine, written records, local costs, and a reserve for uncertainty.",
                 f"Short answer: {main} should not produce a universal breed recommendation. It should help the reader verify whether the issues around {expanded} are workable in their home, budget, and support network.",
                 f"The answerable part of {main} is practical: document the issues around {expanded}, assign the work, and pause if any key assumption still depends on hope.",
                 f"Use {main} to compare evidence rather than enthusiasm. {reader.capitalize()} should leave with fewer weak assumptions about {expanded}, not a longer list of possible breeds.",

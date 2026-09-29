@@ -3,9 +3,15 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from html import escape
 from pathlib import Path
+import argparse
 import json
 import re
 import subprocess
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import content_quality  # noqa: E402
+import site_metadata  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -65,7 +71,7 @@ def normalize_published_html(html: str) -> str:
     html = html.replace("<p class=\"kicker\">Scheduled guide</p>", "<p class=\"kicker\">BreedWise Guide</p>")
     html = html.replace("Main keyword:", "Planning topic:")
     html = html.replace("Expanded keywords:", "Decision focus:")
-    html = re.sub(r"Scheduled:\s*[^<]+", lambda match: "Updated: " + match.group(0).split("T", 1)[0].replace("Scheduled:", "").strip(), html)
+    html = re.sub(r"Scheduled:\s*(\d{4}-\d\d-\d\d)[^<]*", lambda match: "Published: " + match.group(1), html)
     html = html.replace("Quality score: 94", "Educational planning guide")
     html = html.replace("Quality target: 90+", "Educational planning guide")
     html = html.replace("Pre-publish quality check", "Decision boundary and next step")
@@ -143,6 +149,10 @@ def prepare_published_html(html: str, target_file: str) -> str:
 
 
 def validate_published_html(html: str, target: Path) -> None:
+    """Block publication on missing metadata, broken structure, or visible writer instructions.
+
+    Ad tags are intentionally not required here: ad placement is a route policy, not content quality.
+    """
     required = [
         "<title>",
         'name="description"',
@@ -151,63 +161,121 @@ def validate_published_html(html: str, target: Path) -> None:
         'property="og:description"',
         'application/ld+json',
         'name="robots" content="index,follow"',
-        "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
     ]
     missing = [item for item in required if item not in html]
-    scaffold = ["Pre-publish quality check", "Quality score:", "Quality target:", "AEO summary"]
-    leaked = [item for item in scaffold if item in html]
-    if missing or leaked:
-        details = []
-        if missing:
-            details.append(f"missing {', '.join(missing)}")
-        if leaked:
-            details.append(f"leaked scaffold {', '.join(leaked)}")
-        raise RuntimeError(f"{target.relative_to(ROOT)} failed publish validation: {'; '.join(details)}")
+    result = content_quality.check_page(html)
+    details = []
+    if missing:
+        details.append(f"missing {', '.join(missing)}")
+    if result["structure"]:
+        details.append("structure: " + "; ".join(result["structure"]))
+    if result["scaffold"]:
+        details.append("visible writer instructions: " + "; ".join(sorted({leak["type"] for leak in result["scaffold"]})))
+    if details:
+        raise RuntimeError(f"{target.name} failed publish validation: {' | '.join(details)}")
 
 
-def publish_due_posts(now: datetime) -> list[str]:
+def is_approved(item: dict[str, object]) -> bool:
+    return str(item.get("editorial_status") or "").lower() == "approved"
+
+
+def publish_due_posts(now: datetime, dry_run: bool = False) -> tuple[list[str], list[dict[str, str]]]:
+    """Publish due, approved queue items.
+
+    Every due item is prepared and validated before any file is written. Items that fail are
+    reported and left untouched (queue file kept, manifest entry unchanged), so a later failure
+    cannot leave the manifest, queue, and blog directory out of sync.
+    Returns (published target files, blocked items with reasons).
+    """
     manifest = json.loads(SCHEDULE.read_text(encoding="utf-8"))
-    published: list[str] = []
+    staged: list[tuple[dict[str, object], Path, Path, str]] = []
+    blocked: list[dict[str, str]] = []
     for item in manifest:
+        if item.get("status") == "published":
+            continue
         target = safe_child_path(BLOG_DIR, item["target_file"])
         source = safe_child_path(QUEUE_DIR, item["queue_file"])
-        if target.exists() or not source.exists():
-            continue
         if parse_dt(item["publish_at"]) > now:
             continue
-        html = prepare_published_html(source.read_text(encoding="utf-8"), item["target_file"])
-        validate_published_html(html, target)
+        reason = None
+        if target.exists():
+            reason = "target already exists"
+        elif not source.exists():
+            reason = "queue file missing"
+        elif not is_approved(item):
+            reason = "editorial_status is not 'approved'"
+        if reason is None:
+            try:
+                html = prepare_published_html(source.read_text(encoding="utf-8"), item["target_file"])
+                validate_published_html(html, target)
+            except RuntimeError as error:
+                reason = str(error)
+        if reason:
+            blocked.append({"target_file": item["target_file"], "reason": reason})
+            continue
+        staged.append((item, target, source, html))
+    if dry_run or not staged:
+        return [item["target_file"] for item, *_ in staged], blocked
+    published_at = now.astimezone(KST).isoformat()
+    for item, target, source, html in staged:
         target.write_text(html, encoding="utf-8")
+    for item, target, source, html in staged:
         source.unlink()
         item["status"] = "published"
-        item["published_at"] = now.astimezone(KST).isoformat()
-        published.append(item["target_file"])
+        item["published_at"] = published_at
     SCHEDULE.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")
-    return published
+    return [item["target_file"] for item, *_ in staged], blocked
 
 
 def rebuild_blog_index() -> None:
-    posts = [read_meta(path) for path in sorted(BLOG_DIR.glob("*.html")) if path.name != "index.html"]
+    """Blog archive: newest guides first, with a client-side title/summary filter.
+
+    Without JavaScript every card stays visible; the filter only hides non-matching cards.
+    """
+    times = site_metadata.schedule_publish_times(SCHEDULE)
+    posts = []
+    for path in BLOG_DIR.glob("*.html"):
+        if path.name == "index.html":
+            continue
+        meta = read_meta(path)
+        published = site_metadata.post_publish_time(path, times)
+        meta["sort_key"] = published.timestamp() if published else 0
+        meta["date"] = published.astimezone(KST).strftime("%b %d, %Y") if published else ""
+        posts.append(meta)
+    posts.sort(key=lambda post: (-post["sort_key"], post["slug"]))
     cards = "\n".join(
-        "<a class=\"blog-card\" href=\"{slug}\"><span class=\"tag\">BreedWise Guide</span>"
+        "<a class=\"blog-card\" href=\"{slug}\" data-search=\"{search}\"><span class=\"tag\">BreedWise Guide{date}</span>"
         "<h2>{title}</h2><p>{description}</p><span class=\"read-more\">Read guide</span></a>".format(
             slug=escape(post["slug"]),
+            search=escape(f"{post['title']} {post['description']}".casefold()),
+            date=f" &middot; {escape(post['date'])}" if post["date"] else "",
             title=escape(post["title"]),
             description=escape(post["description"]),
         )
         for post in posts
     )
+    search_ui = (
+        '<div class="blog-search"><label for="guide-search">Find a guide by breed or topic</label>'
+        '<input id="guide-search" type="search" autocomplete="off" placeholder="e.g. Beagle, grooming, apartment" aria-describedby="guide-count"></div>'
+    )
+    search_script = (
+        "<script>(function(){var input=document.getElementById('guide-search'),count=document.getElementById('guide-count'),"
+        "cards=[].slice.call(document.querySelectorAll('.blog-card')),empty=document.getElementById('guide-empty'),total=cards.length;"
+        "input.addEventListener('input',function(){var terms=input.value.toLowerCase().trim().split(/\\s+/).filter(Boolean),shown=0;"
+        "cards.forEach(function(card){var text=card.getAttribute('data-search'),match=terms.every(function(t){return text.indexOf(t)>-1;});"
+        "card.hidden=!match;if(match)shown++;});count.textContent=terms.length?shown+' of '+total+' guides match':total+' published guides';"
+        "empty.hidden=shown>0;});})();</script>"
+    )
     html = f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>BreedWise Blog | Dog breed health-risk and cost planning guides</title><meta name="description" content="Read practical BreedWise guides about dog breed health risks, ownership costs, screening questions, and lifestyle fit."><link rel="stylesheet" href="../assets/site.css">
 <link rel="canonical" href="{BASE_URL}/blog/"><meta property="og:title" content="BreedWise Blog | Dog breed health-risk and cost planning guides"><meta property="og:description" content="Read practical BreedWise guides about dog breed health risks, ownership costs, screening questions, and lifestyle fit.">
-<meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{BASE_URL}/assets/hero-dog-risk.png"><meta name="theme-color" content="#2f6b54">{ADSENSE_LOADER}{GA4_TAG}{FEED_LINK}{VERIFICATION_TAGS}</head>
-<body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../cost/index.html">Cost Data</a><a href="../outdoor-risk/index.html">Outdoor Risk</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a><a href="../disclosures/index.html">Disclosures</a></div></nav></header><main><section class="hero"><div class="wrap"><p class="kicker">BreedWise Blog</p><h1>Dog breed planning guides built for useful decisions.</h1><p class="lead">Evidence-aware articles about breed health risks, ownership cost exposure, screening questions, and lifestyle fit. Each guide is written to help future owners ask better questions before commitment.</p></div></section><section class="wrap" style="padding:46px 0"><div class="blog-tools"><p class="blog-count">{len(posts)} published guides</p><a class="button" href="../methodology/index.html">Review methodology</a></div><div class="blog-grid">{cards}</div></section></main><footer class="footer"><div class="wrap"><span>&copy; 2026 BreedWise. Informational planning content only.</span><span><a href="../terms/index.html">Terms</a> &middot; <a href="../privacy-policy/index.html">Privacy Policy</a> &middot; <a href="../disclosures/index.html">Disclosures</a> &middot; <a href="../contact/index.html">Contact</a></span></div></footer></body></html>
+<meta name="robots" content="index,follow"><meta property="og:type" content="website"><meta property="og:image" content="{BASE_URL}/assets/og-breedwise.jpg"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:image" content="{BASE_URL}/assets/og-breedwise.jpg"><meta name="theme-color" content="#2f6b54">{ADSENSE_LOADER}{GA4_TAG}{FEED_LINK}{VERIFICATION_TAGS}</head>
+<body><header class="topbar"><nav class="nav" aria-label="Primary"><a class="brand" href="../index.html"><span class="mark" aria-hidden="true"></span><span>BreedWise</span></a><div class="navlinks"><a href="../blog/index.html">Blog</a><a href="../cost/index.html">Cost Data</a><a href="../outdoor-risk/index.html">Outdoor Risk</a><a href="../methodology/index.html">Methodology</a><a href="../about/index.html">About</a><a href="../contact/index.html">Contact</a><a href="../privacy-policy/index.html">Privacy</a><a href="../disclosures/index.html">Disclosures</a></div></nav></header><main><section class="hero"><div class="wrap"><p class="kicker">BreedWise Blog</p><h1>Dog breed planning guides built for useful decisions.</h1><p class="lead">Evidence-aware articles about breed health risks, ownership cost exposure, screening questions, and lifestyle fit. Each guide is written to help future owners ask better questions before commitment.</p></div></section><section class="wrap" style="padding:46px 0"><div class="blog-tools">{search_ui}<p class="blog-count" id="guide-count" aria-live="polite">{len(posts)} published guides</p><a class="button" href="../methodology/index.html">Review methodology</a></div><p class="note" id="guide-empty" hidden>No guide matches that search. Try a breed name or a single topic word such as grooming, apartment, or insurance.</p><div class="blog-grid">{cards}</div></section></main><footer class="footer"><div class="wrap"><span>&copy; 2026 BreedWise. Informational planning content only.</span><span><a href="../terms/index.html">Terms</a> &middot; <a href="../privacy-policy/index.html">Privacy Policy</a> &middot; <a href="../disclosures/index.html">Disclosures</a> &middot; <a href="../contact/index.html">Contact</a></span></div></footer>{search_script}</body></html>
 """
-    (BLOG_DIR / "index.html").write_text(html, encoding="utf-8")
+    site_metadata.write_if_changed(BLOG_DIR / "index.html", html)
 
 
-def rebuild_sitemap() -> None:
-    today = datetime.now(KST).date().isoformat()
+def site_urls() -> list[str]:
     urls = [
         "",
         "blog/",
@@ -225,38 +293,36 @@ def rebuild_sitemap() -> None:
         urls.extend(f"cost/{path.name}" for path in sorted(COST_DIR.glob("*.html")) if path.name != "index.html")
     if RISK_DIR.exists():
         urls.extend(f"outdoor-risk/{path.name}" for path in sorted(RISK_DIR.glob("*.html")) if path.name != "index.html")
-    body = "\n".join(f"  <url><loc>{BASE_URL}/{url}</loc><lastmod>{today}</lastmod></url>" for url in urls)
-    sitemap = f'<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n{body}\n</urlset>\n'
-    (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
+    return [f"{BASE_URL}/{url}" for url in urls]
+
+
+def rebuild_sitemap(changed_urls: list[str] | None = None, today: str | None = None) -> None:
+    """Rebuild the URL list while keeping each existing URL's lastmod.
+
+    Only URLs in ``changed_urls`` (and newly added URLs) get ``today``. Unchanged pages keep
+    their previous lastmod instead of all being stamped with the build date.
+    """
+    today = today or site_metadata.today_kst()
+    changed = set(changed_urls or [])
+    sitemap = ROOT / "sitemap.xml"
+    existing = site_metadata.read_lastmods(sitemap.read_text(encoding="utf-8")) if sitemap.exists() else {}
+    entries = [(url, today if url in changed or url not in existing else existing[url]) for url in site_urls()]
+    site_metadata.write_if_changed(sitemap, site_metadata.render_sitemap(entries))
 
 
 def rebuild_feed() -> None:
-    posts = [read_meta(path) for path in sorted(BLOG_DIR.glob("*.html")) if path.name != "index.html"]
-    latest = datetime.now(KST).strftime("%a, %d %b %Y %H:%M:%S %z")
-    items = "\n".join(
-        "  <item>"
-        f"<title>{escape(post['title'])}</title>"
-        f"<link>{BASE_URL}/blog/{escape(post['slug'])}</link>"
-        f"<guid>{BASE_URL}/blog/{escape(post['slug'])}</guid>"
-        f"<description>{escape(post['description'])}</description>"
-        f"<pubDate>{latest}</pubDate>"
-        "</item>"
-        for post in posts[:20]
-    )
-    feed = (
-        '<?xml version="1.0" encoding="UTF-8"?>\n'
-        '<rss version="2.0">\n'
-        "<channel>\n"
-        "  <title>BreedWise Dog Breed Planning Guides</title>\n"
-        f"  <link>{BASE_URL}/blog/</link>\n"
-        "  <description>Evidence-aware dog breed health-risk, ownership cost, and lifestyle fit guides.</description>\n"
-        f"  <lastBuildDate>{latest}</lastBuildDate>\n"
-        f"{items}\n"
-        "</channel>\n"
-        "</rss>\n"
-    )
-    (ROOT / "feed.xml").write_text(feed, encoding="utf-8")
-    (ROOT / "rss.xml").write_text(feed, encoding="utf-8")
+    """RSS of the 20 most recently published guides, each with its own publication date."""
+    times = site_metadata.schedule_publish_times(SCHEDULE)
+    posts = []
+    for path in sorted(BLOG_DIR.glob("*.html")):
+        if path.name == "index.html":
+            continue
+        meta = read_meta(path)
+        meta["published"] = site_metadata.post_publish_time(path, times)
+        posts.append(meta)
+    feed = site_metadata.render_feed(BASE_URL, posts)
+    site_metadata.write_if_changed(ROOT / "feed.xml", feed)
+    site_metadata.write_if_changed(ROOT / "rss.xml", feed)
 
 
 def git_has_changes() -> bool:
@@ -264,21 +330,37 @@ def git_has_changes() -> bool:
     return bool(result.stdout.strip())
 
 
-def main() -> int:
+def commit_and_push(count: int) -> None:
+    subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=ROOT, check=True)
+    subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=ROOT, check=True)
+    subprocess.run(["git", "add", "blog", "sitemap.xml", "feed.xml", "rss.xml", "content-schedule.json", ".github/content-queue"], cwd=ROOT, check=True)
+    subprocess.run(["git", "commit", "-m", f"Publish {count} scheduled BreedWise post(s)"], cwd=ROOT, check=True)
+    subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
+    subprocess.run(["git", "push"], cwd=ROOT, check=True)
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description="Publish due, approved BreedWise posts.")
+    parser.add_argument("--dry-run", action="store_true", help="validate and report only; write nothing")
+    parser.add_argument("--commit-and-push", action="store_true", help="commit and push after publishing (CI only)")
+    args = parser.parse_args(argv)
     now = datetime.now(timezone.utc)
-    published = publish_due_posts(now)
+    published, blocked = publish_due_posts(now, dry_run=args.dry_run)
+    for item in blocked:
+        print(f"BLOCKED {item['target_file']}: {item['reason']}")
+    if args.dry_run:
+        print(f"Dry run: {len(published)} post(s) would be published, {len(blocked)} blocked.")
+        for path in published:
+            print(f"- {path}")
+        return 0
     if not published:
         print("No scheduled posts are due.")
         return 0
     rebuild_blog_index()
-    rebuild_sitemap()
+    rebuild_sitemap(changed_urls=[f"{BASE_URL}/{path}" for path in published] + [f"{BASE_URL}/blog/"])
     rebuild_feed()
-    if git_has_changes():
-        subprocess.run(["git", "config", "user.name", "github-actions[bot]"], cwd=ROOT, check=True)
-        subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=ROOT, check=True)
-        subprocess.run(["git", "add", "blog", "sitemap.xml", "feed.xml", "rss.xml", "content-schedule.json", ".github/content-queue"], cwd=ROOT, check=True)
-        subprocess.run(["git", "commit", "-m", f"Publish {len(published)} scheduled BreedWise post(s)"], cwd=ROOT, check=True)
-        subprocess.run(["git", "push"], cwd=ROOT, check=True)
+    if args.commit_and_push and git_has_changes():
+        commit_and_push(len(published))
     print(f"Published {len(published)} scheduled post(s):")
     for path in published:
         print(f"- {path}")

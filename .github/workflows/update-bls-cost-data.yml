@@ -9,6 +9,11 @@ on:
 permissions:
   contents: write
 
+# One run at a time per workflow; pushes rebase onto the latest main to avoid rejected pushes.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   update:
     runs-on: ubuntu-latest
@@ -47,6 +52,7 @@ jobs:
             echo "No BLS data changes."
           else
             git commit -m "Update BLS pet cost data"
+            git pull --rebase origin main
             git push
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi

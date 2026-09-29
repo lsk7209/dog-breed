@@ -5,3 +5,7 @@ dogbreedcost-*.json
 *.log
 __pycache__
 *.pyc
+scripts
+tests
+content-schedule.json
+WORK_LOG.md

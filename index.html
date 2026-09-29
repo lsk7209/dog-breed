@@ -7,12 +7,12 @@
   <meta name="description" content="BreedWise turns dog breed health research into practical cost-risk exposure estimates for future owners, with transparent sources, limits, and methodology.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://dogbreedcost.com/">
-  <link rel="preload" as="image" href="assets/hero-dog-risk.png" imagesizes="100vw">
+  <link rel="preload" as="image" type="image/webp" href="assets/hero-dog-risk-1693.webp" imagesrcset="assets/hero-dog-risk-768.webp 768w, assets/hero-dog-risk-1280.webp 1280w, assets/hero-dog-risk-1693.webp 1693w" imagesizes="100vw">
   <meta property="og:title" content="BreedWise">
   <meta property="og:description" content="Clinical breed risk, US ownership costs, and downside scenarios in one transparent dog breed research hub.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dogbreedcost.com/">
-  <meta property="og:image" content="https://dogbreedcost.com/assets/hero-dog-risk.png">
+  <meta property="og:image" content="https://dogbreedcost.com/assets/og-breedwise.jpg">
   <meta name="theme-color" content="#2f6b54">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='12' fill='%232f6b54'/%3E%3Ccircle cx='42' cy='22' r='7' fill='white'/%3E%3Cpath d='M19 41c5-13 17-18 26-10 6 5 4 14-4 16H21c-3 0-4-3-2-6Z' fill='%23e1eef8'/%3E%3C/svg%3E">
@@ -204,6 +204,9 @@
       background:
         linear-gradient(90deg, rgba(10, 18, 15, .74) 0%, rgba(10, 18, 15, .56) 34%, rgba(10, 18, 15, .16) 70%, rgba(10, 18, 15, .08) 100%),
         url("assets/hero-dog-risk.png") center / cover no-repeat;
+      background:
+        linear-gradient(90deg, rgba(10, 18, 15, .74) 0%, rgba(10, 18, 15, .56) 34%, rgba(10, 18, 15, .16) 70%, rgba(10, 18, 15, .08) 100%),
+        image-set(url("assets/hero-dog-risk-1693.webp") type("image/webp") 1x, url("assets/hero-dog-risk.png") type("image/png") 1x) center / cover no-repeat;
       transform: scale(1.01);
     }
 
@@ -743,7 +746,7 @@
       .nav-links {
         order: 3;
         width: 100%;
-        overflow-x: auto;
+        flex-wrap: wrap;
         padding-bottom: 2px;
       }
 
@@ -752,13 +755,16 @@
       }
 
       .hero-inner {
-        padding-top: 136px;
+        padding-top: 176px;
       }
 
       .hero::before {
         background:
           linear-gradient(90deg, rgba(10, 18, 15, .82), rgba(10, 18, 15, .36)),
           url("assets/hero-dog-risk.png") center / cover no-repeat;
+        background:
+          linear-gradient(90deg, rgba(10, 18, 15, .82), rgba(10, 18, 15, .36)),
+          image-set(url("assets/hero-dog-risk-768.webp") type("image/webp") 1x, url("assets/hero-dog-risk-1280.webp") type("image/webp") 2x, url("assets/hero-dog-risk.png") type("image/png") 1x) center / cover no-repeat;
       }
 
       .hero-facts,
@@ -778,8 +784,12 @@
     }
 
     @media (max-width: 620px) {
+      .hero {
+        align-items: start;
+      }
+
       .hero-inner {
-        padding-top: 148px;
+        padding-top: 232px;
       }
 
       .hero-actions,
@@ -795,6 +805,18 @@
         width: auto;
         min-height: 40px;
         padding: 10px 12px;
+      }
+
+      .topbar {
+        position: absolute;
+      }
+
+      .nav-links {
+        gap: 0 2px;
+      }
+
+      .nav-links a {
+        padding: 7px 8px;
       }
 
       .hero-facts,
@@ -817,6 +839,9 @@
         padding: 22px;
       }
     }
+    .field-help { color: var(--muted); font-size: 13px; font-weight: 500; }
+    .field-error { color: #9b2c1c; font-size: 13px; font-weight: 700; }
+    input[aria-invalid="true"] { border-color: #9b2c1c; }
   </style>
 <link rel="alternate" type="application/rss+xml" title="BreedWise RSS" href="https://dogbreedcost.com/feed.xml"><script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3050601904412736" crossorigin="anonymous"></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-5FZSHME54N"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-5FZSHME54N');</script><meta name="google-site-verification" content="33-RSHdhGx_IC-b1_fpFOHyr-s0P35VSCOwIOFy6UAE"><meta name="naver-site-verification" content="d0084eb5ece035b3d7de4936181ae0dd92022175"></head>
 <body>
@@ -861,7 +886,7 @@
         </div>
         <div>
           <strong>US costs</strong>
-          <span>Cost ranges are modeled from US spending and claim references where available.</span>
+          <span>The calculator uses the amounts you enter; BLS CPI context is shown separately on the Cost Data pages.</span>
         </div>
         <div>
           <strong>Limits shown</strong>
@@ -880,24 +905,24 @@
             <div class="tag-row">
               <span class="tag">Core tool</span>
             </div>
-            <h3>Cost-Risk Exposure</h3>
-            <p>Model common high-cost conditions, likely spend bands, and downside exposure for a selected breed and region.</p>
-            <a href="#cost-risk">Preview model</a>
+            <h3>Breed health watchlist</h3>
+            <p>Compare the published health watchlist and source notes for four breeds, then open the full guide.</p>
+            <a href="#cost-risk">Preview watchlist</a>
           </article>
           <article class="card">
             <div class="tag-row">
               <span class="tag blue">Planning</span>
             </div>
             <h3>5-year ownership cost</h3>
-            <p>Estimate food, care, routine veterinary spend, grooming, insurance premiums, and known uncertainty bands.</p>
-            <a href="#ownership">Preview calculator</a>
+            <p>Enter your own monthly food and basics amount, pick a routine-care level, and keep an emergency reserve separate from projected spending.</p>
+            <a href="#ownership">Open calculator</a>
           </article>
           <article class="card">
             <div class="tag-row">
               <span class="tag amber">Discovery</span>
             </div>
             <h3>Breed Finder</h3>
-            <p>Filter breeds by apartment fit, first-time owner fit, climate fit, allergy considerations, and cost exposure.</p>
+            <p>Check four preview breeds against home setup, owner experience, cost-exposure tolerance, and climate, with unmet conditions listed.</p>
             <a href="#finder">Preview finder</a>
           </article>
         </div>
@@ -916,9 +941,9 @@
 
         <div class="tool-grid">
           <div class="panel risk-panel">
-            <h3>Cost-Risk Exposure inputs</h3>
-            <p class="muted">The launch tool will combine breed, region, life stage, and selected planning assumptions. This preview shows the model structure without claiming finalized breed scores.</p>
-            <form class="risk-form" aria-label="Cost-risk preview controls">
+            <h3>Watchlist preview inputs</h3>
+            <p class="muted">Pick a breed to see which health topics its published guide covers. No score is calculated: region and planning window only change the notes about which sources and local quotes to check.</p>
+            <form class="risk-form" aria-label="Breed watchlist preview controls">
               <label>
                 Breed
                 <select id="breed">
@@ -929,7 +954,7 @@
                 </select>
               </label>
               <label>
-                Region
+                Region (notes only)
                 <select id="region">
                   <option>United States</option>
                   <option>California</option>
@@ -938,7 +963,7 @@
                 </select>
               </label>
               <label>
-                Planning window
+                Planning window (notes only)
                 <select id="window">
                   <option>First 5 years</option>
                   <option>Full adult lifespan</option>
@@ -946,7 +971,7 @@
                 </select>
               </label>
               <label>
-                Risk view
+                Focus (notes only)
                 <select id="risk">
                   <option>Common high-cost conditions</option>
                   <option>Routine and preventive costs</option>
@@ -957,20 +982,15 @@
           </div>
 
           <aside class="panel result-box" aria-live="polite">
-            <div class="score-row">
-              <div class="dial" id="dial" role="img" aria-label="62 out of 100 preliminary exposure preview for French Bulldog; not a finalized score">62</div>
-              <div>
-                <h3 id="result-title">French Bulldog exposure preview</h3>
-                <p class="muted" id="result-copy">Signals will emphasize respiratory, skin, and orthopedic watchlists where source coverage supports them.</p>
-              </div>
-            </div>
+            <h3 id="result-title">French Bulldog watchlist</h3>
+            <p class="muted" id="result-copy">The guide covers respiratory, skin, and orthopedic topics where source coverage supports them.</p>
             <ul class="mini-list">
-              <li><strong>Clinical evidence</strong><span id="evidence-label">VetCompass and peer-reviewed sources</span></li>
-              <li><strong>Cost reference</strong><span id="cost-label">US national spending and claim ranges</span></li>
-              <li><strong>Output</strong><span id="output-label">Range, downside, and source limits</span></li>
-              <li><strong>Editorial status</strong><span>Educational planning content with source limits shown</span></li>
+              <li><strong>Clinical evidence</strong><span id="evidence-label">VetCompass and peer-reviewed sources, labeled as UK-context evidence</span></li>
+              <li><strong>Cost reference</strong><span id="cost-label">Use written local quotes; national figures are context only</span></li>
+              <li><strong>Focus</strong><span id="output-label">First 5 years: common high-cost conditions</span></li>
+              <li><strong>Read next</strong><span><a id="guide-link" href="blog/french-bulldog-vet-costs.html">French Bulldog cost guide</a></span></li>
             </ul>
-            <p class="note">Planning preview only. Use the methodology and article sources before making decisions about a specific dog.</p>
+            <p class="note">No breed score or probability is shown because the site does not have a validated scoring method. Use the guide's sources and a veterinarian for decisions about a specific dog.</p>
           </aside>
         </div>
       </div>
@@ -983,16 +1003,16 @@
             <p class="section-kicker">Cost calculator</p>
             <h2>Show the budget range before a breed profile gets persuasive.</h2>
           </div>
-          <p>The ownership preview separates routine spend from uncertainty buffers so the future tool can explain which assumptions moved the estimate.</p>
+          <p>The calculator keeps projected spending and an emergency reserve apart, and shows the formula, so you can see which of your inputs moved the total.</p>
         </div>
 
         <div class="planner-grid">
           <div class="panel risk-panel">
             <h3>5-year ownership inputs</h3>
-            <p class="muted">This calculator uses broad planning bands to separate routine spend from an uncertainty buffer. Local prices, individual dogs, and provider choices can change the result.</p>
-            <form class="risk-form" aria-label="Ownership cost preview controls">
+            <p class="muted">Enter what you expect to spend. Dog size only suggests a starting monthly amount; once you type your own number it is used as entered. Routine-care and reserve amounts are BreedWise planning assumptions, not quotes.</p>
+            <form class="risk-form" aria-label="Ownership cost calculator" novalidate>
               <label>
-                Dog size
+                Dog size (suggests a starting amount)
                 <select id="dog-size">
                   <option value="small">Small</option>
                   <option value="medium" selected>Medium</option>
@@ -1000,47 +1020,50 @@
                 </select>
               </label>
               <label>
-                Care style
+                Routine care level
                 <select id="care-style">
-                  <option value="lean">Lean essentials</option>
-                  <option value="standard" selected>Standard care</option>
-                  <option value="premium">Higher-service care</option>
+                  <option value="lean">Lean essentials ($720/yr)</option>
+                  <option value="standard" selected>Standard care ($1,080/yr)</option>
+                  <option value="premium">Higher-service care ($1,680/yr)</option>
                 </select>
               </label>
               <label>
-                Monthly food and basics
-                <input id="monthly-basics" type="number" min="40" max="600" step="10" value="160">
+                Monthly food and basics (USD)
+                <input id="monthly-basics" type="text" inputmode="decimal" autocomplete="off" value="160" aria-describedby="monthly-help monthly-error">
+                <span class="field-help" id="monthly-help">Your expected monthly spend, $0-$2,000.</span>
+                <span class="field-error" id="monthly-error" role="alert" hidden></span>
               </label>
               <label>
-                Health uncertainty buffer
+                Emergency reserve
                 <select id="health-buffer">
-                  <option value="low">Lower buffer</option>
-                  <option value="medium" selected>Middle buffer</option>
-                  <option value="high">Higher buffer</option>
+                  <option value="low">Lower reserve ($2,200)</option>
+                  <option value="medium" selected>Middle reserve ($4,800)</option>
+                  <option value="high">Higher reserve ($8,200)</option>
                 </select>
               </label>
             </form>
           </div>
 
           <aside class="panel result-box" aria-live="polite">
-            <p class="section-kicker">Preview range</p>
-            <div class="cost-total" id="cost-total">$19.8k-$24.6k</div>
-            <p class="muted" id="cost-summary">Standard care for a medium dog, including routine care and a middle uncertainty buffer.</p>
+            <p class="section-kicker">Cash to prepare over 5 years</p>
+            <div class="cost-total" id="cost-total">$19,800</div>
+            <p class="muted" id="cost-summary">Example with the default inputs: $15,000 projected spending plus a $4,800 emergency reserve.</p>
             <div class="cost-band" aria-label="Cost estimate components">
               <div>
-                <strong id="routine-cost">$9.6k</strong>
+                <strong id="routine-cost">$9,600</strong>
                 <span class="muted">Food and basics</span>
               </div>
               <div>
-                <strong id="care-cost">$5.4k</strong>
+                <strong id="care-cost">$5,400</strong>
                 <span class="muted">Routine care</span>
               </div>
               <div>
-                <strong id="buffer-cost">$4.8k</strong>
-                <span class="muted">Uncertainty buffer</span>
+                <strong id="buffer-cost">$4,800</strong>
+                <span class="muted">Emergency reserve (set aside, not spent)</span>
               </div>
             </div>
-            <p class="note">Not a quote, premium estimate, or treatment recommendation. It is a planning aid for comparing routine costs and uncertainty before choosing a dog.</p>
+            <p class="note" id="cost-formula">$160 x 12 months x 5 years + $1,080 routine care x 5 years. Not included: insurance premiums, grooming, training, boarding, or treatment costs.</p>
+            <p class="note">Not a quote, premium estimate, or treatment recommendation. Replace the assumptions with local written quotes when you have them.</p>
           </aside>
         </div>
       </div>
@@ -1053,7 +1076,7 @@
             <p class="section-kicker">Breed finder</p>
             <h2>Filter for fit before comparing popularity.</h2>
           </div>
-          <p>The discovery layer keeps users away from one-size-fits-all breed rankings by showing fit constraints, cost exposure, and practical ownership caveats together.</p>
+          <p>The finder checks four preview breeds against each condition you pick and lists what each breed does not meet, instead of ranking by popularity.</p>
         </div>
 
         <div class="planner-grid">
@@ -1093,31 +1116,8 @@
             </form>
           </div>
 
-          <aside class="match-list" id="match-list" aria-live="polite" aria-label="Breed finder preview matches">
-            <article class="match-card">
-              <div class="match-meta">
-                <span class="tag">moderate exposure</span>
-                <span class="tag blue">moderate apartment fit</span>
-              </div>
-              <strong>Labrador Retriever</strong>
-              <p>Broad source availability and a familiar ownership profile, with weight and orthopedic considerations.</p>
-            </article>
-            <article class="match-card">
-              <div class="match-meta">
-                <span class="tag">moderate exposure</span>
-                <span class="tag blue">good apartment fit</span>
-              </div>
-              <strong>Dachshund</strong>
-              <p>Compact home fit with back-related downside scenarios that need clear source labeling.</p>
-            </article>
-            <article class="match-card">
-              <div class="match-meta">
-                <span class="tag amber">higher exposure</span>
-                <span class="tag blue">good apartment fit</span>
-              </div>
-              <strong>Cavalier King Charles Spaniel</strong>
-              <p>Strong companion fit, but inherited and cardiac-risk review must be prominent before launch.</p>
-            </article>
+          <aside class="match-list" id="match-list" aria-live="polite" aria-label="Breed finder results">
+            <p class="muted" id="finder-summary">Choose your conditions to check four preview breeds: Labrador Retriever, Cavalier King Charles Spaniel, Dachshund, and French Bulldog. Results need JavaScript.</p>
           </aside>
         </div>
       </div>
@@ -1248,190 +1248,131 @@
     </div>
   </footer>
 
+  <script src="assets/breedwise-tools.js"></script>
   <script>
-    const profiles = {
-      "French Bulldog": {
-        score: 62,
-        title: "French Bulldog exposure preview",
-        copy: "Signals will emphasize respiratory, skin, and orthopedic watchlists where source coverage supports them."
-      },
-      "Cavalier King Charles Spaniel": {
-        score: 68,
-        title: "Cavalier exposure preview",
-        copy: "Signals will prioritize inherited and cardiac-risk source review before any public score is finalized."
-      },
-      "Labrador Retriever": {
-        score: 44,
-        title: "Labrador exposure preview",
-        copy: "Signals will balance broad ownership costs with orthopedic and weight-related risk considerations."
-      },
-      "Dachshund": {
-        score: 57,
-        title: "Dachshund exposure preview",
-        copy: "Signals will focus on back-related downside scenarios, routine costs, and source quality."
+    (function () {
+      "use strict";
+      var tools = window.BreedWiseTools;
+      if (!tools) return; // Static example values and the no-JS notes remain visible.
+
+      var watchlists = {
+        "French Bulldog": {
+          copy: "The guide covers respiratory, skin, and orthopedic topics where source coverage supports them.",
+          guide: "blog/french-bulldog-vet-costs.html",
+          label: "French Bulldog cost guide"
+        },
+        "Cavalier King Charles Spaniel": {
+          copy: "The guide prioritizes inherited and cardiac topics and the screening records to ask about.",
+          guide: "blog/cavalier-king-charles-health-costs.html",
+          label: "Cavalier King Charles Spaniel guide"
+        },
+        "Labrador Retriever": {
+          copy: "The guide balances broad ownership costs with weight, joint, and orthopedic topics.",
+          guide: "blog/labrador-retriever-health-costs.html",
+          label: "Labrador Retriever guide"
+        },
+        "Dachshund": {
+          copy: "The guide focuses on back-related downside scenarios, routine costs, and source quality.",
+          guide: "blog/dachshund-back-problems-cost.html",
+          label: "Dachshund back-cost guide"
+        }
+      };
+
+      var breedMatches = [
+        { name: "Labrador Retriever", apartment: "moderate", first: "good", risk: "moderate", climate: "mixed",
+          note: "Broad source availability and a familiar ownership profile, with weight and orthopedic considerations." },
+        { name: "Cavalier King Charles Spaniel", apartment: "good", first: "moderate", risk: "higher", climate: "mixed",
+          note: "Strong companion fit, with inherited and cardiac topics that need careful source review." },
+        { name: "Dachshund", apartment: "good", first: "moderate", risk: "moderate", climate: "mixed",
+          note: "Compact home fit with back-related downside scenarios that need clear source labeling." },
+        { name: "French Bulldog", apartment: "good", first: "moderate", risk: "higher", climate: "cold",
+          note: "Popular apartment candidate with respiratory and heat-sensitivity caveats." }
+      ];
+
+      function $(id) { return document.getElementById(id); }
+      function text(el, value) { el.textContent = value; }
+
+      // Watchlist preview: descriptive only, no score.
+      var breedSelect = $("breed"), regionSelect = $("region"), windowSelect = $("window"), focusSelect = $("risk");
+      function renderWatchlist() {
+        var item = watchlists[breedSelect.value];
+        text($("result-title"), breedSelect.value + " watchlist");
+        text($("result-copy"), item.copy);
+        text($("cost-label"), regionSelect.value === "United States"
+          ? "Use written local quotes; national figures are context only"
+          : regionSelect.value + ": ask local providers for written quotes; this page has no state-level prices");
+        text($("output-label"), windowSelect.value + ": " + focusSelect.value.toLowerCase());
+        var link = $("guide-link");
+        link.href = item.guide;
+        text(link, item.label);
       }
-    };
+      [breedSelect, regionSelect, windowSelect, focusSelect].forEach(function (c) { c.addEventListener("change", renderWatchlist); });
 
-    const breedSelect = document.querySelector("#breed");
-    const regionSelect = document.querySelector("#region");
-    const windowSelect = document.querySelector("#window");
-    const riskSelect = document.querySelector("#risk");
-    const dial = document.querySelector("#dial");
-    const title = document.querySelector("#result-title");
-    const copy = document.querySelector("#result-copy");
-    const evidenceLabel = document.querySelector("#evidence-label");
-    const costLabel = document.querySelector("#cost-label");
-    const outputLabel = document.querySelector("#output-label");
-    const dogSize = document.querySelector("#dog-size");
-    const careStyle = document.querySelector("#care-style");
-    const monthlyBasics = document.querySelector("#monthly-basics");
-    const healthBuffer = document.querySelector("#health-buffer");
-    const costTotal = document.querySelector("#cost-total");
-    const costSummary = document.querySelector("#cost-summary");
-    const routineCost = document.querySelector("#routine-cost");
-    const careCost = document.querySelector("#care-cost");
-    const bufferCost = document.querySelector("#buffer-cost");
-    const homeSetup = document.querySelector("#home-setup");
-    const ownerExperience = document.querySelector("#owner-experience");
-    const riskTolerance = document.querySelector("#risk-tolerance");
-    const climateConcern = document.querySelector("#climate-concern");
-    const matchList = document.querySelector("#match-list");
-
-    const careCosts = {
-      lean: 720,
-      standard: 1080,
-      premium: 1680
-    };
-
-    const sizeFactors = {
-      small: .86,
-      medium: 1,
-      large: 1.22
-    };
-
-    const bufferCosts = {
-      low: 2200,
-      medium: 4800,
-      high: 8200
-    };
-
-    const breedMatches = [
-      {
-        name: "Labrador Retriever",
-        apartment: "moderate",
-        first: "good",
-        risk: "moderate",
-        climate: "mixed",
-        note: "Broad source availability and a familiar ownership profile, with weight and orthopedic considerations."
-      },
-      {
-        name: "Cavalier King Charles Spaniel",
-        apartment: "good",
-        first: "moderate",
-        risk: "higher",
-        climate: "mixed",
-        note: "Strong companion fit, but inherited and cardiac-risk review must be prominent before launch."
-      },
-      {
-        name: "Dachshund",
-        apartment: "good",
-        first: "moderate",
-        risk: "moderate",
-        climate: "mixed",
-        note: "Compact home fit with back-related downside scenarios that need clear source labeling."
-      },
-      {
-        name: "French Bulldog",
-        apartment: "good",
-        first: "moderate",
-        risk: "higher",
-        climate: "cold",
-        note: "Popular apartment candidate, but respiratory and heat-sensitivity caveats should be impossible to miss."
+      // Ownership calculator.
+      var dogSize = $("dog-size"), careStyle = $("care-style"), monthly = $("monthly-basics"), reserve = $("health-buffer");
+      var errorBox = $("monthly-error");
+      var userEdited = false;
+      function renderCost() {
+        var result = tools.calculateBudget({ monthlyBasics: monthly.value, careStyle: careStyle.value, reserveLevel: reserve.value });
+        if (!result.ok) {
+          monthly.setAttribute("aria-invalid", "true");
+          errorBox.hidden = false;
+          text(errorBox, result.error);
+          ["cost-total", "routine-cost", "care-cost", "buffer-cost"].forEach(function (id) { text($(id), "--"); });
+          text($("cost-summary"), "Fix the monthly amount to update the estimate.");
+          text($("cost-formula"), "No estimate is shown until the monthly amount is valid.");
+          return;
+        }
+        monthly.removeAttribute("aria-invalid");
+        errorBox.hidden = true;
+        text(errorBox, "");
+        text($("cost-total"), tools.money(result.cashToPrepare));
+        text($("routine-cost"), tools.money(result.basicsSpend));
+        text($("care-cost"), tools.money(result.careSpend));
+        text($("buffer-cost"), tools.money(result.emergencyReserve));
+        text($("cost-summary"), tools.money(result.projectedSpend) + " projected spending plus a " +
+          tools.money(result.emergencyReserve) + " emergency reserve.");
+        text($("cost-formula"), result.formula + ". Not included: insurance premiums, grooming, training, boarding, or treatment costs.");
       }
-    ];
+      monthly.addEventListener("input", function () { userEdited = true; renderCost(); });
+      dogSize.addEventListener("change", function () {
+        if (!userEdited) monthly.value = String(tools.SUGGESTED_MONTHLY[dogSize.value]);
+        renderCost();
+      });
+      [careStyle, reserve].forEach(function (c) { c.addEventListener("change", renderCost); });
 
-    function renderPreview() {
-      const profile = profiles[breedSelect.value];
-      const score = Math.min(100, profile.score + (riskSelect.value === "Downside scenario" ? 8 : 0));
-      const nextBand = Math.min(score + 16, 100);
-      const costScope = regionSelect.value === "United States"
-        ? "US national spending and claim ranges"
-        : `${regionSelect.value} context; use local quotes for final budgeting`;
-      const outputMode = riskSelect.value === "Downside scenario"
-        ? `${windowSelect.value} downside scenario and source limits`
-        : `${windowSelect.value} range, watchlist, and source limits`;
+      // Breed finder: every candidate is shown with met and unmet conditions.
+      var homeSetup = $("home-setup"), experience = $("owner-experience"), tolerance = $("risk-tolerance"), climate = $("climate-concern");
+      var matchList = $("match-list");
+      function escapeHtml(value) {
+        return String(value).replace(/[&<>"']/g, function (ch) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch];
+        });
+      }
+      function renderFinder() {
+        var ranked = tools.rankBreeds(breedMatches, {
+          home: homeSetup.value, experience: experience.value, risk: tolerance.value, climate: climate.value
+        });
+        var full = ranked.filter(function (r) { return r.meetsAll; }).length;
+        var summary = full
+          ? full + " of " + ranked.length + " preview breeds meet every selected condition."
+          : "None of the " + ranked.length + " preview breeds meets every selected condition. Closest matches are listed first with the unmet conditions.";
+        matchList.innerHTML = '<p class="muted" id="finder-summary">' + escapeHtml(summary) + "</p>" + ranked.map(function (r) {
+          var b = r.breed;
+          return '<article class="match-card"><div class="match-meta">' +
+            '<span class="tag' + (r.meetsAll ? "" : " amber") + '">' + (r.meetsAll ? "meets all conditions" : r.unmet.length + " unmet") + "</span>" +
+            '<span class="tag blue">' + escapeHtml(b.risk) + " exposure</span></div>" +
+            "<strong>" + escapeHtml(b.name) + "</strong><p>" + escapeHtml(b.note) + "</p>" +
+            (r.unmet.length ? "<p><b>Does not meet:</b> " + escapeHtml(r.unmet.join("; ")) + "</p>" : "") +
+            "<p><b>Meets:</b> " + escapeHtml(r.met.join("; ") || "none of the selected conditions") + "</p></article>";
+        }).join("");
+      }
+      [homeSetup, experience, tolerance, climate].forEach(function (c) { c.addEventListener("change", renderFinder); });
 
-      dial.textContent = score;
-      dial.setAttribute("aria-label", `${score} out of 100 preliminary exposure preview for ${breedSelect.value}; not a finalized score`);
-      dial.style.background = `conic-gradient(var(--coral) 0 ${score}%, var(--amber) ${score}% ${nextBand}%, #d7e4db ${nextBand}% 100%)`;
-      title.textContent = `${profile.title}: ${riskSelect.value.toLowerCase()}`;
-      copy.textContent = `${profile.copy} Region and time-window controls show planning context, not an actuarial estimate or veterinary recommendation.`;
-      evidenceLabel.textContent = "VetCompass and peer-reviewed sources, labeled as UK-context evidence";
-      costLabel.textContent = costScope;
-      outputLabel.textContent = outputMode;
-    }
-
-    [breedSelect, regionSelect, windowSelect, riskSelect].forEach((control) => {
-      control.addEventListener("change", renderPreview);
-    });
-
-    function money(value) {
-      return `$${Math.round(value / 100) / 10}k`;
-    }
-
-    function renderCostPreview() {
-      const basics = Number(monthlyBasics.value || 0) * 60 * sizeFactors[dogSize.value];
-      const care = careCosts[careStyle.value] * 5 * sizeFactors[dogSize.value];
-      const buffer = bufferCosts[healthBuffer.value] * sizeFactors[dogSize.value];
-      const low = basics + care + buffer;
-      const high = low * (healthBuffer.value === "high" ? 1.34 : 1.24);
-
-      costTotal.textContent = `${money(low)}-${money(high)}`;
-      routineCost.textContent = money(basics);
-      careCost.textContent = money(care);
-      bufferCost.textContent = money(buffer);
-      costSummary.textContent = `${careStyle.options[careStyle.selectedIndex].text} for a ${dogSize.value} dog, with a ${healthBuffer.options[healthBuffer.selectedIndex].text.toLowerCase()} for uncertainty. Local prices and individual care needs can change the result.`;
-    }
-
-    function scoreMatch(breed) {
-      let score = 0;
-      if (homeSetup.value === "yard" || breed.apartment === "good") score += 2;
-      if (ownerExperience.value === "experienced" || breed.first === "good") score += 2;
-      if (riskTolerance.value === "higher" || breed.risk !== "higher") score += 2;
-      if (climateConcern.value === breed.climate || breed.climate === "mixed") score += 1;
-      return score;
-    }
-
-    function renderFinderPreview() {
-      const ranked = [...breedMatches]
-        .map((breed) => ({ ...breed, score: scoreMatch(breed) }))
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 3);
-
-      matchList.innerHTML = ranked.map((breed) => `
-        <article class="match-card">
-          <div class="match-meta">
-            <span class="tag${breed.risk === "higher" ? " amber" : ""}">${breed.risk} exposure</span>
-            <span class="tag blue">${breed.apartment} apartment fit</span>
-          </div>
-          <strong>${breed.name}</strong>
-          <p>${breed.note}</p>
-        </article>
-      `).join("");
-    }
-
-    [dogSize, careStyle, monthlyBasics, healthBuffer].forEach((control) => {
-      control.addEventListener("input", renderCostPreview);
-      control.addEventListener("change", renderCostPreview);
-    });
-
-    [homeSetup, ownerExperience, riskTolerance, climateConcern].forEach((control) => {
-      control.addEventListener("change", renderFinderPreview);
-    });
-
-    renderPreview();
-    renderCostPreview();
-    renderFinderPreview();
+      renderWatchlist();
+      renderCost();
+      renderFinder();
+    })();
   </script>
 </body>
 </html>

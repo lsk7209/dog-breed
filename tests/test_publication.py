@@ -206,6 +206,17 @@ class Batch(unittest.TestCase):
         lastmods = meta.read_lastmods(sitemap.read_text(encoding="utf-8"))
         self.assertEqual(lastmods, {urls[0]: "2026-01-01", urls[1]: "2026-09-29"})
 
+    def test_u06_blog_index_newest_first_with_search(self):
+        for slug, day in (("aaa-old", "2026-06-01"), ("zzz-new", "2026-08-01")):
+            (publish.BLOG_DIR / f"{slug}.html").write_text(article(title=slug, date_published=day), encoding="utf-8")
+        publish.SCHEDULE.write_text("[]", encoding="utf-8")
+        publish.rebuild_blog_index()
+        html = (publish.BLOG_DIR / "index.html").read_text(encoding="utf-8")
+        self.assertLess(html.index("zzz-new.html"), html.index("aaa-old.html"))
+        self.assertIn('id="guide-search"', html)
+        self.assertIn('data-search="zzz-new d"', html)
+        self.assertIn("2 published guides", html)
+
     def test_m06_xml_escaping(self):
         feed = meta.render_feed("https://x", [{"slug": "a.html", "title": 'Dogs & "Cats" <3', "description": "é ü",
                                                 "published": datetime(2026, 1, 1, tzinfo=timezone.utc)}])

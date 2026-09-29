@@ -28,6 +28,7 @@ SCAFFOLD_PATTERNS = {
     "quality score label": re.compile(r"\bquality (score|target)\b", re.I),
     "pre-publish label": re.compile(r"pre-publish quality check", re.I),
     "pSEO label": re.compile(r"\bp?SEO\b(?! -)", re.I),
+    "search-positioning note": re.compile(r"instead of competing with existing|searchers are not looking|planning query for", re.I),
 }
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "source", "track", "wbr"}
 

@@ -43,6 +43,8 @@ class Validation(unittest.TestCase):
             publish.validate_published_html(publish.prepare_published_html(html, "blog/x.html"), Path("x.html"))
 
     def test_p01_title_rename_alone_does_not_pass(self):
+        leak = article(body="<p>This article supports the site instead of competing with existing breed cost guides.</p>")
+        self.assertEqual({l["type"] for l in quality.scaffold_leaks(leak)}, {"search-positioning note"})
         html = article(body="<h2>AEO summary</h2><p>The main keyword should appear early.</p>")
         prepared = publish.prepare_published_html(html, "blog/x.html")
         self.assertIn("Short answer", prepared)  # heading renamed...

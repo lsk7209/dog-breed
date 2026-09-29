@@ -4,9 +4,14 @@ from datetime import datetime, timedelta, timezone
 from html import escape
 from pathlib import Path
 import json
+import math
 import os
 import re
 import urllib.request
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import site_metadata  # noqa: E402
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -122,40 +127,166 @@ def fetch_bls() -> dict[str, object]:
     return result
 
 
-def normalize_data(raw: dict[str, object]) -> dict[str, object]:
-    by_id = {item["series_id"]: slug for slug, item in SERIES.items()}
-    updated = datetime.now(KST).date().isoformat()
-    pages: dict[str, object] = {}
-    for series in raw.get("Results", {}).get("series", []):
-        slug = by_id.get(series.get("seriesID"))
-        if not slug:
+MONTH_PERIOD = re.compile(r"^M(0[1-9]|1[0-2])$")
+MONTH_NAMES = ["January", "February", "March", "April", "May", "June", "July", "August",
+               "September", "October", "November", "December"]
+
+
+class BLSDataError(RuntimeError):
+    """Raised when BLS data is unusable; callers must keep the last good snapshot."""
+
+
+def parse_monthly_rows(rows: list[dict[str, object]]) -> list[dict[str, object]]:
+    """Keep only valid monthly observations (M01-M12, positive finite value), newest first.
+
+    M13 (annual average) and non-numeric values such as "-" are dropped rather than being
+    mixed into monthly history. Duplicate year/month rows keep the first occurrence.
+    """
+    seen: set[tuple[int, int]] = set()
+    parsed: list[dict[str, object]] = []
+    for row in rows or []:
+        period = str(row.get("period", ""))
+        if not MONTH_PERIOD.match(period):
             continue
-        data = [row for row in series.get("data", []) if row.get("period", "").startswith("M") and row.get("value") != "-"]
-        latest = data[0]
-        previous_year = next((row for row in data if row.get("year") == str(int(latest["year"]) - 1) and row.get("period") == latest.get("period")), None)
-        yoy = None
-        if previous_year:
-            yoy = (float(latest["value"]) / float(previous_year["value"]) - 1) * 100
-        pages[slug] = {
-            **SERIES[slug],
-            "catalog": series.get("catalog", {}),
-            "latest": {
-                "year": latest["year"],
-                "period": latest["periodName"],
-                "value": latest["value"],
-                "pct_changes": latest.get("calculations", {}).get("pct_changes", {}),
-                "year_over_year_same_month": None if yoy is None else round(yoy, 1),
-            },
-            "history": [
-                {
-                    "year": row["year"],
-                    "period": row["periodName"],
-                    "value": row["value"],
-                }
-                for row in data[:14]
-            ],
-        }
-    return {"updated": updated, "source": "BLS Public Data API v2", "pages": pages}
+        try:
+            year = int(str(row.get("year")))
+            value = float(str(row.get("value")))
+        except (TypeError, ValueError):
+            continue
+        if not math.isfinite(value) or value <= 0:
+            continue
+        month = int(period[1:])
+        if (year, month) in seen:
+            continue
+        seen.add((year, month))
+        parsed.append({"row": row, "year": year, "month": month, "value": value})
+    parsed.sort(key=lambda item: (item["year"], item["month"]), reverse=True)
+    return parsed
+
+
+def footnote_texts(row: dict[str, object]) -> list[str]:
+    notes = []
+    for note in row.get("footnotes") or []:
+        if isinstance(note, dict) and note.get("text"):
+            notes.append(str(note["text"]))
+    return notes
+
+
+def missing_months(parsed: list[dict[str, object]]) -> list[str]:
+    """Calendar months absent between the oldest and newest returned observation."""
+    if len(parsed) < 2:
+        return []
+    present = {(item["year"], item["month"]) for item in parsed}
+    newest, oldest = parsed[0], parsed[-1]
+    gaps = []
+    year, month = oldest["year"], oldest["month"]
+    while (year, month) < (newest["year"], newest["month"]):
+        if (year, month) not in present:
+            gaps.append(f"{MONTH_NAMES[month - 1]} {year}")
+        month += 1
+        if month == 13:
+            year, month = year + 1, 1
+    return gaps
+
+
+def normalize_series(slug: str, series: dict[str, object]) -> dict[str, object]:
+    parsed = parse_monthly_rows(series.get("data", []))
+    if not parsed:
+        raise BLSDataError(f"{slug}: no valid monthly observations")
+    latest = parsed[0]
+    previous_year = next(
+        (item for item in parsed if item["year"] == latest["year"] - 1 and item["month"] == latest["month"]),
+        None,
+    )
+    yoy = None if previous_year is None else (latest["value"] / previous_year["value"] - 1) * 100
+    row = latest["row"]
+    return {
+        **SERIES[slug],
+        "catalog": series.get("catalog", {}),
+        "status": "available",
+        "latest": {
+            "year": str(latest["year"]),
+            "period": MONTH_NAMES[latest["month"] - 1],
+            "period_code": f"M{latest['month']:02d}",
+            "value": str(row.get("value")),
+            "pct_changes": (row.get("calculations") or {}).get("pct_changes", {}),
+            "year_over_year_same_month": None if yoy is None else round(yoy, 1),
+            "footnotes": footnote_texts(row),
+        },
+        "history": [
+            {
+                "year": str(item["year"]),
+                "period": MONTH_NAMES[item["month"] - 1],
+                "period_code": f"M{item['month']:02d}",
+                "value": str(item["row"].get("value")),
+                "footnotes": footnote_texts(item["row"]),
+            }
+            for item in parsed[:14]
+        ],
+        "missing_months": missing_months(parsed[:14]),
+    }
+
+
+def normalize_data(raw: dict[str, object], previous: dict[str, object] | None = None) -> dict[str, object]:
+    """Normalize a BLS response. Missing series fall back to the previous good page.
+
+    Raises BLSDataError when no expected series is usable, so an empty hub is never written.
+    """
+    by_id = {item["series_id"]: slug for slug, item in SERIES.items()}
+    previous_pages = (previous or {}).get("pages", {}) if isinstance(previous, dict) else {}
+    results = raw.get("Results") if isinstance(raw, dict) else None
+    series_list = results.get("series", []) if isinstance(results, dict) else []
+    pages: dict[str, object] = {}
+    errors: dict[str, str] = {}
+    for series in series_list or []:
+        slug = by_id.get(series.get("seriesID"))
+        if not slug or slug in pages:
+            continue
+        try:
+            pages[slug] = normalize_series(slug, series)
+        except BLSDataError as error:
+            errors[slug] = str(error)
+    fresh = [slug for slug in SERIES if slug in pages]
+    if not fresh:
+        detail = "; ".join(errors.values()) or "no expected series returned"
+        raise BLSDataError(f"BLS response has no usable series ({detail})")
+    for slug in SERIES:
+        if slug in pages:
+            continue
+        reason = errors.get(slug, "series not returned by the API")
+        if slug in previous_pages:
+            pages[slug] = {**previous_pages[slug], "status": "stale", "status_reason": reason}
+        else:
+            errors.setdefault(slug, reason)
+    ordered = {slug: pages[slug] for slug in SERIES if slug in pages}
+    status = "complete" if len(fresh) == len(SERIES) else "partial"
+    missing = [slug for slug in SERIES if slug not in fresh]
+    updated = datetime.now(KST).date().isoformat()
+    # Re-running with unchanged source data keeps the previous update date (no fake freshness).
+    if isinstance(previous, dict) and previous.get("pages") == ordered and previous.get("updated"):
+        updated = previous["updated"]
+    dataset = {"updated": updated, "source": "BLS Public Data API v2", "status": status, "pages": ordered}
+    if missing:
+        dataset["missing_series"] = missing
+    return dataset
+
+
+def validate_dataset(dataset: dict[str, object]) -> None:
+    pages = dataset.get("pages")
+    if not isinstance(pages, dict) or not pages:
+        raise BLSDataError("BLS dataset has no pages")
+    for slug, page in pages.items():
+        if slug not in SERIES:
+            raise BLSDataError(f"unexpected BLS page {slug}")
+        latest = page.get("latest") or {}
+        try:
+            value = float(str(latest.get("value")))
+        except ValueError:
+            raise BLSDataError(f"{slug}: latest value is not numeric") from None
+        if not math.isfinite(value) or value <= 0:
+            raise BLSDataError(f"{slug}: latest value is not a positive index")
+        if not page.get("history"):
+            raise BLSDataError(f"{slug}: empty history")
 
 
 def period_label(page: dict[str, object]) -> str:
@@ -244,6 +375,18 @@ def render_page(slug: str, page: dict[str, object], updated: str) -> str:
     yoy_text = "not available" if yoy is None else f"{yoy:.1f}%"
     examples = "".join(f"<li>{escape(item)}</li>" for item in page["breed_examples"])
     questions = "".join(f"<li>{escape(item)}</li>" for item in page["questions"])
+    record_notes = []
+    if page.get("status") == "stale":
+        record_notes.append(
+            "The latest BLS request did not return usable data for this series, so this page keeps the previous saved reading."
+        )
+    if latest.get("footnotes"):
+        record_notes.append("BLS footnote for the latest reading: " + "; ".join(latest["footnotes"]) + ".")
+    if page.get("missing_months"):
+        record_notes.append(
+            "No reading was returned for " + ", ".join(page["missing_months"]) + "; the table does not fill these months in."
+        )
+    record_note_html = "".join(f'<p class="note">{escape(note)}</p>' for note in record_notes)
     return (
         page_head(title, page["description"], canonical)
         .replace("</head>", f'<script type="application/ld+json">{json.dumps(schema, ensure_ascii=False)}</script></head>')
@@ -258,39 +401,53 @@ def render_page(slug: str, page: dict[str, object], updated: str) -> str:
         + f'<h2 id="breed-planning">Breed planning examples</h2><p>The value of this page is not the index number alone. The useful step is connecting the public-data trend to the kind of dog the household is considering. A small companion dog, a giant breed, a working dog, and a grooming-intensive breed can all face the same national CPI environment while creating very different household exposure.</p><ul>{examples}</ul>'
         + f'<h2 id="decision-checklist">Questions before choosing a breed</h2><p>Use these questions before expanding the shortlist. They help turn a general inflation signal into a concrete ownership plan.</p><ul>{questions}</ul>'
         + '<h2 id="what-not-to-infer">What not to infer from this data</h2><p>This CPI series does not say which breed is cheap, which owner should buy insurance, or what one local clinic, groomer, trainer, boarder, retailer, or shelter will charge. It also does not diagnose medical risk or predict an individual dog. Treat the data as a pressure test: if a budget only works when every recurring cost stays flat, the plan needs a larger reserve before adoption.</p>'
-        + '<p>For stronger planning, combine this public-data page with written quotes, local rules, veterinary records, breeder or rescue documentation, and a realistic weekly care schedule. The best use of pSEO here is not to mass-produce pages; it is to make each public-data page answer one narrow cost question with enough context that a future owner can act on it.</p>'
-        + f'<h2 id="recent-readings">Recent BLS readings</h2><table class="table"><thead><tr><th>Period</th><th>CPI index</th></tr></thead><tbody>{rows}</tbody></table>'
+        + '<p>For stronger planning, combine this public-data page with written quotes, local rules, veterinary records, breeder or rescue documentation, and a realistic weekly care schedule. The index can show whether a category has been moving; only those local records can show what a specific household will actually pay.</p>'
+        + f'<h2 id="recent-readings">Recent BLS readings</h2>{record_note_html}<table class="table"><thead><tr><th>Period</th><th>CPI index</th></tr></thead><tbody>{rows}</tbody></table>'
         + f'<h2 id="source">Source and limits</h2><p>Data source: U.S. Bureau of Labor Statistics Public Data API v2, CPI-U, U.S. city average, not seasonally adjusted. Series title from the API catalog: {escape(page["catalog"].get("series_title", ""))}.</p><p>BreedWise uses this as educational planning context only. It should not replace a veterinarian, insurer, groomer, trainer, retailer, landlord, or local service provider quote.</p>'
         + '</article><aside class="toc" aria-label="Article contents"><strong>Contents</strong><a href="#what-it-means">What this means</a><a href="#budget-use">Budget use</a><a href="#breed-planning">Breed planning</a><a href="#decision-checklist">Questions</a><a href="#what-not-to-infer">Limits</a><a href="#recent-readings">Recent readings</a><a href="#source">Source and limits</a><hr><strong>Next steps</strong><a href="../cost/index.html">Cost data hub</a><a href="../blog/index.html">BreedWise guides</a><a href="../methodology/index.html">Methodology</a></aside></div></main>'
         + footer("../")
     )
 
 
-def update_sitemap(dataset: dict[str, object]) -> None:
-    sitemap = ROOT / "sitemap.xml"
-    text = sitemap.read_text(encoding="utf-8")
-    today = datetime.now(KST).date().isoformat()
+def update_sitemap(dataset: dict[str, object], changed_files: list[str] | None = None) -> None:
+    """Bump lastmod only for pages whose HTML actually changed in this run."""
     urls = [f"{BASE_URL}/cost/"] + [f"{BASE_URL}/cost/{slug}.html" for slug in dataset["pages"]]
-    existing = set(re.findall(r"<loc>(.*?)</loc>", text))
-    for url in urls:
-        pattern = rf"(<url><loc>{re.escape(url)}</loc><lastmod>)([^<]+)(</lastmod></url>)"
-        text = re.sub(pattern, rf"\g<1>{today}\g<3>", text)
-    additions = "\n".join(f"  <url><loc>{url}</loc><lastmod>{today}</lastmod></url>" for url in urls if url not in existing)
-    if additions:
-        text = text.replace("</urlset>", f"{additions}\n</urlset>")
-    sitemap.write_text(text, encoding="utf-8")
+    changed = [
+        f"{BASE_URL}/cost/" if name == "index.html" else f"{BASE_URL}/cost/{name}"
+        for name in (changed_files or [])
+    ]
+    site_metadata.update_sitemap_for_changes(ROOT / "sitemap.xml", changed, urls, site_metadata.today_kst())
+
+
+def load_previous() -> dict[str, object] | None:
+    path = DATA_DIR / "bls_pet_cost_cpi.json"
+    if not path.exists():
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return None
 
 
 def main() -> int:
     COST_DIR.mkdir(exist_ok=True)
     DATA_DIR.mkdir(exist_ok=True)
-    dataset = json.loads((DATA_DIR / "bls_pet_cost_cpi.json").read_text(encoding="utf-8")) if os.environ.get("BREEDWISE_USE_CACHED_DATA") == "1" else normalize_data(fetch_bls())
-    (DATA_DIR / "bls_pet_cost_cpi.json").write_text(json.dumps(dataset, indent=2, ensure_ascii=False), encoding="utf-8")
-    (COST_DIR / "index.html").write_text(render_index(dataset), encoding="utf-8")
+    previous = load_previous()
+    if os.environ.get("BREEDWISE_USE_CACHED_DATA") == "1":
+        if previous is None:
+            raise BLSDataError("cached BLS snapshot is missing or unreadable")
+        dataset = previous
+    else:
+        dataset = normalize_data(fetch_bls(), previous)
+    # Validate and render everything before touching files so a bad run keeps the last good output.
+    validate_dataset(dataset)
+    rendered = {"index.html": render_index(dataset)}
     for slug, page in dataset["pages"].items():
-        (COST_DIR / f"{slug}.html").write_text(render_page(slug, page, dataset["updated"]), encoding="utf-8")
-    update_sitemap(dataset)
-    print(json.dumps({"ok": True, "updated": dataset["updated"], "pages": list(dataset["pages"])}, ensure_ascii=False))
+        rendered[f"{slug}.html"] = render_page(slug, page, dataset["updated"])
+    site_metadata.write_if_changed(DATA_DIR / "bls_pet_cost_cpi.json", json.dumps(dataset, indent=2, ensure_ascii=False))
+    changed = [name for name, html in rendered.items() if site_metadata.write_if_changed(COST_DIR / name, html)]
+    update_sitemap(dataset, changed)
+    print(json.dumps({"ok": True, "updated": dataset["updated"], "status": dataset.get("status", "complete"), "pages": list(dataset["pages"])}, ensure_ascii=False))
     return 0
 
 

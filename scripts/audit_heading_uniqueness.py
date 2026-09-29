@@ -1,5 +1,9 @@
 #!/usr/bin/env python3
-"""Fail when published blog pages contain duplicate H2s or stale scaffold labels."""
+"""Fail when published blog pages contain duplicate H2s, stale scaffold labels, or broken in-page links.
+
+This is a structural heading check only. It does not measure originality or content quality;
+use scripts/content_quality.py for visible writer-instruction leaks and repeated paragraphs.
+"""
 
 from __future__ import annotations
 
@@ -45,13 +49,16 @@ def audit_file(path: Path) -> dict[str, object] | None:
         if match.group("target") in h2_by_id
         and normalize_heading(match.group("content")) != h2_by_id[match.group("target")]
     ]
-    if not duplicates and not stale_labels and not toc_mismatches:
+    all_ids = {m.group("id") for m in ID_RE.finditer(html)}
+    missing_targets = sorted({m.group("target") for m in ANCHOR_RE.finditer(html)} - all_ids)
+    if not duplicates and not stale_labels and not toc_mismatches and not missing_targets:
         return None
     return {
         "path": path.as_posix(),
         "duplicateH2": duplicates,
         "staleScaffoldLabels": stale_labels,
         "tocLabelMismatches": toc_mismatches,
+        "missingAnchorTargets": missing_targets,
     }
 
 

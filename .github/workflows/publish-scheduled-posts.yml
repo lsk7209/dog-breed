@@ -23,4 +23,4 @@ jobs:
           python-version: "3.11"
 
       - name: Publish due posts
-        run: python scripts/publish_scheduled_posts.py
+        run: python scripts/publish_scheduled_posts.py --commit-and-push

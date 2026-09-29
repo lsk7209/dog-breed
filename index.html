@@ -7,7 +7,7 @@
   <meta name="description" content="BreedWise turns dog breed health research into practical cost-risk exposure estimates for future owners, with transparent sources, limits, and methodology.">
   <meta name="robots" content="index,follow">
   <link rel="canonical" href="https://dogbreedcost.com/">
-  <link rel="preload" as="image" href="assets/hero-dog-risk.png" imagesizes="100vw">
+  <link rel="preload" as="image" type="image/webp" href="assets/hero-dog-risk-1693.webp" imagesrcset="assets/hero-dog-risk-768.webp 768w, assets/hero-dog-risk-1280.webp 1280w, assets/hero-dog-risk-1693.webp 1693w" imagesizes="100vw">
   <meta property="og:title" content="BreedWise">
   <meta property="og:description" content="Clinical breed risk, US ownership costs, and downside scenarios in one transparent dog breed research hub.">
   <meta property="og:type" content="website">
@@ -204,6 +204,9 @@
       background:
         linear-gradient(90deg, rgba(10, 18, 15, .74) 0%, rgba(10, 18, 15, .56) 34%, rgba(10, 18, 15, .16) 70%, rgba(10, 18, 15, .08) 100%),
         url("assets/hero-dog-risk.png") center / cover no-repeat;
+      background:
+        linear-gradient(90deg, rgba(10, 18, 15, .74) 0%, rgba(10, 18, 15, .56) 34%, rgba(10, 18, 15, .16) 70%, rgba(10, 18, 15, .08) 100%),
+        image-set(url("assets/hero-dog-risk-1693.webp") type("image/webp") 1x, url("assets/hero-dog-risk.png") type("image/png") 1x) center / cover no-repeat;
       transform: scale(1.01);
     }
 
@@ -759,6 +762,9 @@
         background:
           linear-gradient(90deg, rgba(10, 18, 15, .82), rgba(10, 18, 15, .36)),
           url("assets/hero-dog-risk.png") center / cover no-repeat;
+        background:
+          linear-gradient(90deg, rgba(10, 18, 15, .82), rgba(10, 18, 15, .36)),
+          image-set(url("assets/hero-dog-risk-768.webp") type("image/webp") 1x, url("assets/hero-dog-risk-1280.webp") type("image/webp") 2x, url("assets/hero-dog-risk.png") type("image/png") 1x) center / cover no-repeat;
       }
 
       .hero-facts,

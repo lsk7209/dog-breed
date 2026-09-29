@@ -1,6 +1,7 @@
 {
   "updated": "2026-09-30",
   "source": "BLS Public Data API v2",
+  "status": "complete",
   "pages": {
     "pet-food-inflation": {
       "series_id": "CUUR0000SS61031",
@@ -29,9 +30,11 @@
         "area": "U.S. city average",
         "item": "Pet food and treats"
       },
+      "status": "available",
       "latest": {
         "year": "2026",
         "period": "August",
+        "period_code": "M08",
         "value": "194.485",
         "pct_changes": {
           "1": "-0.1",
@@ -39,79 +42,111 @@
           "6": "0.5",
           "12": "1.6"
         },
-        "year_over_year_same_month": 1.6
+        "year_over_year_same_month": 1.6,
+        "footnotes": []
       },
       "history": [
         {
           "year": "2026",
           "period": "August",
-          "value": "194.485"
+          "period_code": "M08",
+          "value": "194.485",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "July",
-          "value": "194.687"
+          "period_code": "M07",
+          "value": "194.687",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "June",
-          "value": "193.646"
+          "period_code": "M06",
+          "value": "193.646",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "May",
-          "value": "193.229"
+          "period_code": "M05",
+          "value": "193.229",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "April",
-          "value": "193.973"
+          "period_code": "M04",
+          "value": "193.973",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "March",
-          "value": "194.383"
+          "period_code": "M03",
+          "value": "194.383",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "February",
-          "value": "193.555"
+          "period_code": "M02",
+          "value": "193.555",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "January",
-          "value": "192.551"
+          "period_code": "M01",
+          "value": "192.551",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "December",
-          "value": "191.075"
+          "period_code": "M12",
+          "value": "191.075",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "November",
-          "value": "190.625"
+          "period_code": "M11",
+          "value": "190.625",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "September",
-          "value": "191.490"
+          "period_code": "M09",
+          "value": "191.490",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "August",
-          "value": "191.485"
+          "period_code": "M08",
+          "value": "191.485",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "July",
-          "value": "192.103"
+          "period_code": "M07",
+          "value": "192.103",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "June",
-          "value": "191.230"
+          "period_code": "M06",
+          "value": "191.230",
+          "footnotes": []
         }
+      ],
+      "missing_months": [
+        "October 2025"
       ]
     },
     "pet-supplies-inflation": {
@@ -141,9 +176,11 @@
         "area": "U.S. city average",
         "item": "Purchase of pets, pet supplies, accessories"
       },
+      "status": "available",
       "latest": {
         "year": "2026",
         "period": "August",
+        "period_code": "M08",
         "value": "133.257",
         "pct_changes": {
           "1": "-0.4",
@@ -151,79 +188,111 @@
           "6": "0.4",
           "12": "1.9"
         },
-        "year_over_year_same_month": 1.9
+        "year_over_year_same_month": 1.9,
+        "footnotes": []
       },
       "history": [
         {
           "year": "2026",
           "period": "August",
-          "value": "133.257"
+          "period_code": "M08",
+          "value": "133.257",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "July",
-          "value": "133.824"
+          "period_code": "M07",
+          "value": "133.824",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "June",
-          "value": "132.753"
+          "period_code": "M06",
+          "value": "132.753",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "May",
-          "value": "132.763"
+          "period_code": "M05",
+          "value": "132.763",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "April",
-          "value": "134.558"
+          "period_code": "M04",
+          "value": "134.558",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "March",
-          "value": "134.986"
+          "period_code": "M03",
+          "value": "134.986",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "February",
-          "value": "132.698"
+          "period_code": "M02",
+          "value": "132.698",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "January",
-          "value": "131.533"
+          "period_code": "M01",
+          "value": "131.533",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "December",
-          "value": "132.840"
+          "period_code": "M12",
+          "value": "132.840",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "November",
-          "value": "131.631"
+          "period_code": "M11",
+          "value": "131.631",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "September",
-          "value": "132.065"
+          "period_code": "M09",
+          "value": "132.065",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "August",
-          "value": "130.816"
+          "period_code": "M08",
+          "value": "130.816",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "July",
-          "value": "131.575"
+          "period_code": "M07",
+          "value": "131.575",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "June",
-          "value": "131.571"
+          "period_code": "M06",
+          "value": "131.571",
+          "footnotes": []
         }
+      ],
+      "missing_months": [
+        "October 2025"
       ]
     },
     "pet-services-inflation": {
@@ -253,9 +322,11 @@
         "area": "U.S. city average",
         "item": "Pet services"
       },
+      "status": "available",
       "latest": {
         "year": "2026",
         "period": "August",
+        "period_code": "M08",
         "value": "282.024",
         "pct_changes": {
           "1": "-0.4",
@@ -263,79 +334,111 @@
           "6": "1.6",
           "12": "4.6"
         },
-        "year_over_year_same_month": 4.6
+        "year_over_year_same_month": 4.6,
+        "footnotes": []
       },
       "history": [
         {
           "year": "2026",
           "period": "August",
-          "value": "282.024"
+          "period_code": "M08",
+          "value": "282.024",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "July",
-          "value": "283.121"
+          "period_code": "M07",
+          "value": "283.121",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "June",
-          "value": "283.490"
+          "period_code": "M06",
+          "value": "283.490",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "May",
-          "value": "282.815"
+          "period_code": "M05",
+          "value": "282.815",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "April",
-          "value": "278.868"
+          "period_code": "M04",
+          "value": "278.868",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "March",
-          "value": "278.446"
+          "period_code": "M03",
+          "value": "278.446",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "February",
-          "value": "277.462"
+          "period_code": "M02",
+          "value": "277.462",
+          "footnotes": []
         },
         {
           "year": "2026",
           "period": "January",
-          "value": "273.801"
+          "period_code": "M01",
+          "value": "273.801",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "December",
-          "value": "272.224"
+          "period_code": "M12",
+          "value": "272.224",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "November",
-          "value": "271.556"
+          "period_code": "M11",
+          "value": "271.556",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "September",
-          "value": "269.084"
+          "period_code": "M09",
+          "value": "269.084",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "August",
-          "value": "269.738"
+          "period_code": "M08",
+          "value": "269.738",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "July",
-          "value": "269.458"
+          "period_code": "M07",
+          "value": "269.458",
+          "footnotes": []
         },
         {
           "year": "2025",
           "period": "June",
-          "value": "266.759"
+          "period_code": "M06",
+          "value": "266.759",
+          "footnotes": []
         }
+      ],
+      "missing_months": [
+        "October 2025"
       ]
     }
   }

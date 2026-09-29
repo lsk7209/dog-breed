@@ -52,6 +52,8 @@ class Validation(unittest.TestCase):
             publish.validate_published_html(prepared, Path("x.html"))
 
     def test_p02_normal_reader_headings_pass(self):
+        self.assertIn("<span>Published: 2026-07-19</span>",
+                      publish.normalize_published_html("<span>Scheduled: 2026-07-19T23:00:00+09:00</span>"))
         html = article(body='<h2 id="s">Short answer</h2><p>Sources and next step for owners.</p>',
                        toc='<a href="#costs">Costs</a><a href="#s">Short answer</a>')
         prepared = publish.prepare_published_html(html, "blog/x.html")

@@ -307,6 +307,7 @@ def commit_and_push(count: int) -> None:
     subprocess.run(["git", "config", "user.email", "41898282+github-actions[bot]@users.noreply.github.com"], cwd=ROOT, check=True)
     subprocess.run(["git", "add", "blog", "sitemap.xml", "feed.xml", "rss.xml", "content-schedule.json", ".github/content-queue"], cwd=ROOT, check=True)
     subprocess.run(["git", "commit", "-m", f"Publish {count} scheduled BreedWise post(s)"], cwd=ROOT, check=True)
+    subprocess.run(["git", "pull", "--rebase", "origin", "main"], cwd=ROOT, check=True)
     subprocess.run(["git", "push"], cwd=ROOT, check=True)
 
 

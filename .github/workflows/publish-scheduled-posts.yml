@@ -8,6 +8,11 @@ on:
 permissions:
   contents: write
 
+# One run at a time per workflow; pushes rebase onto the latest main to avoid rejected pushes.
+concurrency:
+  group: ${{ github.workflow }}
+  cancel-in-progress: false
+
 jobs:
   publish:
     runs-on: ubuntu-latest

@@ -538,7 +538,7 @@ def render_page(slug: str, page: dict[str, object], updated: str) -> str:
         "url": f"{BASE_URL}/outdoor-risk/{slug}.html",
         "dateModified": updated,
         "creator": [{"@type": "Organization", "name": "National Weather Service"}, {"@type": "Organization", "name": "AirNow"}],
-        "publisher": {"@type": "Organization", "name": "BreedWise"},
+        "publisher": {"@type": "Organization", "name": "BreedWise", "url": "https://dogbreedcost.com/about/"},
     }
     local_notes = "".join(f"<li>{escape(note)}</li>" for note in page["local_notes"])
     return (

@@ -368,7 +368,7 @@ def render_page(slug: str, page: dict[str, object], updated: str) -> str:
         "url": canonical,
         "dateModified": updated,
         "creator": {"@type": "Organization", "name": "U.S. Bureau of Labor Statistics"},
-        "publisher": {"@type": "Organization", "name": "BreedWise"},
+        "publisher": {"@type": "Organization", "name": "BreedWise", "url": "https://dogbreedcost.com/about/"},
         "isBasedOn": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
     }
     yoy = latest.get("year_over_year_same_month")

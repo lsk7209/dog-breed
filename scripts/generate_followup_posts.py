@@ -603,8 +603,8 @@ def article_html(topic: dict[str, str], index: int, publish_at: datetime) -> str
         "description": topic["subtitle"],
         "datePublished": publish_at.date().isoformat(),
         "dateModified": publish_at.date().isoformat(),
-        "author": {"@type": "Organization", "name": "BreedWise"},
-        "publisher": {"@type": "Organization", "name": "BreedWise"},
+        "author": {"@type": "Organization", "name": "BreedWise", "url": "https://dogbreedcost.com/about/"},
+        "publisher": {"@type": "Organization", "name": "BreedWise", "url": "https://dogbreedcost.com/about/"},
         "mainEntityOfPage": f"{BASE_URL}/blog/{slug}.html",
     }
     return f"""<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">

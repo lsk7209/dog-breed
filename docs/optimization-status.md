@@ -30,7 +30,7 @@ Checked: 2026-06-27 KST
 ## AdSense
 
 - Local AdSense credential files exist in `D:\env`.
-- `ads.txt` is deployed with `google.com, pub-3050601904412736, DIRECT, f08c47fec0942fa0`.
+- `ads.txt` is deployed with `google.com, pub-7865675606131621, DIRECT, f08c47fec0942fa0`.
 - The default AdSense Auto Ads loader is present on public HTML pages.
 - No manual ad slots are placed; Auto Ads only.
 - AdSense readiness work should keep ads from obscuring the main answer and avoid policy-sensitive medical, insurance, or deceptive monetization claims.

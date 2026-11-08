@@ -24,7 +24,7 @@ BASE_URL = "https://dogbreedcost.com"
 KST = timezone(timedelta(hours=9))
 ADSENSE_LOADER = (
     '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?'
-    'client=ca-pub-3050601904412736" crossorigin="anonymous"></script>'
+    'client=ca-pub-7865675606131621" crossorigin="anonymous"></script>'
 )
 GA4_TAG = (
     '<script async src="https://www.googletagmanager.com/gtag/js?id=G-5FZSHME54N"></script>'

@@ -13,7 +13,7 @@ ROOT = Path(__file__).resolve().parents[1]
 QUEUE = ROOT / ".github" / "content-queue"
 SCHEDULE = ROOT / "content-schedule.json"
 BASE_URL = "https://dogbreedcost.com"
-ADSENSE_LOADER = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3050601904412736" crossorigin="anonymous"></script>'
+ADSENSE_LOADER = '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7865675606131621" crossorigin="anonymous"></script>'
 GA4_TAG = '<script async src="https://www.googletagmanager.com/gtag/js?id=G-5FZSHME54N"></script><script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag(\'js\',new Date());gtag(\'config\',\'G-5FZSHME54N\');</script>'
 FEED_LINK = '<link rel="alternate" type="application/rss+xml" title="BreedWise RSS" href="https://dogbreedcost.com/feed.xml">'
 VERIFICATION_TAGS = '<meta name="google-site-verification" content="33-RSHdhGx_IC-b1_fpFOHyr-s0P35VSCOwIOFy6UAE"><meta name="naver-site-verification" content="d0084eb5ece035b3d7de4936181ae0dd92022175">'

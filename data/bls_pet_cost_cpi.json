@@ -1,5 +1,5 @@
 {
-  "updated": "2026-10-21",
+  "updated": "2026-11-11",
   "source": "BLS Public Data API v2",
   "status": "complete",
   "pages": {
@@ -33,19 +33,25 @@
       "status": "available",
       "latest": {
         "year": "2026",
-        "period": "September",
-        "period_code": "M09",
-        "value": "194.440",
+        "period": "October",
+        "period_code": "M10",
+        "value": "195.267",
         "pct_changes": {
-          "1": "0.0",
-          "3": "0.4",
-          "6": "0.0",
-          "12": "1.5"
+          "1": "0.4",
+          "3": "0.3",
+          "6": "0.7"
         },
-        "year_over_year_same_month": 1.5,
+        "year_over_year_same_month": null,
         "footnotes": []
       },
       "history": [
+        {
+          "year": "2026",
+          "period": "October",
+          "period_code": "M10",
+          "value": "195.267",
+          "footnotes": []
+        },
         {
           "year": "2026",
           "period": "September",
@@ -136,13 +142,6 @@
           "period_code": "M08",
           "value": "191.485",
           "footnotes": []
-        },
-        {
-          "year": "2025",
-          "period": "July",
-          "period_code": "M07",
-          "value": "192.103",
-          "footnotes": []
         }
       ],
       "missing_months": [
@@ -179,19 +178,25 @@
       "status": "available",
       "latest": {
         "year": "2026",
-        "period": "September",
-        "period_code": "M09",
-        "value": "132.164",
+        "period": "October",
+        "period_code": "M10",
+        "value": "133.525",
         "pct_changes": {
-          "1": "-0.8",
-          "3": "-0.4",
-          "6": "-2.1",
-          "12": "0.1"
+          "1": "1.0",
+          "3": "-0.2",
+          "6": "-0.8"
         },
-        "year_over_year_same_month": 0.1,
+        "year_over_year_same_month": null,
         "footnotes": []
       },
       "history": [
+        {
+          "year": "2026",
+          "period": "October",
+          "period_code": "M10",
+          "value": "133.525",
+          "footnotes": []
+        },
         {
           "year": "2026",
           "period": "September",
@@ -282,13 +287,6 @@
           "period_code": "M08",
           "value": "130.816",
           "footnotes": []
-        },
-        {
-          "year": "2025",
-          "period": "July",
-          "period_code": "M07",
-          "value": "131.575",
-          "footnotes": []
         }
       ],
       "missing_months": [
@@ -325,19 +323,25 @@
       "status": "available",
       "latest": {
         "year": "2026",
-        "period": "September",
-        "period_code": "M09",
-        "value": "278.694",
+        "period": "October",
+        "period_code": "M10",
+        "value": "280.255",
         "pct_changes": {
-          "1": "-1.2",
-          "3": "-1.7",
-          "6": "0.1",
-          "12": "3.6"
+          "1": "0.6",
+          "3": "-1.0",
+          "6": "0.5"
         },
-        "year_over_year_same_month": 3.6,
+        "year_over_year_same_month": null,
         "footnotes": []
       },
       "history": [
+        {
+          "year": "2026",
+          "period": "October",
+          "period_code": "M10",
+          "value": "280.255",
+          "footnotes": []
+        },
         {
           "year": "2026",
           "period": "September",
@@ -427,13 +431,6 @@
           "period": "August",
           "period_code": "M08",
           "value": "269.738",
-          "footnotes": []
-        },
-        {
-          "year": "2025",
-          "period": "July",
-          "period_code": "M07",
-          "value": "269.458",
           "footnotes": []
         }
       ],
